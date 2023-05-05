@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMS.UI", "WMS.UI.csproj", "{296D6E9E-8724-4FA7-812C-CC6C33E6E23F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{FF5B34E8-56C2-48B4-899A-AB40BF4317FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{296D6E9E-8724-4FA7-812C-CC6C33E6E23F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{296D6E9E-8724-4FA7-812C-CC6C33E6E23F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{296D6E9E-8724-4FA7-812C-CC6C33E6E23F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{296D6E9E-8724-4FA7-812C-CC6C33E6E23F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{296D6E9E-8724-4FA7-812C-CC6C33E6E23F} = {FF5B34E8-56C2-48B4-899A-AB40BF4317FE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2D2B32C-FD1F-4B96-8FD2-017DEE8FDF1A}
+	EndGlobalSection
+EndGlobal
