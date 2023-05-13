@@ -10,17 +10,16 @@ obj/
 appsettings.json
 appsettings.Development.json
 launchSettings.json
-/ERP.Data/Migrations
+Migrations/
 /ERP.sln.DotSettings.user
+
 WMS.Data/appsettings.json
 WMS.Seed/appsettings.json
 WMS.UI/appsettings.json
 WMS.API/appsettings.json
-WMS.Seed/appsettings.json
 
 WMS.API/obj/
 WMS.API/bin/
-
 WMS.Seed/obj/
 WMS.Seed/bin/
 
