@@ -1,9 +1,9 @@
 using WMS.Data.Constant.Enum;
-using WMS.Data.Entity.BaseClass;
+using WMS.Data.DTO.BaseClassDtos;
 
-namespace WMS.Data.Entity.Persons;
+namespace WMS.Data.DTO.PersonDtos;
 
-public class Person : BaseCatalog
+public class PersonDto : BaseCatalogDto
 {
     public string? Email { get; set; }
     public bool IsEmailValidPerson { get; set; }

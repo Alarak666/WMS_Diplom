@@ -1,17 +1,13 @@
-﻿using WMS.Data.Entity.BaseClass;
-using WMS.Data.Entity.Employees;
+﻿using WMS.Data.DTO.BaseClassDtos;
 using WMS.Data.Entity.Products;
 
-namespace WMS.Data.Entity.Stocks
+namespace WMS.Data.DTO.StockDtos
 {
-    public class AcceptanceOfGood : BaseCatalog
+    public class AcceptanceOfGoodDto : BaseCatalogDto
     {
         public Guid TypePalletId { get; set; }
-        public Pallet TypePallet { get; set; }
         public Guid ProductId { get; set; }
-        public Product Product { get; set; }
         public Guid EmployerId { get; set; }
-        public Employee Employer { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public double Length { get; set; }

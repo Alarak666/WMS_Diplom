@@ -4,4 +4,5 @@ namespace WMS.Data.Entity.Identity;
 
 public class ApplicationRole : IdentityRole<Guid>
 {
+
 }

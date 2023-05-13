@@ -1,10 +1,14 @@
-﻿using WMS.Data.Entity.Persons;
+﻿using WMS.Data.Entity.BaseClass;
+using WMS.Data.Entity.Employees;
 
 namespace WMS.Data.Entity.Orders;
-public class Order
+public class Order : BaseCatalog
 {
-    public Guid Id { get; set; }
     public Employee? Employee { get; set; }
     public Guid? EmployeeId { get; set; }
-    public DateTime Date_Orders { get; set; }
+    public string? ShippingAddress { get; set; }
+    public string? PaymentMethod { get; set; }
+    public string? OrderStatus { get; set; }
+    public DateTime DateOrders { get; set; }
+    public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
 }
