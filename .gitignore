@@ -10,7 +10,7 @@ obj/
 appsettings.json
 appsettings.Development.json
 launchSettings.json
-Migrations/
+WMS.Data/Migrations/
 /ERP.sln.DotSettings.user
 
 WMS.Data/appsettings.json

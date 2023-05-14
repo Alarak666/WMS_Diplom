@@ -28,7 +28,7 @@ namespace WMS.Data.Context
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("ERP.Data"));
+            optionsBuilder.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("WMS.Data"));
             return new ApplicationDbContext(optionsBuilder.Options);
         }
     }
@@ -70,15 +70,19 @@ namespace WMS.Data.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.UserSettings)
+                .WithOne(us => us.ApplicationUser)
+                .HasForeignKey<ApplicationUserSetting>(us => us.ApplicationUserId);
         }
     }
 
