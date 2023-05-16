@@ -8,6 +8,7 @@ using WMS.Data.Entity.Currencies;
 using WMS.Data.Entity.Divisions;
 using WMS.Data.Entity.Employees;
 using WMS.Data.Entity.Identity;
+using WMS.Data.Entity.Notifications;
 using WMS.Data.Entity.Orders;
 using WMS.Data.Entity.Persons;
 using WMS.Data.Entity.Positions;
@@ -64,8 +65,9 @@ namespace WMS.Data.Context
         public DbSet<Region> Regions { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<VendorCustomer> VendorCustomers { get; set; }
+        public DbSet<UserMessage> UserMessages { get; set; }
 
-
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -83,7 +85,66 @@ namespace WMS.Data.Context
                 .HasOne(u => u.UserSettings)
                 .WithOne(us => us.ApplicationUser)
                 .HasForeignKey<ApplicationUserSetting>(us => us.ApplicationUserId);
+            modelBuilder.Entity<BaseCatalog>().ToTable("BaseCatalogs");
+            modelBuilder.Entity<Country>().ToTable("Countries");
+            modelBuilder.Entity<Currency>().ToTable("Currencies");
+            modelBuilder.Entity<Division>().ToTable("Divisions");
+            modelBuilder.Entity<Employee>().ToTable("Employees");
+            modelBuilder.Entity<ApplicationRole>().ToTable("ApplicationRoles");
+            modelBuilder.Entity<ApplicationUser>().ToTable("ApplicationUsers");
+            modelBuilder.Entity<ApplicationUserSetting>().ToTable("ApplicationUserSettings");
+            modelBuilder.Entity<UserActivity>().ToTable("UserActivities");
+            modelBuilder.Entity<Order>().ToTable("Orders");
+            modelBuilder.Entity<OrderDetail>().ToTable("OrderDetails");
+            modelBuilder.Entity<Person>().ToTable("Persons");
+            modelBuilder.Entity<Position>().ToTable("Positions");
+            modelBuilder.Entity<Product>().ToTable("Products");
+            modelBuilder.Entity<AcceptanceOfGood>().ToTable("AcceptanceOfGoods");
+            modelBuilder.Entity<AreaType>().ToTable("AreaTypes");
+            modelBuilder.Entity<Pallet>().ToTable("Pallets");
+            modelBuilder.Entity<PlaceParameter>().ToTable("PlaceParameters");
+            modelBuilder.Entity<Region>().ToTable("Regions");
+            modelBuilder.Entity<Unit>().ToTable("Units");
+            modelBuilder.Entity<VendorCustomer>().ToTable("VendorCustomers");
+            modelBuilder.Entity<VendorCustomer>().ToTable("UserMessages");
+            
+            modelBuilder.Entity<Position>()
+                .Property(p => p.MainSalary)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<OrderDetail>()
+                .Property(p => p.Quantity)
+                .HasPrecision(18, 2);
+            modelBuilder.Entity<OrderDetail>()
+                .Property(p => p.UnitPrice)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasPrecision(18, 2);
+            modelBuilder.Entity<Product>()
+                .Property(p => p.ImportPrice)
+                .HasPrecision(18, 2);
         }
     }
 
 }
+
+    
+
+    
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
