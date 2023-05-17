@@ -106,7 +106,7 @@ namespace WMS.Data.Context
             modelBuilder.Entity<Region>().ToTable("Regions");
             modelBuilder.Entity<Unit>().ToTable("Units");
             modelBuilder.Entity<VendorCustomer>().ToTable("VendorCustomers");
-            modelBuilder.Entity<VendorCustomer>().ToTable("UserMessages");
+            modelBuilder.Entity<UserMessage>().ToTable("UserMessages");
             
             modelBuilder.Entity<Position>()
                 .Property(p => p.MainSalary)

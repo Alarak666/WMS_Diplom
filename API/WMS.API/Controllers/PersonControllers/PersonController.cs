@@ -15,10 +15,10 @@ namespace WMS.API.Controllers.PersonControllers;
 
 public class PersonController : ControllerBase
 {
-    private readonly IDocumentRepository<Person> _documentService;
+    private readonly IDocumentRepository<PersonDto> _documentService;
     private readonly IMapper _mapper;
 
-    public PersonController(IDocumentRepository<Person> documentService, IMapper mapper)
+    public PersonController(IDocumentRepository<PersonDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -49,8 +49,7 @@ public class PersonController : ControllerBase
     public async Task<ActionResult<PersonDto>> Create(
         [FromBody] PersonDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Person>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -58,8 +57,7 @@ public class PersonController : ControllerBase
     public async Task<ActionResult<PersonDto>> Update(
         [FromBody] PersonDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Person>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 
@@ -77,7 +75,7 @@ public class PersonController : ControllerBase
         var items = await _documentService.GetPage(cancellationToken,
             pageRequestDto.PageNo,
             pageRequestDto.PageSize,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.CreatedDate.ToString(CultureInfo.InvariantCulture),
             whereClause: string.IsNullOrWhiteSpace(pageRequestDto.SearchText)
                 ? null
                 : x => x.Name.ToLower().Contains(pageRequestDto.SearchText.ToLower()));

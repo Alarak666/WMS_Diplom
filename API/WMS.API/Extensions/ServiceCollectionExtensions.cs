@@ -1,8 +1,11 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AutoMapper.Internal;
 using WMS.API.Services.AcceptanceOfGoodServices;
 using WMS.API.Services.ApplicationRoleServices;
 using WMS.API.Services.ApplicationUserServices;
@@ -40,6 +43,8 @@ using WMS.Data.Entity.Identity;
 using WMS.Data.Entity.Stocks;
 using WMS.Data.Interface;
 using WMS.Data.Interface.ControllerInterface;
+using WMS.Data.MapperProfiles;
+
 namespace WMS.API.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -124,9 +129,19 @@ public static class ServiceCollectionExtensions
         services.AddScoped<TokenService>();
 
         services.AddHttpContextAccessor();
-       
-        services.AddAutoMapper(typeof(Program).Assembly);
 
+        services.AddAutoMapper(typeof(Program).Assembly);
+        services.AddAutoMapper(typeof(PersonProfile));
+        // ...
+
+        // Получение всех зарегистрированных профилей маппинга
+        var mapperConfiguration = services.BuildServiceProvider().GetService<IMapper>().ConfigurationProvider;
+        // Вывод профилей маппинга в консоль
+
+        // Вывод профилей маппинга в консоль
+
+
+        // Регистрация мапперов из проекта Data
         services.AddCors(options =>
         {
             options.AddPolicy("CorsPolicy", builder =>
