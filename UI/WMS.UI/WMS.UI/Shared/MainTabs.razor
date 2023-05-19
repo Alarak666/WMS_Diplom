@@ -1,0 +1,17 @@
+﻿<div class="p-5 content overflow-auto">
+    <DxTabs ScrollMode="TabsScrollMode.Auto" RenderMode="TabsRenderMode.AllTabs">
+        <DxTabPage Text="Dashboard">
+            @ChildContent
+        </DxTabPage>
+        <DxTabPage Text="Sale orders">
+            1
+        </DxTabPage>
+        <DxTabPage Text="Customer invoices">
+            2
+        </DxTabPage>
+    </DxTabs>
+</div>
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

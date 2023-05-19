@@ -1,0 +1,102 @@
+﻿@typeparam TItem
+
+<div style="position: relative">
+    <div class="d-flex flex-column">
+        @if (!HideToolbar)
+        {
+            <div class="btn-toolbar">
+                @* <DxButton RenderStyle="ButtonRenderStyle.Info" Click="HandleAddNewLine" Enabled=@(!ReadOnly)>Add</DxButton> *@
+                <button class="btn btn-sm btn-outline-primary" @onclick="HandleAddNewLine" disabled="@(ReadOnly)">New line</button>
+            </div>
+        }
+        <div class="flex-grow-1 mt-2">
+            <table class="table table-sm table-hover table-bordered">
+                <thead class="table-light form-table-header">
+                <tr>
+                    @HeaderTemplate
+                    @if (!HideRemoveRowButton)
+                    {
+                        <th></th>
+                    }
+                </tr>
+                </thead>
+                <tbody class="overflow-auto form-table-body">
+                @foreach (var item in Items)
+                {
+                    <tr>
+                        @RowTemplate(item)
+                        @if (!HideRemoveRowButton)
+                        {
+                            <td>
+                                <button class="btn outline-dark btn-sm text-center" type="button" @onclick="@(() => HandleRemoveLine(item))">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </td>
+                        }
+                    </tr>
+                }
+                @if (Items == null || !Items.Any())
+                {
+                    <tr>
+                        <td colspan="100%">
+                            <div class="d-flex align-items-center justify-content-center my-2">
+                                <span>No data to display...</span>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+                <tfoot class="form-table-footer">
+                @FooterTemplate
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment HeaderTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> RowTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment FooterTemplate { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    [Parameter]
+    public IList<TItem> Items { get; set; }
+
+    [Parameter]
+    public EventCallback OnAddLine { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnRemoveLine { get; set; }
+
+    [Parameter]
+    public bool HideRemoveRowButton { get; set; }
+
+    [Parameter]
+    public bool HideToolbar { get; set; }
+
+    private async Task HandleAddNewLine()
+    {
+        var newInstance = Activator.CreateInstance<TItem>();
+        Items.Add(newInstance);
+        await OnAddLine.InvokeAsync();
+    }
+
+    private async Task HandleRemoveLine(TItem item)
+    {
+        Items.Remove(item);
+        StateHasChanged();
+
+        await OnRemoveLine.InvokeAsync(item);
+    }
+
+}

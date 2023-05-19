@@ -1,0 +1,44 @@
+﻿@*@using WMS.UI.Pages.Catalogs.BankAccountVendorCustomers
+@using WMS.Core.Entities.Catalogs.BankAccountVendorCustomerCatalog
+@using WMS.Core.Services.Catalogs.BankAccountVendorCustomers
+
+<FormLookupCatalog SelectedItemId="SelectedItemId"
+                   SelectedItemIdChanged="SelectedItemIdChanged"
+                   ReadOnly="ReadOnly"
+                   Enabled="Enabled"
+                   DetailViewType="typeof(BankAccountVendorCustomerDetailViewForm)"
+                   TItem="BankAccountVendorCustomer"
+                   PrepareNewObjectParams="PrepareNewObjectParams"
+                   IsValid="IsValid"
+                   ServerData="HandleLoadItems"
+                   ShowCreateButton="true" 
+                   ShowEditButton="true">
+    <Columns>
+        <FormLookupCatalogColumn Item="context" Caption="Name" Name="@nameof(BankAccountVendorCustomer.Name)" />
+        <FormLookupCatalogColumn Item="context" Caption="Account #" Name="@nameof(BankAccountVendorCustomer.AccountNumber)" />
+    </Columns>
+</FormLookupCatalog>
+
+@code {
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+    [Parameter]
+    public bool? IsValid { get; set; }
+    [Parameter]
+    public Guid? SelectedItemId { get; set; }
+    [Parameter]
+    public EventCallback<Guid?> SelectedItemIdChanged { get; set; }
+    [Parameter]
+    public Guid? VendorCustomerId { get; set; }
+    [Inject]
+    public IBankAccountVendorCustomerService DataService { get; set; }
+    [Parameter] public Func<Task<Dictionary<string, object?>>>? PrepareNewObjectParams { get; set; }
+
+    private async Task<IEnumerable<BankAccountVendorCustomer>> HandleLoadItems(string? searchText)
+    {
+        return await DataService.GetByVendorCustomer(VendorCustomerId, searchText);
+    }
+
+}*@

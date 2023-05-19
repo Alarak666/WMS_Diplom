@@ -1,0 +1,95 @@
+﻿@typeparam T
+@using WMS.UI.Pages
+<DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
+         @bind-Visible="@IsVisible"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="true"
+         HeaderText="@Title">
+    <BodyContentTemplate>
+        <div>
+            <DynamicComponent @ref="@_detailView" Type="@_componentType" Parameters="@_parameters" />
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-demo-events-button" RenderStyle="ButtonRenderStyle.Primary" Text="Save" Click="HandleSave" />
+        <DxButton CssClass="popup-demo-events-button" RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="HandleClose" />
+    </FooterContentTemplate>
+</DxPopup>
+
+@code {
+    private Guid? _selectedItemId;
+    [Parameter]
+    public string? Width { get; set; }
+
+    [Parameter]
+    public Guid? SelectedItemId
+    {
+        get => _selectedItemId;
+        set
+        {
+            _selectedItemId = value;
+            if (_parameters.ContainsKey("Id"))
+            {
+                _parameters["Id"] = _selectedItemId;
+            }
+            else
+            {
+                _parameters.Add("Id", _selectedItemId);
+            }
+        }
+    }
+
+    private object? _baseParams;
+    [Parameter]
+    public object? BaseParams
+    {
+        get => _baseParams;
+        set
+        {
+            _baseParams = value;
+            if (_parameters.ContainsKey("BaseParams"))
+            {
+                _parameters["BaseParams"] = _baseParams;
+            }
+            else
+            {
+                _parameters.Add("BaseParams", _baseParams);
+            }
+        }
+    }
+
+
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public bool IsVisible { get; set; }
+    [Parameter]
+    public EventCallback<bool> PopupClosed { get; set; }
+
+    private DynamicComponent? _detailView;
+    private IDictionary<string, object?> _parameters = new Dictionary<string, object?>();
+    private Type _componentType = typeof(T);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    private async Task HandleSave()
+    {
+        if (_detailView == null) return;
+        var result = await (_detailView.Instance as IDetailViewPopupView).Save();
+        await PopupClosed.InvokeAsync(true);
+    }
+
+    private async Task HandleClose()
+    {
+        await PopupClosed.InvokeAsync(false);
+    }
+    public interface IDetailViewPopupView
+    {
+        Task<bool> Save();
+    }
+}

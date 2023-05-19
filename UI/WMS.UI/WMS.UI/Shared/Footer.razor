@@ -1,0 +1,70 @@
+﻿@using WMS.Core.Services.UserMessages
+<div class="main-container">
+    <div class="main-toolbar py-3 px-2 px-sm-3">
+        <div class="dxbs-toolbar dxbs-toolbar-adaptive">
+            <div class="btn-group dxbs-toolbar-group block-g mx-2">
+                <button type="button" class="dxbs-toolbar-btn block-i btn btn-secondary"
+                        style="@(_messageTypeFilter == UserMessageType.Information ? "background-color: gray" : "")"
+                        @onclick="@(()=>HandleClickFilter(UserMessageType.Information))">
+                    <i class="fa-solid fa-circle-exclamation me-2" style="color: blue"></i>
+                    <span>Information (@(_messages.Where(x => x.Type == UserMessageType.Information).Count()))</span>
+                </button>
+            </div>
+            <div class="btn-group dxbs-toolbar-group block-g mx-2">
+                <button type="button" class="dxbs-toolbar-btn block-i btn btn-secondary"
+                        style="@(_messageTypeFilter == UserMessageType.Warning ? "background-color: gray" : "")"
+                        @onclick="@(()=>HandleClickFilter(UserMessageType.Warning))">
+                    <i class="fa-solid fa-circle-question me-2" style="color: yellow"></i>
+                    <span>Warnings (@(_messages.Where(x => x.Type == UserMessageType.Warning).Count()))</span>
+                </button>
+            </div>
+            <div class="btn-group dxbs-toolbar-group block-g mx-2">
+                <button type="button" class="dxbs-toolbar-btn block-i btn btn-secondary"
+                        style="@(_messageTypeFilter == UserMessageType.Error ? "background-color: gray" : "")"
+                        @onclick="@(()=>HandleClickFilter(UserMessageType.Error))">
+                    <i class="fa-solid fa-bug me-2" style="color: red"></i>
+                    <span>Errors (@(_messages.Where(x => x.Type == UserMessageType.Error).Count()))</span>
+                </button>
+            </div>
+            <div class="dxbs-tb-flex1" style="z-index: 1020"></div>
+            @*<div class="btn-group dxbs-toolbar-group block-g mx-2">
+                <input class="form-control dxbs-form-control text-truncate" type="text" placeholder="search..." @bind-value="SearchText" />*@
+                <SearchItem Text="@SearchText" TextChanged="@((st)=>SearchText = st)" />
+            @*</div>*@
+            <div class="btn-group dxbs-toolbar-group block-g mx-2">
+                <button class="dxbs-toolbar-btn block-i btn btn-secondary" type="button" @onclick="HandleClickClear" style="margin-left: 5px; margin-right:5px;">Clear</button>
+            </div>
+            <div class="btn-group dxbs-toolbar-group block-g mx-2">
+                <button class="dxbs-toolbar-btn block-i btn btn-secondary" type="button" @onclick="HandleClickShow">@ButtonText</button>
+            </div>
+        </div>
+    </div>
+    <div style="height: @(_height.ToString())px; overflow-y: auto; display: @(_show ? "block" : "none")">
+        <div class="paragraphs" id="textSection">
+            @if (_filteredMessages != null)
+            {
+                @foreach (var item in _filteredMessages)
+                {
+                    <div class="message-container">
+                        <div style="width: 150px; min-width: 150px">@item.Date.ToString("dd/MM/yyyy HH:mm:ss")</div>
+                        <div style="width: 30px; min-width: 30px">
+                            @if (item.Type == UserMessageType.Information)
+                            {
+                                <i class="fa-solid fa-circle-exclamation me-2" style="color: blue"></i>
+                            }
+                            else if (item.Type == UserMessageType.Warning)
+                            {
+                                <i class="fa-solid fa-circle-question me-2" style="color: yellow"></i>
+                            }
+                            else if (item.Type == UserMessageType.Error)
+                            {
+                                <i class="fa-solid fa-bug me-2" style="color: red"></i>
+                            }
+                        </div>
+                        <div class="message-container-text">@item.Message</div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

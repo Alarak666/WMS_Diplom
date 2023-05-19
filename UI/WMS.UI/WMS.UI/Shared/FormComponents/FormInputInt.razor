@@ -1,0 +1,14 @@
+﻿<DxSpinEdit Value="@Value" ValueChanged="ValueChanged" Enabled="@Enabled" ReadOnly="@ReadOnly" InputCssClass="@(IsValid == null ? "" : IsValid == true ? "form-field-valid" : "form-field-invalid")"/>
+
+@code {
+    [Parameter]
+    public int Value { get; set; }
+    [Parameter]
+    public EventCallback<int> ValueChanged { get; set; }
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+    [Parameter]
+    public bool? IsValid { get; set; }
+}

@@ -1,0 +1,28 @@
+﻿@*@using WMS.UI.Pages.Catalogs.Products
+@using WMS.Core.Entities.Catalogs.ProductCatalog
+<FormLookupCatalog SelectedItemId="@SelectedItemId" TItem="Product"
+                   ShowCreateButton="true"
+                   ShowEditButton="true"
+                   ReadOnly="ReadOnly"
+                   Enabled="Enabled"
+                   SelectedItemIdChanged="@((newId)=>SelectedItemIdChanged.InvokeAsync(newId))"
+                   IsValid="@IsValid" DetailViewType="typeof(ProductDetailViewForm)">
+    <Columns Context="LookupContext">
+        <FormLookupCatalogColumn Name="@(nameof(Product.Name))" Item="@LookupContext" />
+    </Columns>
+</FormLookupCatalog>
+
+@code {
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+    [Parameter]
+    public bool CheckValidation { get; set; }
+    [Parameter]
+    public Guid? SelectedItemId { get; set; }
+    [Parameter] 
+    public EventCallback<Guid?> SelectedItemIdChanged { get; set; }
+    [Parameter]
+    public bool? IsValid { get; set; }
+}*@

@@ -1,0 +1,45 @@
+﻿@* @page "/customer-invoices" *@
+@* @inherits BaseListPage *@
+
+<div class="card">
+    @* <div class="card-header d-flex"> *@
+    @*     <div class="flex-grow-1"></div> *@
+    @*     <div> *@
+    @*         @if (_isLoading) *@
+    @*         { *@
+    @*             <i class="fa-solid fa-spinner fa-spin-pulse"></i> *@
+    @*         } *@
+    @*     </div> *@
+    @* </div> *@
+    <div class="card-body">
+        <CascadingValue Value="this" Name="BaseListView">
+            @ToolbarContent
+            @GridContent
+        </CascadingValue>
+        @if (_isFailure)
+        {
+            <div class="alert alert-danger">
+                @_errorMessage
+            </div>
+        }
+    </div>
+</div>
+
+@if (_detailViewPopupVisible)
+{
+    @if (AppFrameworkEntity.DetailView?.ViewComponent is not null)
+    {
+        <DynamicComponent Type="@AppFrameworkEntity.DetailView?.ViewComponent" @ref="_detailView"/>
+    }
+}
+
+
+@* <CustomerInvoiceDetailViewForm Width="70%" IsVisible="_detailViewPopupVisible" PopupClosed="HandleDetailViewPopupClosed" SelectedItemId="_selectedItemId" /> *@
+@* *@
+@* @if (_commodityWaybillDetailViewVisible) *@
+@* { *@
+@*     <CommodityWaybillDetailViewForm Width="70%"  *@
+@*                                     IsVisible="_commodityWaybillDetailViewVisible" *@
+@*                                     BaseParams="@_createBasedAtCustomerInvoiceModel" *@
+@*                                     PopupClosed="HandleCreatedCommodityWaybill"/> *@
+@* } *@

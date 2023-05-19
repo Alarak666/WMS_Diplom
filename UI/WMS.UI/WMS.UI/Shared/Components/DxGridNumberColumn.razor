@@ -1,0 +1,26 @@
+﻿<DxGridDataColumn FieldName="@FieldName" MinWidth="@MinWidth" Width="@Width">
+    <CellEditTemplate>
+        <DxSpinEdit T="decimal" Value="@Value" ValueChanged="(newValue) => HandleChangeGoodsLine(context, newValue)"></DxSpinEdit>
+    </CellEditTemplate>
+</DxGridDataColumn>
+
+@code
+{
+    [Parameter]
+    public string FieldName { get; set; }
+    [Parameter]
+    public int MinWidth { get; set; } = 80;
+    [Parameter]
+    public string Width { get; set; } = string.Empty;
+    [Parameter]
+    public EventCallback<DxGridColumnChangedEventArg<decimal>> OnColumnValueChanged { get; set; }
+    [Parameter]
+    public decimal Value { get; set; }
+    [Parameter]
+    public EventCallback<decimal> ValueChanged { get; set; }
+
+    private void HandleChangeGoodsLine(GridDataColumnCellEditTemplateContext context, decimal newValue)
+    {
+        ValueChanged.InvokeAsync(newValue);
+    }
+}

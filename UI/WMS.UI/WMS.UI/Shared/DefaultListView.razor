@@ -1,0 +1,40 @@
+﻿@typeparam TItem
+@typeparam TDetailForm
+@using WMS.UI.Shared
+@using WMS.Core.Entities
+@using WMS.UI.Shared.Components
+<div>
+    <h2>@Title</h2>
+</div>
+<div>
+    @if (_items == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <DefaultListToolbar OnNewItemClick="HandleNewItem"
+                        OnEditItemClick="HandleEditItem"
+                        OnRemoveItemClick="HandleRemoveItem"
+                        OnRefreshDataClick="RefreshData"
+                        OnColumnChooserClick="HandleClickColumnChooser"
+                        SearchText="@_searchText"
+                        SearchTextChanged="HandleSearchTextChanged"
+                        SelectedItemId="(_selectedItem as IReferenceType)?.Id" />
+        <DxGrid Data="_items" @ref="_dataGrid" PageSizeSelectorVisible="true"
+            SelectionMode="GridSelectionMode.Single"
+            AllowSelectRowByClick="true"
+            KeyFieldName="Id"
+            SelectedDataItemChanged="(o)=>_selectedItem=(o as TItem)">
+            <Columns>
+                @ChildContent
+            </Columns>
+        </DxGrid>
+    }
+</div>
+
+<DetailViewPopup T="TDetailForm" 
+                 Title="@Title" 
+                 IsVisible="_detailViewPopupVisible"
+                 PopupClosed="HandleDetailViewPopupClosed"
+                 SelectedItemId="(_selectedItem as IReferenceType)?.Id" />

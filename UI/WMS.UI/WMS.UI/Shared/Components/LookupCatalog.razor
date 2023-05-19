@@ -1,0 +1,16 @@
+﻿@using WMS.Core.Services.BaseServices
+@typeparam TItem
+
+<DxComboBox NullText="Not selected..."
+            Data="@_items"
+            @bind-Value="@SelectedItemId"
+            ValueFieldName="Id"
+            TextFieldName="Name"
+            Enabled="@Enabled"
+            ReadOnly="@ReadOnly"
+            SelectedItemChanged="item => SelectedItemChanged.InvokeAsync(item)"
+            ListRenderMode="ListRenderMode.Virtual"
+            AllowUserInput="false"
+            CssClass="@CssClass"
+            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" 
+            />

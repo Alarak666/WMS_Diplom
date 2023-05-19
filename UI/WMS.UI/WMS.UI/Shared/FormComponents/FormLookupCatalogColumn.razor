@@ -1,0 +1,17 @@
+﻿@if (Item == null)
+{
+    <th>@(string.IsNullOrEmpty(Caption) ? Name : Caption)</th>
+}
+else
+{
+    <td>@(Item?.GetType().GetProperty(Name)?.GetValue(Item))</td>
+}
+
+@code {
+    [Parameter]
+    public object? Item { get; set; }
+    [Parameter]
+    public string Name { get; set; }
+    [Parameter]
+    public string? Caption { get; set; }
+}

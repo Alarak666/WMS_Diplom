@@ -1,0 +1,44 @@
+﻿@*@using WMS.Core.Entities.Catalogs.DivisionCatalog
+@using WMS.UI.Pages.Catalogs.Divisions
+@using WMS.Core.Services.Catalogs.Divisions
+
+<FormLookupCatalog SelectedItemId="SelectedItemId"
+                   SelectedItemIdChanged="SelectedItemIdChanged"
+                   ReadOnly="ReadOnly"
+                   Enabled="Enabled"
+                   DetailViewType="typeof(DivisionDetailViewForm)"
+                   TItem="Division"
+                   PrepareNewObjectParams="PrepareNewObjectParams"
+                   IsValid="IsValid"
+                   ServerData="HandleLoadItems"
+                   ShowCreateButton="true" 
+                   ShowEditButton="true">
+    <Columns>
+        <FormLookupCatalogColumn Item="context" Caption="Name" Name="@nameof(Division.Name)" />
+        <FormLookupCatalogColumn Item="context" Caption="Code" Name="@nameof(Division.UniqueCode)" />
+    </Columns>
+</FormLookupCatalog>
+
+@code {
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+    [Parameter]
+    public bool? IsValid { get; set; }
+    [Parameter]
+    public Guid? SelectedItemId { get; set; }
+    [Parameter]
+    public EventCallback<Guid?> SelectedItemIdChanged { get; set; }
+    [Parameter]
+    public Guid? CompanyId { get; set; }
+    [Inject]
+    public IDivisionService DataService { get; set; }
+    [Parameter] public Func<Task<Dictionary<string, object?>>>? PrepareNewObjectParams { get; set; }
+
+    private async Task<IEnumerable<Division>> HandleLoadItems(string? searchText)
+    {
+        return await DataService.GetByCompany(CompanyId, searchText);
+    }
+
+}*@

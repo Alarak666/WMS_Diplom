@@ -1,0 +1,24 @@
+﻿@using WMS.Core.Services
+@using WMS.Core.Constants
+<DxTextBox Text="@Text" TextChanged="HandleTextChanged" Enabled="@Enabled" ReadOnly="@ReadOnly" InputCssClass="@(IsValid == null ? "" : IsValid == true ? "form-field-valid" : "form-field-invalid")"/>
+
+@code {
+    [Parameter]
+    public string? Text { get; set; }
+    [Parameter]
+    public EventCallback<string> TextChanged { get; set; }
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+    [Parameter]
+    public bool? IsValid { get; set; }
+    [Inject] public IViewEventListener ViewEventListener { get; set; }
+    
+    private async Task HandleTextChanged(string newValue)
+    {
+        ViewEventListener.FireEvents(ViewEvents.PropertyChanged, Guid.Empty);
+        await TextChanged.InvokeAsync(newValue);
+    }
+
+}

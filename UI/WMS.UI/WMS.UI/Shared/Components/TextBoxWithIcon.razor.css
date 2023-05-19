@@ -1,0 +1,11 @@
+﻿.error_padding {
+    border-color: red;
+    padding-left: 1em !important;
+}
+
+.editor_icon {
+    position: static;
+    height: 100%;
+    width: calc(1em + 18px);
+    padding-left: 1em;
+}

@@ -1,0 +1,328 @@
+﻿@using WMS.Core.Services.Framework
+@inject NavigationManager NavigationManager
+@inject TabPageService TabPageService
+
+<div class="card w-100">
+<div class="card-body p-0">
+<DxMenu Orientation="Orientation.Horizontal"
+        DropDownActionMode="MenuDropDownActionMode.Click"
+        DisplayMode="MenuDisplayMode.Desktop"
+        Title="ECOIT: ERP"
+        CollapseItemsToHamburgerMenu="true"
+        CollapseItemToIconMode="MenuCollapseItemToIconMode.All">
+<TitleTemplate>
+    <div class="">
+        ECOIT: ERP
+    </div>
+</TitleTemplate>
+<Items>
+                @*<DxMenuItem Text="Home" Click="@(() => HandleOpenCustomNewTab(typeof(MainDashboard), "Dashboard"))" IconCssClass="oi oi-layers"> </DxMenuItem>*@
+
+<DxMenuItem Text="Warehouse" IconCssClass="oi oi-layers">
+    <Items>
+      @*  <DxMenuItem Text="Open balance of goods" Click="@(() => HandleOpenNewTab(typeof(OpenBalanceOfGood)))" />
+        <DxMenuItem Text="Transfer of goods" Click="@(() => HandleOpenNewTab(typeof(TransferOfGood)))" />
+        <DxMenuItem Text="Writing off goods" Click="@(() => HandleOpenNewTab(typeof(WriteOffGood)))" />
+        <DxMenuItem Text="Posting of goods" Click="@(() => HandleOpenNewTab(typeof(PostingOfGood)))" />
+        <DxMenuItem Text="Assembly/disassembly of goods" Click="@(() => HandleOpenNewTab(typeof(AssemblyDisassemblyOfGood)))" />
+
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+                        <DxMenuItem Text="Warehouses" Click="@(() => HandleOpenNewTab(typeof(Warehouse)))" />
+                        <DxMenuItem Text="Products" Click="@(() => HandleOpenNewTab(typeof(Product)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>*@
+        <DxMenuItem Text="Reports">
+            <Items>
+                @* <DxMenuItem Text="Report: List of Warehouses" Click="@(()=>NavigationManager.NavigateTo("/report"))" /> *@
+                @* <DxMenuItem Text="Company Report" Click="@(()=>NavigationManager.NavigateTo("/company-report"))" /> *@
+                <DxMenuItem Text="Stock Turnover" Click="@(() => NavigationManager.NavigateTo("/stock-turnover-report"))"/>
+                @*<DxMenuItem Text="Stock Transaction Record" Click="@(() => NavigationManager.NavigateTo("/stock-transaction-record-report"))"/>*@
+                <DxMenuItem Text="Stock Availability Report" Click="@(() => NavigationManager.NavigateTo("/stock-availability-report"))"/>
+                <DxMenuItem Text="Warehouse Stock Report" Click="@(() => NavigationManager.NavigateTo("/warehouse-stock-report"))"/>
+
+            </Items>
+        </DxMenuItem>
+    </Items>
+</DxMenuItem>
+<DxMenuItem Text="Purchases" IconCssClass="oi oi-person">
+    <Items>
+       @* <DxMenuItem Text="Purchase Orders" Click="@(() => HandleOpenNewTab(typeof(PurchaseOrder)))" />
+        <DxMenuItem Text="Vendor Invoices" Click="@(() => HandleOpenNewTab(typeof(VendorInvoice)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+                        <DxMenuItem Text="Companies" Click="@(() => HandleOpenNewTab(typeof(Company)))" />
+                        <DxMenuItem Text="Vendors and Customers" Click="@(() => HandleOpenNewTab(typeof(VendorCustomer)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+        <DxMenuItem Text="Reports">
+            <Items>
+                <DxMenuItem Text="Purchase Report" Click="@(() => NavigationManager.NavigateTo("/purchase-report"))"/>
+            </Items>
+        </DxMenuItem>*@
+    </Items>
+</DxMenuItem>
+<DxMenuItem Text="Sales" IconCssClass="oi oi-person">
+    <Items>
+        @* <DxMenuItem Text="Customer Invoice" Click="@(() => NavigationManager.NavigateTo("/customer-invoices"))"/> *@
+       @* <DxMenuItem Text="Sales Order" Click="@(() => HandleOpenNewTab(typeof(SalesOrder)))" />
+        <DxMenuItem Text="Customer Invoice" Click="@(() => HandleOpenNewTab(typeof(CustomerInvoice)))" />
+        <DxMenuItem Text="Commodity Waybill" Click="@(() => HandleOpenNewTab(typeof(CommodityWaybill)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+                        <DxMenuItem Text="Companies" Click="@(() => HandleOpenNewTab(typeof(Company)))" />
+                        <DxMenuItem Text="Vendors and Customers" Click="@(() => HandleOpenNewTab(typeof(VendorCustomer)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+        <DxMenuItem Text="Reports">
+            <Items>
+                <DxMenuItem Text="Sales Report" Click="@(() => NavigationManager.NavigateTo("/sales-report"))"/>
+                <DxMenuItem Text="Bank Turnover Report" Click="@(() => NavigationManager.NavigateTo("/bank-turnover-report"))"/>
+                <DxMenuItem Text="Cash Turnover Report" Click="@(() => NavigationManager.NavigateTo("/cash-turnover-report"))"/>
+                <DxMenuItem Text="Gross Profit Report" Click="@(() => NavigationManager.NavigateTo("/gross-profit-report"))"/>
+            </Items>
+        </DxMenuItem>*@
+    </Items>
+</DxMenuItem>
+<DxMenuItem Text="Treasury" IconCssClass="oi oi-person">
+    <Items>
+       @* <DxMenuItem Text="Payment request" Click="@(() => HandleOpenNewTab(typeof(PaymentRequest)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+        <DxMenuItem Text="Incoming bank" Click="@(() => HandleOpenNewTab(typeof(IncomingBank)))" />
+        <DxMenuItem Text="Expense bank" Click="@(() => HandleOpenNewTab(typeof(ExpenseBank)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+        <DxMenuItem Text="Incoming cash" Click="@(() => HandleOpenNewTab(typeof(IncomingCash)))" />
+        <DxMenuItem Text="Expense cash" Click="@(() => HandleOpenNewTab(typeof(ExpenseCash)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>*@
+                      @*<DxMenuItem Text="PaymentOffset" Click="@(() => HandleOpenNewTab(typeof(PaymentOffset)))" />*@
+
+        <DxMenuItem Text="Client bank" Click="@(() => NavigationManager.NavigateTo("/client-bank"))"/>
+    </Items>
+</DxMenuItem>
+<DxMenuItem Text="Payroll" IconCssClass="oi oi-person">
+    <Items>
+       @* <DxMenuItem Text="Withholding Tax Rates" Click="@(() => HandleOpenNewTab(typeof(WithholdingTaxRate)))" />
+
+                        <DxMenuItem Text="Accruals" Click="@(() => HandleOpenNewTab(typeof(Accrual)))" />
+                        <DxMenuItem Text="Deductions" Click="@(() => HandleOpenNewTab(typeof(Deduction)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>*@
+    </Items>
+</DxMenuItem>
+<DxMenuItem Text="Fixed assets" IconCssClass="oi oi-person">
+    <Items>
+                     @*   <DxMenuItem Text="Depreciation Charges" Click="@(() => HandleOpenNewTab(typeof(DepreciationCharge)))" />
+                        <DxMenuItem Text="Fixed Assets Initial Recognition" Click="@(() => HandleOpenNewTab(typeof(FixedAssetInitialRecognition)))" />
+
+                        <DxMenuItem Text="FixedAsset" Click="@(() => HandleOpenNewTab(typeof(FixedAsset)))" />*@
+    </Items>
+</DxMenuItem>
+<DxMenuItem Text="HR" IconCssClass="oi oi-person">
+    <Items>
+
+                      @*  <DxMenuItem Text="Hire Employee" Click="@(() => HandleOpenNewTab(typeof(EmployeeHire)))" />
+                        <DxMenuItem Text="Dismissal Employee" Click="@(() => HandleOpenNewTab(typeof(EmployeeDismissal)))" />
+                        <DxMenuItem Text="Transfer Employee" Click="@(() => HandleOpenNewTab(typeof(EmployeeTransfer)))" />*@
+                        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+                       @* <DxMenuItem Text="Employes" Click="@(() => HandleOpenNewTab(typeof(Employee)))" />*@
+    </Items>
+</DxMenuItem>
+<DxMenuItem Text="System" IconCssClass="oi oi-person">
+    <Items>
+        <DxMenuItem Text="Exchange">
+            <Items>
+                <DxMenuItem Text="Import from BDO" Click="@(() => NavigationManager.NavigateTo("/import-data-from-bdo"))"></DxMenuItem>
+            </Items>
+        </DxMenuItem>
+        <DxMenuItem Text="Catalogs">
+            <Items>
+                             @*   <DxMenuItem Text="Bank accounts" Click="@(() => HandleOpenNewTab(typeof(BankAccount)))" />
+                                <DxMenuItem Text="Cash" Click="@(() => HandleOpenNewTab(typeof(CompanyCashBox)))" />
+                                <DxMenuItem Text="Bank Account Vendor Customer" Click="@(() => HandleOpenNewTab(typeof(BankAccountVendorCustomer)))" />
+                                <DxMenuItem Text="Bank acquirers" Click="@(() => HandleOpenNewTab(typeof(BankAcquirer)))" />
+                                <DxMenuItem Text="Banks" Click="@(() => HandleOpenNewTab(typeof(Bank)))" />
+                                <DxMenuItem Text="Bill of material" Click="@(() => HandleOpenNewTab(typeof(BillOfMaterial)))" />
+                                <DxMenuItem Text="Cash Flow Items" Click="@(() => HandleOpenNewTab(typeof(CashFlowItem)))" />
+                                <DxMenuItem Text="Cash Registers" Click="@(() => HandleOpenNewTab(typeof(CashRegister)))" />
+                <DxMenuItem Text="Companies" Click="@(() => HandleOpenNewTab(typeof(Company)))"/>
+                                <DxMenuItem Text="Contracts" Click="@(() => HandleOpenNewTab(typeof(Contract)))" />
+                                <DxMenuItem Text="Countries" Click="@(() => HandleOpenNewTab(typeof(Country)))" />
+                                <DxMenuItem Text="Currencies" Click="@(() => HandleOpenNewTab(typeof(Currency)))" />
+                <DxMenuItem Text="Deductions" Click="@(() => HandleOpenNewTab(typeof(Deduction)))"/>
+                                <DxMenuItem Text="DeliveryMethods" Click="@(() => HandleOpenNewTab(typeof(DeliveryMethod)))" />
+                                <DxMenuItem Text="Divisions" Click="@(() => HandleOpenNewTab(typeof(Division)))" />
+                                <DxMenuItem Text="Drivers" Click="@(() => HandleOpenNewTab(typeof(Driver)))" />
+                                <DxMenuItem Text="Employes" Click="@(() => HandleOpenNewTab(typeof(Employee)))" />
+                                <DxMenuItem Text="FixedAssets" Click="@(() => HandleOpenNewTab(typeof(FixedAsset)))" />
+                                <DxMenuItem Text="People" Click="@(() => HandleOpenNewTab(typeof(Person)))" />
+                                <DxMenuItem Text="Positions" Click="@(() => HandleOpenNewTab(typeof(Position)))" />
+                                <DxMenuItem Text="PriceTypes" Click="@(() => HandleOpenNewTab(typeof(PriceType)))" />
+                                <DxMenuItem Text="Products" Click="@(() => HandleOpenNewTab(typeof(Product)))" />
+                                <DxMenuItem Text="Units" Click="@(() => HandleOpenNewTab(typeof(Unit)))" />
+                                <DxMenuItem Text="Variants" Click="@(() => HandleOpenNewTab(typeof(Variant)))" />
+                                <DxMenuItem Text="Vehicles" Click="@(() => HandleOpenNewTab(typeof(Vehicle)))" />
+                                <DxMenuItem Text="Warehouses" Click="@(() => HandleOpenNewTab(typeof(Warehouse)))" />
+                                <DxMenuItem Text="WithholdingTaxRates" Click="@(() => HandleOpenNewTab(typeof(WithholdingTaxRate)))" />
+                                <DxMenuItem Text="WorkSchedules" Click="@(() => HandleOpenNewTab(typeof(WorkSchedule)))" />
+                                <DxMenuItem Text="VendorItems" Click="@(() => HandleOpenNewTab(typeof(VendorItem)))" />*@
+            </Items>
+        </DxMenuItem>
+        <DxMenuItem Text="Document">
+            <Items>
+                             @*   <DxMenuItem Text="AR/AP Offset" Click="@(() => HandleOpenNewTab(typeof(ArApOffset)))" />
+                                <DxMenuItem Text="AR/AP Write Off" Click="@(() => HandleOpenNewTab(typeof(ArApWriteOff)))" />
+                                <DxMenuItem Text="Vendor Invoice Services And Assets" Click="@(() => HandleOpenNewTab(typeof(VendorInvoiceServicesAndAsset)))" />
+                                <DxMenuItem Text="Acquiring Operations" Click="@(() => HandleOpenNewTab(typeof(AcquiringOperation)))" />
+                <DxMenuItem Text="Assembly Disassembly Order" Click="@(() => HandleOpenNewTab(typeof(AssemblyDisassemblyOrder)))" />
+                                <DxMenuItem Text="Consumption Order" Click="@(() => HandleOpenNewTab(typeof(ConsumptionOrder)))" />
+                                <DxMenuItem Text="Goods Transfer Orders" Click="@(() => HandleOpenNewTab(typeof(GoodsTransferOrder)))" />
+                                <DxMenuItem Text="Returns Of Goods From Customer" Click="@(() => HandleOpenNewTab(typeof(ReturnOfGoodsFromCustomer)))" />
+                                <DxMenuItem Text="Returns Of Goods From Vendor" Click="@(() => HandleOpenNewTab(typeof(ReturnOfGoodsFromVendor)))" />
+                                <DxMenuItem Text="Goods Regradings" Click="@(() => HandleOpenNewTab(typeof(GoodsRegrading)))" />
+                                <DxMenuItem Text="Payment request" Click="@(() => HandleOpenNewTab(typeof(PaymentRequest)))" />
+                                <DxMenuItem Text="Enter of settlements balance" Click="@(() => HandleOpenNewTab(typeof(EnterOfSettlementsBalance)))" />
+                                <DxMenuItem Text="Productions" Click="@(() => HandleOpenNewTab(typeof(Production)))" />
+                                <DxMenuItem Text="Pruduct pricings" Click="@(() => HandleOpenNewTab(typeof(ProductPricing)))" />
+                                <DxMenuItem Text="Stocktakings" Click="@(() => HandleOpenNewTab(typeof(Stocktaking)))" />
+                                <DxMenuItem Text="Salary accruals" Click="@(() => HandleOpenNewTab(typeof(SalaryAccrual)))" />*@
+
+
+            </Items>
+        </DxMenuItem>
+    </Items>
+</DxMenuItem>
+<DxMenuItem CssClass="search-menu-item" BeginGroup="true" Position="ItemPosition.End">
+    <Template>
+        <SearchItem/>
+    </Template>
+</DxMenuItem>
+<DxMenuItem CssClass="notoggle" Position="ItemPosition.End">
+    <TextTemplate>
+        @*<div class="menu-icon-user-profile menu-icon" />*@
+        <i class="fa-solid fa-user"></i>
+    </TextTemplate>
+    <SubMenuTemplate>
+        <div class="w-100 user-profile">
+            <div class="flex-column align-items-center justify-content-center">
+                <div class="logo-container d-flex align-items-center justify-content-center">
+                    @* <div class="menu-icon-user-profile menu-icon menu-icon-large"/> *@
+                    <div class="border d-flex justify-content-center align-items-center"
+                         alt="Avatar">
+                        <img src="images/empty_avatar.png" style="width:70px; height: 70px"/>
+                    </div>
+                </div>
+                <div class="user-name-container bm-3 mb-2">
+                    <div class="tm-8 text-center">User Name</div>
+                    <div class="text-center">@_userName</div>
+                </div>
+                <div class="text-center py-3">
+                    <a href="/user-settings" class="link-info">My settings</a>
+                </div>
+                <div class="d-flex justify-content-center log-off-btn">
+                    <form method="post" action="/identity/account/logout">
+                        <button class="btn btn-secondary" type="submit">Log Off</button>
+                    </form>
+                    @*<DxButton Text="Log Off" RenderStyle="@ButtonRenderStyle.Secondary" Click="@(() => NavigationManager.NavigateTo("/identity/account/logout"))"></DxButton>*@
+                </div>
+            </div>
+        </div>
+    </SubMenuTemplate>
+</DxMenuItem>
+</Items>
+</DxMenu>
+</div>
+</div>
+
+@code {
+
+    [Inject]
+    public IAppFramework AppFramework { get; set; }
+     [CascadingParameter] Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthState { get; set; }
+
+    private string? _userName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        //var user = (await AuthState).User;
+        //if (user?.Identity?.IsAuthenticated ?? false)
+        //{
+        //    _userName = user.Identity.Name;
+        //}
+    }
+
+    private void HandleOpenNewTab(Type type)
+    {
+        var appEntity = AppFramework.GetEntity(type);
+        if (appEntity is null)
+        {
+            throw new Exception("Framework: Entity description not found!");
+        }
+        
+        var existingTab = TabPageService.TabComponents.FirstOrDefault(x => x.ComponentType == appEntity.ListView.ViewComponent);
+        if (existingTab is null)
+        {
+            if (appEntity?.ListView is not null)
+            {
+                TabPageService?.AddTabPage(new TabPageDescription()
+                {
+                    ComponentType = appEntity.ListView.ViewComponent,
+                    ComponentTitle = appEntity.ListView?.Title
+                });
+            }
+        }
+        else
+        {
+            TabPageService.SetCurrentIndex(TabPageService.TabComponents.IndexOf(existingTab));
+            StateHasChanged();
+        }
+    }
+
+    private void HandleOpenCustomNewTab(Type type, string title)
+    {
+        var existingTab = TabPageService.TabComponents.FirstOrDefault(x => x.ComponentType == type);
+        if (existingTab is null)
+        {
+            TabPageService?.AddTabPage(new TabPageDescription()
+            {
+                ComponentType = type,
+                ComponentTitle = title
+            });
+        }
+        else
+        {
+            TabPageService.SetCurrentIndex(TabPageService.TabComponents.IndexOf(existingTab));
+            StateHasChanged();
+        }
+    }
+
+}

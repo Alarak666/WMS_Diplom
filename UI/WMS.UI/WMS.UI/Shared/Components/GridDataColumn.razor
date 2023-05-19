@@ -1,0 +1,12 @@
+﻿<DxGridDataColumn FieldName="@FieldName">
+    <CellDisplayTemplate>
+        @(DataItem.GetType().GetProperty(FieldName)?.GetValue(DataItem)?.ToString())
+    </CellDisplayTemplate>
+</DxGridDataColumn>
+
+@code {
+    [Parameter]
+    public string FieldName { get; set; }
+    [Parameter]
+    public object DataItem { get; set; }
+}

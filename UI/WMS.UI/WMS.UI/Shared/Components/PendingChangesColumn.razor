@@ -1,0 +1,23 @@
+﻿@if (Active)
+{
+    <div style="display: flex; align-content: center; justify-content: center">
+        <div class="fa-1x">
+            <i class="fa-solid fa-cog fa-spin"
+           style="color: orange; animation-delay: 0ms;animation-duration: 2s;animation-iteration-count: infinite;"></i>
+        </div>
+    </div>
+}
+else
+{
+    <div style="display: flex; align-content: center; justify-content: center">
+        <div class="fa-1x">
+            <i class="fa-solid fa-circle-check" style="color: gray;"></i>
+        </div>
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public bool Active { get; set; }
+}

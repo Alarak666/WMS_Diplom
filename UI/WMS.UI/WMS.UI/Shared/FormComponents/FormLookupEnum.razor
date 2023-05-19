@@ -1,0 +1,68 @@
+﻿@typeparam TItem
+
+<DxComboBox TData="SelectionItem" TValue="TItem" Data="@_items"
+            Value="@Value" 
+            ValueChanged="ValueChanged"
+            ReadOnly="@ReadOnly" 
+            Enabled="@Enabled" 
+            TextFieldName="@TextFieldName"
+            ValueFieldName="@ValueFieldName"
+            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+</DxComboBox>
+
+@code {
+
+    public class SelectionItem
+    {
+        public TItem? Value { get; set; }
+        public string? Text { get; set; }
+    }
+
+    private string? _searchText;
+
+    [Parameter]
+    public string? Placeholder { get; set; } = "select value...";
+    [Parameter]
+    public string TextFieldName { get; set; } = "Text";
+
+    [Parameter]
+    public string ValueFieldName { get; set; } = "Value";
+
+    private IEnumerable<SelectionItem>? _items;
+
+    [Parameter]
+    public TItem Value { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> ValueChanged { get; set; }
+
+    [Parameter]
+    public bool? IsValid { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+
+    [Parameter]
+    public Func<string?, Task<IEnumerable<SelectionItem>>>? ServerData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (ServerData == null)
+        {
+            if (typeof(TItem).IsEnum)
+            {
+                var enums = Enum.GetValues(typeof(TItem)).Cast<TItem>();
+                _items = enums.Select(e => new SelectionItem {Value = e, Text = e.ToString()});
+            }
+        }
+        else
+        {
+            _items = await ServerData(_searchText);
+        }
+    }
+
+}

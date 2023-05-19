@@ -1,0 +1,16 @@
+﻿<DxDateEdit Date="@Date" DateChanged="@DateChanged" Enabled="@Enabled" ReadOnly="@ReadOnly" InputCssClass="@(IsValid == null ? "" : IsValid == true ? "form-field-valid" : "form-field-invalid")" TimeSectionVisible="TimeSectionVisible"/>
+
+@code {
+    [Parameter]
+    public DateTime Date { get; set; }
+    [Parameter]
+    public EventCallback<DateTime> DateChanged { get; set; }
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+    [Parameter]
+    public bool? IsValid { get; set; }
+    [Parameter]
+    public bool TimeSectionVisible { get; set; }
+}

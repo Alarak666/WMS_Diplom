@@ -1,0 +1,17 @@
+﻿<div class="search">
+    <DxTextBox NullText="Text to search..." Text="@Text" TextChanged="@TextChanged" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+    @*    <input type="text" class="form-control form-control-sm search-input" placeholder="Search...">
+    <span class="search-button d-flex ps-2 pe-2">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass"></i>
+    </span>
+    *@
+</div>
+
+@code
+{
+    [Parameter]
+    public string Text { get; set; }
+    [Parameter]
+    public EventCallback<string> TextChanged { get; set; }
+}

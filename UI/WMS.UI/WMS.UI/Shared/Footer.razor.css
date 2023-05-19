@@ -1,0 +1,15 @@
+﻿.main-container {
+    border-top: 1px solid lightgray;
+}
+
+.message-container {
+    display: flex;
+}
+
+.message-container:hover {
+    background-color: lightgray;
+}
+
+.message-container-text {
+    flex: 1 auto;
+}

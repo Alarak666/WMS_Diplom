@@ -1,0 +1,62 @@
+﻿@using WMS.Core.Models.Dashboards
+@using WMS.Core.Services.Dashboards
+<div class="card">
+    <div class="card-header">
+        Bank Income/Expense
+    </div>
+    <div class="card-body">
+        <DxChart T="DashboardBankTurnoverItem"
+                 Data="@_bankTurnoverChartData"
+                 Context="chartContext"
+                 Width="100%">
+            <DxChartTitle Text="Bank turnovers">
+                <DxChartSubTitle Text="Actual data for 3 months"/>
+            </DxChartTitle>
+            <DxChartBarSeries Name="Income"
+                              T="DashboardBankTurnoverItem"
+                              TArgument="string"
+                              TValue="decimal"
+                              ArgumentField="pasi => pasi.Month"
+                              ValueField="pasi => pasi.Amount"
+                              SummaryMethod="Enumerable.Sum"
+                              Filter='pasi => pasi.IncomeExpense == "Income"'/>
+            <DxChartBarSeries Name="Expense"
+                              T="DashboardBankTurnoverItem"
+                              TArgument="string"
+                              TValue="decimal"
+                              ArgumentField="pasi => pasi.Month"
+                              ValueField="pasi => pasi.Amount"
+                              SummaryMethod="Enumerable.Sum"
+                              Filter='pasi => pasi.IncomeExpense == "Expense"'/>
+            <DxChartLegend Position="RelativePosition.Outside"
+                           HorizontalAlignment="HorizontalAlignment.Center"
+                           VerticalAlignment="VerticalEdge.Bottom"/>
+            <DxChartTooltip Enabled="true" Context="tooltipContext"
+                            Position="RelativePosition.Outside">
+                <div style="margin: 0.75rem">
+                    <div class="fw-bold">@tooltipContext.Point.Argument</div>
+                    <div>Turnover type: @tooltipContext.Point.SeriesName</div>
+                    <div>Amount: @($"{tooltipContext.Point.Value:N0}")</div>
+                </div>
+            </DxChartTooltip>
+        </DxChart>
+    </div>
+</div>
+
+@code {
+    private IEnumerable<DashboardBankTurnoverItem> _bankTurnoverChartData;
+    [Inject]
+    public IBankTurnoverCardService BankTurnoverCardService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadBankTurnovers();
+    }
+
+    private async Task LoadBankTurnovers()
+    {
+        _bankTurnoverChartData = await BankTurnoverCardService.GetData(System.DateTime.Now);
+    }
+
+}

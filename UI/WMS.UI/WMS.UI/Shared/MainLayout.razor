@@ -1,19 +1,63 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
-<PageTitle>WMS.UI</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<div class="app-container h-100 d-flex flex-column overflow-hidden">
+    <div class="top-menu">
+        <MainMenu />
     </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+    <div class="flex-grow-1 overflow-auto">
+        <div class="p-5 content overflow-auto">
             @Body
-        </article>
-    </main>
+        </div>
+    </div>
+    <div class="footer">
+        <Footer></Footer>
+    </div>
 </div>
+
+
+@*<DxGridLayout CssClass="page-layout">
+    <Rows>
+        <DxGridL
+        <DxGridLayoutRow Areas="header header" Height="auto"/>
+        <DxGridLayoutRow Areas="content content"/>
+    </Rows>
+    <Columns>
+        <DxGridLayoutColumn Width="auto" />
+        <DxGridLayoutColumn />
+    </Columns>
+    <ProductServiceProducts>
+        <DxGridLayoutProduct Area="header" CssClass="layout-item">
+            <Template>
+            </Template>
+        </DxGridLayoutProduct>
+        <DxGridLayoutProduct Area="content" CssClass="content px-4 layout-item">
+            <Template>
+                <div class="p-5">
+                </div>
+            </Template>
+        </DxGridLayoutProduct>
+    </ProductServiceProducts>
+</DxGridLayout>*@
+
+@code {
+    string? NavMenuCssClass { get; set; }
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+    async void OnLocationChanged(object? sender, LocationChangedEventArgs args)
+    {
+    //if(IsMobileLayout) {
+    //    IsSidebarExpanded = false;
+    //    await InvokeAsync(StateHasChanged);
+    //}
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+}

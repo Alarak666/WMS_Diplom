@@ -1,0 +1,111 @@
+﻿@using DevExpress.Blazor
+<DxToolbar CssClass="mb-3">
+    <Items>
+        <DxToolbarItem Text="New" IconCssClass="fa-solid fa-circle-plus me-1"
+                       Click="OnNewItemClick"
+                       Tooltip="New" RenderStyle="ButtonRenderStyle.Primary" />
+        <DxToolbarItem Text="Clone" IconCssClass="fa-solid fa-pen me-1"
+                       Enabled="@(SelectedItemId != null)"
+                       Click="OnCloneItemClick"
+                       Tooltip="Clone" />
+        <DxToolbarItem Text="Edit" IconCssClass="fa-solid fa-pen me-1"
+                       Enabled="@(SelectedItemId != null)"
+                       Click="OnEditItemClick"
+                       Tooltip="Edit" />
+        <DxToolbarItem Text="Remove" IconCssClass="fa-regular fa-file-excel me-1"
+                       Enabled="@(SelectedItemId != null)"
+                       Click="HandleClickRemoveDocument"
+                       Tooltip="Remove" />
+        <DxToolbarItem Text="Refresh" IconCssClass="fa-solid fa-rotate-right me-1"
+                       Click="OnRefreshDataClick"
+                       Tooltip="Refresh" />
+        @if (ShowDocumentActions)
+        {
+            <DxToolbarItem BeginGroup="true" Text="Post" IconCssClass="fa-solid fa-file me-1"
+                       Enabled="@(SelectedItemId != null)" Click="OnPostDocumentClick"
+                       Tooltip="Refresh" />
+            <DxToolbarItem Text="Cancel" IconCssClass="fa-regular fa-file me-1"
+                       Enabled="@(SelectedItemId != null)"
+                       Click="OnCancelDocumentClick"
+                       Tooltip="Refresh" />
+            <DxToolbarItem Text="Transactions"
+                       IconCssClass="fa-regular fa-file-excel me-1"
+                       Enabled="@(SelectedItemId != null)"
+                       Click="OnTransactionsClick"
+                       Tooltip="Refresh" />
+        }
+        @ChildContent
+        <DxToolbarItem BeginGroup="true" Alignment="ToolbarItemAlignment.Right">
+            <Template>
+                <input type="text" class="form-control form-control-sm"
+                       placeholder="Search..." value="@SearchText" 
+                       @oninput="@((e)=>SearchTextChanged.InvokeAsync(e.Value?.ToString()))">
+                @*<SearchItem Text="@SearchText" TextChanged="SearchTextChanged" />*@
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem BeginGroup="true"
+                       Alignment="ToolbarItemAlignment.Right"
+                       Text="Column Chooser"
+                       RenderStyle="ButtonRenderStyle.Secondary"
+                       IconCssClass="btn-column-chooser"
+                       CssClass="column-chooser-button"
+                       Click="OnColumnChooserClick" />
+
+    </Items>
+</DxToolbar>
+
+<DxPopup @bind-Visible="@_deleteDocumentPopupVisible"
+         ShowFooter="true"
+         HeaderText="Delete document">
+    <BodyTemplate>
+        <DxFormLayout>
+            <DxFormLayoutItem Context="messageCtx">
+                Are your sure?
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </BodyTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button" RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@(() => { _deleteDocumentPopupVisible = false; OnRemoveItemClick.InvokeAsync();})" />
+        <DxButton CssClass="popup-button" RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="@(() => _deleteDocumentPopupVisible = false)" />
+    </FooterContentTemplate>
+</DxPopup>
+@code
+{
+    [CascadingParameter(Name = "BaseListView")] public BaseListViewComponent BaseListView { get; set; }
+    [Parameter]
+    public bool ShowDocumentActions { get; set; }
+    [Parameter]
+    public Guid? SelectedItemId { get; set; }
+    [Parameter]
+    public EventCallback OnNewItemClick { get; set; }
+    [Parameter]
+    public EventCallback OnEditItemClick { get; set; }
+    [Parameter]
+    public EventCallback OnCloneItemClick { get; set; }
+    [Parameter]
+    public EventCallback OnRemoveItemClick { get; set; }
+    [Parameter]
+    public EventCallback OnRefreshDataClick { get; set; }
+    [Parameter]
+    public EventCallback OnColumnChooserClick { get; set; }
+    [Parameter]
+    public EventCallback OnPostDocumentClick { get; set; }
+    [Parameter]
+    public EventCallback OnCancelDocumentClick { get; set; }
+    [Parameter]
+    public EventCallback OnTransactionsClick { get; set; }
+    [Parameter]
+    public string? SearchText { get; set; }
+    [Parameter]
+    public EventCallback<string> SearchTextChanged { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private bool _deleteDocumentPopupVisible;
+
+    private void HandleClickRemoveDocument()
+    {
+        if (SelectedItemId == null) return;
+        _deleteDocumentPopupVisible = true;
+    }
+}
