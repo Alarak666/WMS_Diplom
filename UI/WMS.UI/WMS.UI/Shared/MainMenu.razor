@@ -1,4 +1,5 @@
 ﻿@using WMS.Core.Services.Framework
+@using WMS.Core.DTO.EmployeeDtos
 @inject NavigationManager NavigationManager
 @inject TabPageService TabPageService
 
@@ -7,51 +8,22 @@
 <DxMenu Orientation="Orientation.Horizontal"
         DropDownActionMode="MenuDropDownActionMode.Click"
         DisplayMode="MenuDisplayMode.Desktop"
-        Title="ECOIT: ERP"
+        Title="WMS"
         CollapseItemsToHamburgerMenu="true"
         CollapseItemToIconMode="MenuCollapseItemToIconMode.All">
 <TitleTemplate>
     <div class="">
-        ECOIT: ERP
+        WMS
     </div>
 </TitleTemplate>
 <Items>
                 @*<DxMenuItem Text="Home" Click="@(() => HandleOpenCustomNewTab(typeof(MainDashboard), "Dashboard"))" IconCssClass="oi oi-layers"> </DxMenuItem>*@
 
-<DxMenuItem Text="Warehouse" IconCssClass="oi oi-layers">
-    <Items>
-      @*  <DxMenuItem Text="Open balance of goods" Click="@(() => HandleOpenNewTab(typeof(OpenBalanceOfGood)))" />
-        <DxMenuItem Text="Transfer of goods" Click="@(() => HandleOpenNewTab(typeof(TransferOfGood)))" />
-        <DxMenuItem Text="Writing off goods" Click="@(() => HandleOpenNewTab(typeof(WriteOffGood)))" />
-        <DxMenuItem Text="Posting of goods" Click="@(() => HandleOpenNewTab(typeof(PostingOfGood)))" />
-        <DxMenuItem Text="Assembly/disassembly of goods" Click="@(() => HandleOpenNewTab(typeof(AssemblyDisassemblyOfGood)))" />
 
-        <DxMenuItem CssClass="separator">
-            <Template>
-            </Template>
-        </DxMenuItem>
-                        <DxMenuItem Text="Warehouses" Click="@(() => HandleOpenNewTab(typeof(Warehouse)))" />
-                        <DxMenuItem Text="Products" Click="@(() => HandleOpenNewTab(typeof(Product)))" />
-        <DxMenuItem CssClass="separator">
-            <Template>
-            </Template>
-        </DxMenuItem>*@
-        <DxMenuItem Text="Reports">
-            <Items>
-                @* <DxMenuItem Text="Report: List of Warehouses" Click="@(()=>NavigationManager.NavigateTo("/report"))" /> *@
-                @* <DxMenuItem Text="Company Report" Click="@(()=>NavigationManager.NavigateTo("/company-report"))" /> *@
-                <DxMenuItem Text="Stock Turnover" Click="@(() => NavigationManager.NavigateTo("/stock-turnover-report"))"/>
-                @*<DxMenuItem Text="Stock Transaction Record" Click="@(() => NavigationManager.NavigateTo("/stock-transaction-record-report"))"/>*@
-                <DxMenuItem Text="Stock Availability Report" Click="@(() => NavigationManager.NavigateTo("/stock-availability-report"))"/>
-                <DxMenuItem Text="Warehouse Stock Report" Click="@(() => NavigationManager.NavigateTo("/warehouse-stock-report"))"/>
-
-            </Items>
-        </DxMenuItem>
-    </Items>
-</DxMenuItem>
 <DxMenuItem Text="Purchases" IconCssClass="oi oi-person">
     <Items>
-       @* <DxMenuItem Text="Purchase Orders" Click="@(() => HandleOpenNewTab(typeof(PurchaseOrder)))" />
+        <DxMenuItem Text="Employee" Click="@(() => HandleOpenNewTab(typeof(EmployeeDto)))"/>
+        @* <DxMenuItem Text="Purchase Orders" Click="@(() => HandleOpenNewTab(typeof(PurchaseOrder)))" />
         <DxMenuItem Text="Vendor Invoices" Click="@(() => HandleOpenNewTab(typeof(VendorInvoice)))" />
         <DxMenuItem CssClass="separator">
             <Template>
@@ -98,38 +70,11 @@
 </DxMenuItem>
 <DxMenuItem Text="Treasury" IconCssClass="oi oi-person">
     <Items>
-       @* <DxMenuItem Text="Payment request" Click="@(() => HandleOpenNewTab(typeof(PaymentRequest)))" />
-        <DxMenuItem CssClass="separator">
-            <Template>
-            </Template>
-        </DxMenuItem>
-        <DxMenuItem Text="Incoming bank" Click="@(() => HandleOpenNewTab(typeof(IncomingBank)))" />
-        <DxMenuItem Text="Expense bank" Click="@(() => HandleOpenNewTab(typeof(ExpenseBank)))" />
-        <DxMenuItem CssClass="separator">
-            <Template>
-            </Template>
-        </DxMenuItem>
-        <DxMenuItem Text="Incoming cash" Click="@(() => HandleOpenNewTab(typeof(IncomingCash)))" />
-        <DxMenuItem Text="Expense cash" Click="@(() => HandleOpenNewTab(typeof(ExpenseCash)))" />
-        <DxMenuItem CssClass="separator">
-            <Template>
-            </Template>
-        </DxMenuItem>*@
-                      @*<DxMenuItem Text="PaymentOffset" Click="@(() => HandleOpenNewTab(typeof(PaymentOffset)))" />*@
-
-        <DxMenuItem Text="Client bank" Click="@(() => NavigationManager.NavigateTo("/client-bank"))"/>
+                        <DxMenuItem Text="Employee" Click="@(() => NavigationManager.NavigateTo("/employers"))" />
     </Items>
 </DxMenuItem>
 <DxMenuItem Text="Payroll" IconCssClass="oi oi-person">
     <Items>
-       @* <DxMenuItem Text="Withholding Tax Rates" Click="@(() => HandleOpenNewTab(typeof(WithholdingTaxRate)))" />
-
-                        <DxMenuItem Text="Accruals" Click="@(() => HandleOpenNewTab(typeof(Accrual)))" />
-                        <DxMenuItem Text="Deductions" Click="@(() => HandleOpenNewTab(typeof(Deduction)))" />
-        <DxMenuItem CssClass="separator">
-            <Template>
-            </Template>
-        </DxMenuItem>*@
     </Items>
 </DxMenuItem>
 <DxMenuItem Text="Fixed assets" IconCssClass="oi oi-person">
@@ -142,15 +87,8 @@
 </DxMenuItem>
 <DxMenuItem Text="HR" IconCssClass="oi oi-person">
     <Items>
-
-                      @*  <DxMenuItem Text="Hire Employee" Click="@(() => HandleOpenNewTab(typeof(EmployeeHire)))" />
-                        <DxMenuItem Text="Dismissal Employee" Click="@(() => HandleOpenNewTab(typeof(EmployeeDismissal)))" />
-                        <DxMenuItem Text="Transfer Employee" Click="@(() => HandleOpenNewTab(typeof(EmployeeTransfer)))" />*@
-                        <DxMenuItem CssClass="separator">
-            <Template>
-            </Template>
-        </DxMenuItem>
-                       @* <DxMenuItem Text="Employes" Click="@(() => HandleOpenNewTab(typeof(Employee)))" />*@
+        <DxMenuItem Text="Client bank" Click="@(() => NavigationManager.NavigateTo("/client-bank"))" />
+        <DxMenuItem Text="Employee" Click="@(() => HandleOpenNewTab(typeof(EmployeeDto)))"/>
     </Items>
 </DxMenuItem>
 <DxMenuItem Text="System" IconCssClass="oi oi-person">
@@ -162,7 +100,7 @@
         </DxMenuItem>
         <DxMenuItem Text="Catalogs">
             <Items>
-                             @*   <DxMenuItem Text="Bank accounts" Click="@(() => HandleOpenNewTab(typeof(BankAccount)))" />
+                @*   <DxMenuItem Text="Bank accounts" Click="@(() => HandleOpenNewTab(typeof(BankAccount)))" />
                                 <DxMenuItem Text="Cash" Click="@(() => HandleOpenNewTab(typeof(CompanyCashBox)))" />
                                 <DxMenuItem Text="Bank Account Vendor Customer" Click="@(() => HandleOpenNewTab(typeof(BankAccountVendorCustomer)))" />
                                 <DxMenuItem Text="Bank acquirers" Click="@(() => HandleOpenNewTab(typeof(BankAcquirer)))" />
@@ -195,7 +133,7 @@
         </DxMenuItem>
         <DxMenuItem Text="Document">
             <Items>
-                             @*   <DxMenuItem Text="AR/AP Offset" Click="@(() => HandleOpenNewTab(typeof(ArApOffset)))" />
+                @*   <DxMenuItem Text="AR/AP Offset" Click="@(() => HandleOpenNewTab(typeof(ArApOffset)))" />
                                 <DxMenuItem Text="AR/AP Write Off" Click="@(() => HandleOpenNewTab(typeof(ArApWriteOff)))" />
                                 <DxMenuItem Text="Vendor Invoice Services And Assets" Click="@(() => HandleOpenNewTab(typeof(VendorInvoiceServicesAndAsset)))" />
                                 <DxMenuItem Text="Acquiring Operations" Click="@(() => HandleOpenNewTab(typeof(AcquiringOperation)))" />
@@ -212,6 +150,37 @@
                                 <DxMenuItem Text="Stocktakings" Click="@(() => HandleOpenNewTab(typeof(Stocktaking)))" />
                                 <DxMenuItem Text="Salary accruals" Click="@(() => HandleOpenNewTab(typeof(SalaryAccrual)))" />*@
 
+
+            </Items>
+        </DxMenuItem>
+    </Items>
+</DxMenuItem>
+<DxMenuItem Text="Warehouse" IconCssClass="oi oi-layers">
+    <Items>
+        @*  <DxMenuItem Text="Open balance of goods" Click="@(() => HandleOpenNewTab(typeof(OpenBalanceOfGood)))" />
+        <DxMenuItem Text="Transfer of goods" Click="@(() => HandleOpenNewTab(typeof(TransferOfGood)))" />
+        <DxMenuItem Text="Writing off goods" Click="@(() => HandleOpenNewTab(typeof(WriteOffGood)))" />
+        <DxMenuItem Text="Posting of goods" Click="@(() => HandleOpenNewTab(typeof(PostingOfGood)))" />
+        <DxMenuItem Text="Assembly/disassembly of goods" Click="@(() => HandleOpenNewTab(typeof(AssemblyDisassemblyOfGood)))" />
+
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>
+                        <DxMenuItem Text="Warehouses" Click="@(() => HandleOpenNewTab(typeof(Warehouse)))" />
+                        <DxMenuItem Text="Products" Click="@(() => HandleOpenNewTab(typeof(Product)))" />
+        <DxMenuItem CssClass="separator">
+            <Template>
+            </Template>
+        </DxMenuItem>*@
+        <DxMenuItem Text="Reports">
+            <Items>
+                @* <DxMenuItem Text="Report: List of Warehouses" Click="@(()=>NavigationManager.NavigateTo("/report"))" /> *@
+                @* <DxMenuItem Text="Company Report" Click="@(()=>NavigationManager.NavigateTo("/company-report"))" /> *@
+                <DxMenuItem Text="Stock Turnover" Click="@(() => NavigationManager.NavigateTo("/stock-turnover-report"))"/>
+                @*<DxMenuItem Text="Stock Transaction Record" Click="@(() => NavigationManager.NavigateTo("/stock-transaction-record-report"))"/>*@
+                <DxMenuItem Text="Stock Availability Report" Click="@(() => NavigationManager.NavigateTo("/stock-availability-report"))"/>
+                <DxMenuItem Text="Warehouse Stock Report" Click="@(() => NavigationManager.NavigateTo("/warehouse-stock-report"))"/>
 
             </Items>
         </DxMenuItem>
@@ -263,7 +232,6 @@
 
     [Inject]
     public IAppFramework AppFramework { get; set; }
-     [CascadingParameter] Task<AuthenticationState> AuthenticationStateTask { get; set; }
 
     [CascadingParameter]
     protected Task<AuthenticationState> AuthState { get; set; }
@@ -273,6 +241,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        //TODO авторизация
         //var user = (await AuthState).User;
         //if (user?.Identity?.IsAuthenticated ?? false)
         //{
@@ -287,17 +256,17 @@
         {
             throw new Exception("Framework: Entity description not found!");
         }
-        
+
         var existingTab = TabPageService.TabComponents.FirstOrDefault(x => x.ComponentType == appEntity.ListView.ViewComponent);
         if (existingTab is null)
         {
             if (appEntity?.ListView is not null)
             {
                 TabPageService?.AddTabPage(new TabPageDescription()
-                {
-                    ComponentType = appEntity.ListView.ViewComponent,
-                    ComponentTitle = appEntity.ListView?.Title
-                });
+                    {
+                        ComponentType = appEntity.ListView.ViewComponent,
+                        ComponentTitle = appEntity.ListView?.Title
+                    });
             }
         }
         else
@@ -313,10 +282,10 @@
         if (existingTab is null)
         {
             TabPageService?.AddTabPage(new TabPageDescription()
-            {
-                ComponentType = type,
-                ComponentTitle = title
-            });
+                {
+                    ComponentType = type,
+                    ComponentTitle = title
+                });
         }
         else
         {

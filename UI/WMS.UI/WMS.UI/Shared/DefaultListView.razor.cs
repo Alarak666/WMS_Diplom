@@ -1,6 +1,5 @@
 ﻿using DevExpress.Blazor;
 using Microsoft.AspNetCore.Components;
-using WMS.Core.Entities;
 using WMS.Core.Services.BaseServices;
 namespace WMS.UI.Shared
 {

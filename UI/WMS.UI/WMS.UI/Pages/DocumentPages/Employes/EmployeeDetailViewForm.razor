@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Components
+@using WMS.Core.Constants.Enum
+@using WMS.Core.DTO.PositionDtos
+@using WMS.UI.Shared.FormComponents
+@inherits BaseDetailViewPopupForm
+
+<DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
+         @bind-Visible="@IsVisible"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="true"
+         HeaderText="Employee">
+<HeaderContentTemplate>
+    Employee @(IsModified ? "*" : "")
+</HeaderContentTemplate>
+<BodyContentTemplate Context="BodyContentTemplateContext">
+    <DxFormLayout CssClass="w-300 h-100">
+        <DxFormLayoutGroup Caption="Personal Information" ColSpanMd="12">
+            <DxFormLayoutItem Caption="First Name:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.FirstName" IsValid="@(IsFieldValid(nameof(Model.FirstName)))" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Last Name:" ColSpanMd="6">
+                <FormInputText @bind-Text="@Model.LastName" />
+            </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Full Name:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.Name" IsValid="@(IsFieldValid(nameof(Model.Name)))" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.UniqueCode" IsValid="@(IsFieldValid(nameof(Model.UniqueCode)))" />
+                </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Person:" ColSpanMd="6">
+                <FormLookupCatalog @bind-SelectedItemId="@Model.PersonId" TItem="Person"/>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+        <DxFormLayoutTabPages>
+            <DxFormLayoutTabPage Caption="Main">
+                <DxFormLayoutItem Caption="Tin:" ColSpanMd="6">
+                        <FormInputText @bind-Text="@Model.Tin" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Gender:" ColSpanMd="6">
+                    <FormLookupEnum TItem="Gender" @bind-Value="@Model.Gender" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Date Of Birth:" ColSpanMd="6">
+                    <FormInputDate @bind-Date="@Model.DateOfBirth" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Position:" ColSpanMd="6">
+                    <FormLookupCatalog @bind-SelectedItemId="@Model.PositionId" TItem="PositionDto" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Hire Date:" ColSpanMd="6">
+                    <FormInputDate @bind-Date="@Model.HireDate" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Departure Date:" ColSpanMd="6">
+                    <FormInputDate @bind-Date="@Model.DepartureDate" />
+                </DxFormLayoutItem>
+            </DxFormLayoutTabPage>
+            <DxFormLayoutTabPage Caption="Additional">
+                <DxFormLayoutItem Caption="Create date" ColSpanMd="12">
+                    <FormInputDate @bind-Date="@Model.CreatedDate"/>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Date Of Birth" ColSpanMd="12">
+                        <FormInputDate @bind-Date="@Model.DateOfBirth" />
+                </DxFormLayoutItem>
+            </DxFormLayoutTabPage>
+        </DxFormLayoutTabPages>
+    </DxFormLayout>
+</BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="Save" Click="SaveObject"/>
+        <DxButton RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="CloseObject"/>
+    </FooterContentTemplate>
+</DxPopup>

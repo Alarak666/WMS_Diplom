@@ -1,4 +1,4 @@
-﻿using WMS.Core.Enums;
+﻿using WMS.Core.Constants.Enum;
 
 namespace WMS.Core.Helpers;
 

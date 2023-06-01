@@ -33,12 +33,12 @@
     [Parameter]
     public Guid? CompanyId { get; set; }
     [Inject]
-    public IDivisionService DataService { get; set; }
+   // public IDivisionService DataService { get; set; }
     [Parameter] public Func<Task<Dictionary<string, object?>>>? PrepareNewObjectParams { get; set; }
 
-    private async Task<IEnumerable<Division>> HandleLoadItems(string? searchText)
-    {
-        return await DataService.GetByCompany(CompanyId, searchText);
-    }
+    //private async Task<IEnumerable<Division>> HandleLoadItems(string? searchText)
+    //{
+    //    return await DataService.GetByCompany(CompanyId, searchText);
+    //}
 
 }*@

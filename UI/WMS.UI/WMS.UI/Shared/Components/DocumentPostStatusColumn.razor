@@ -1,6 +1,6 @@
-﻿@using WMS.Core.Enums
+﻿@using WMS.Core.Constants.Enum
 
-@if (Status == BelongTo.FinancialActivity)
+@if (Status == ItemType.Goods)
 {
     <div style="display: flex; align-content: center; justify-content: center">
         <div class="fa-1x">
@@ -9,7 +9,7 @@
     </div>
 
 }
-else if (Status == BelongTo.InvestmentActivity)
+else if (Status == ItemType.Services)
 {
     <div style="display: flex; align-content: center; justify-content: center">
         <div class="fa-1x">
@@ -18,17 +18,17 @@ else if (Status == BelongTo.InvestmentActivity)
     </div>
 
 }
-else if (Status == BelongTo.OperatingActivity)
+@*else if (Status == ItemType.Goods)
 {
     <div style="display: flex; align-content: center; justify-content: center">
         <div class="fa-1x">
             <i class="fa-solid fa-file-circle-check" style="color: green;"></i>
         </div>
     </div>
-}
+}*@
 
 @code
 {
     [Parameter]
-    public BelongTo Status { get; set; }
+    public ItemType Status { get; set; }
 }

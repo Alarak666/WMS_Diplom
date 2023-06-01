@@ -1,11 +1,11 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
-
-
-<div class="app-container h-100 d-flex flex-column overflow-hidden">
+@using WMS.UI.Pages.Dashboards
+<div class="app-container d-flex flex-column overflow-hidden">
     <div class="top-menu">
         <MainMenu />
     </div>
+ 
     <div class="flex-grow-1 overflow-auto">
         <div class="p-5 content overflow-auto">
             @Body
@@ -17,29 +17,6 @@
 </div>
 
 
-@*<DxGridLayout CssClass="page-layout">
-    <Rows>
-        <DxGridL
-        <DxGridLayoutRow Areas="header header" Height="auto"/>
-        <DxGridLayoutRow Areas="content content"/>
-    </Rows>
-    <Columns>
-        <DxGridLayoutColumn Width="auto" />
-        <DxGridLayoutColumn />
-    </Columns>
-    <ProductServiceProducts>
-        <DxGridLayoutProduct Area="header" CssClass="layout-item">
-            <Template>
-            </Template>
-        </DxGridLayoutProduct>
-        <DxGridLayoutProduct Area="content" CssClass="content px-4 layout-item">
-            <Template>
-                <div class="p-5">
-                </div>
-            </Template>
-        </DxGridLayoutProduct>
-    </ProductServiceProducts>
-</DxGridLayout>*@
 
 @code {
     string? NavMenuCssClass { get; set; }

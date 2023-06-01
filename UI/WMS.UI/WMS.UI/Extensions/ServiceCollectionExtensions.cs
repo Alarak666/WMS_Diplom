@@ -3,7 +3,11 @@ using System.Text;
 using Blazored.Toast;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using WMS.Core.DemoTemplate;
+using WMS.Core.Services;
+using WMS.Core.Services.BaseServices;
 using WMS.Core.Services.UserMessages;
+using WMS.UI.Services.Support;
 using WMS.UI.Services.UserMessages;
 using WMS.UI.Shared;
 
@@ -14,7 +18,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddLogging();
-
+        services.AddBlazoredToast();
         services.AddControllers().AddJsonOptions(options =>
         {
             // options.JsonSerializerOptions.Converters.Add(new DateTimeOffsetJsonConverter());
@@ -29,7 +33,11 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddDataServices(this IServiceCollection services)
     {
+        services.AddScoped<IViewEventListener, ViewEventListener>();
+        services.AddSingleton<ISalesInfoDataProvider, DataProviderAccessArea>();
         services.AddSingleton<IUserNotificationService, UserNotificationService>();
+        services.AddScoped(typeof(IBaseDataService<>), typeof(BaseDataService<>));
+
         services.AddSingleton<TabPageService>();
         return services;
     }
