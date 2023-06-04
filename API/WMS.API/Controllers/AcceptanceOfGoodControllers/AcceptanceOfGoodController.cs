@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
-using WMS.Data.Constant;
 using WMS.Data.DTO.StockDtos;
 using WMS.Data.Entity.Stocks;
 using WMS.Data.Helpers;

@@ -2,18 +2,19 @@
 @using WMS.Core.Constants.Enum
 @using WMS.Core.DTO.PositionDtos
 @using WMS.UI.Shared.FormComponents
+@using Blazored.Toast.Services
 @inherits BaseDetailViewPopupForm
-
 <DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
          @bind-Visible="@IsVisible"
          ShowFooter="true"
          CloseOnEscape="false"
          CloseOnOutsideClick="false"
          ShowCloseButton="true"
-         HeaderText="Employee">
-<HeaderContentTemplate>
-    Employee @(IsModified ? "*" : "")
-</HeaderContentTemplate>
+         HeaderText="Employee"
+         CloseButtonClick="@(Close)">
+    <HeaderContentTemplate>
+        Employee @(IsModified ? "*" : "")
+    </HeaderContentTemplate>
 <BodyContentTemplate Context="BodyContentTemplateContext">
     <DxFormLayout CssClass="w-300 h-100">
         <DxFormLayoutGroup Caption="Personal Information" ColSpanMd="12">

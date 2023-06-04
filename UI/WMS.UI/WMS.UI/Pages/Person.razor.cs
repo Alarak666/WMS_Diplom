@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using WMS.UI.Model.PersonModels;
+using WMS.Core.Models.DocumentModels.Persons;
 
 namespace WMS.UI.Pages
 {
@@ -24,7 +24,7 @@ namespace WMS.UI.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    var itemDto = JsonConvert.DeserializeObject<PersonModel>(content);
+                    var itemDto = JsonConvert.DeserializeObject<PersonListViewModel>(content);
                     Console.WriteLine(itemDto);
                 }
                 else

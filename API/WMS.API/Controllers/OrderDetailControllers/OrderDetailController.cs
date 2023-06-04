@@ -13,12 +13,12 @@ namespace WMS.API.Controllers.OrderDetailControllers;
 [Route("api/[controller]")]
 //[ApiVersion(CoreDefaultValues.Version)]
 
-public class PalletController : ControllerBase
+public class OrderDetailController : ControllerBase
 {
     private readonly IDocumentRepository<OrderDetail> _documentService;
     private readonly IMapper _mapper;
 
-    public PalletController(IDocumentRepository<OrderDetail> documentService, IMapper mapper)
+    public OrderDetailController(IDocumentRepository<OrderDetail> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;

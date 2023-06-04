@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
-using WMS.Data.Constant;
 using WMS.Data.DTO.CountryDtos;
 using WMS.Data.Entity.Countries;
 using WMS.Data.Helpers;
@@ -13,12 +12,12 @@ namespace WMS.API.Controllers.CountryControllers;
 [Route("api/[controller]")]
 //[ApiVersion(CoreDefaultValues.Version)]
 
-public class PalletController : ControllerBase
+public class CountryController : ControllerBase
 {
     private readonly IDocumentRepository<Country> _documentService;
     private readonly IMapper _mapper;
 
-    public PalletController(IDocumentRepository<Country> documentService, IMapper mapper)
+    public CountryController(IDocumentRepository<Country> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;

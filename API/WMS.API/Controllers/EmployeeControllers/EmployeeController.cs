@@ -13,12 +13,12 @@ namespace WMS.API.Controllers.EmployeeControllers;
 [Route("api/[controller]")]
 //[ApiVersion(CoreDefaultValues.Version)]
 
-public class PalletController : ControllerBase
+public class EmployeeController : ControllerBase
 {
-    private readonly IDocumentRepository<Employee> _documentService;
+    private readonly IDocumentRepository<EmployeeDto> _documentService;
     private readonly IMapper _mapper;
 
-    public PalletController(IDocumentRepository<Employee> documentService, IMapper mapper)
+    public EmployeeController(IDocumentRepository<EmployeeDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -28,7 +28,7 @@ public class PalletController : ControllerBase
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(searchText)
                 ? null
                 : x => x.Name.ToLower().Contains(searchText.ToLower()));
@@ -49,8 +49,7 @@ public class PalletController : ControllerBase
     public async Task<ActionResult<EmployeeDto>> Create(
         [FromBody] EmployeeDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Employee>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -58,8 +57,7 @@ public class PalletController : ControllerBase
     public async Task<ActionResult<EmployeeDto>> Update(
         [FromBody] EmployeeDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Employee>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 

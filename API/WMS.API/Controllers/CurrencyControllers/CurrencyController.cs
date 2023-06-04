@@ -13,12 +13,12 @@ namespace WMS.API.Controllers.CurrencyControllers;
 [Route("api/[controller]")]
 //[ApiVersion(CoreDefaultValues.Version)]
 
-public class PalletController : ControllerBase
+public class CurrencyController : ControllerBase
 {
     private readonly IDocumentRepository<Currency> _documentService;
     private readonly IMapper _mapper;
 
-    public PalletController(IDocumentRepository<Currency> documentService, IMapper mapper)
+    public CurrencyController(IDocumentRepository<Currency> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;

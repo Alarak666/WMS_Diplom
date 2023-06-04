@@ -13,12 +13,12 @@ namespace WMS.API.Controllers.DivisionControllers;
 [Route("api/[controller]")]
 //[ApiVersion(CoreDefaultValues.Version)]
 
-public class PalletController : ControllerBase
+public class DivisionController : ControllerBase
 {
     private readonly IDocumentRepository<Division> _documentService;
     private readonly IMapper _mapper;
 
-    public PalletController(IDocumentRepository<Division> documentService, IMapper mapper)
+    public DivisionController(IDocumentRepository<Division> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;

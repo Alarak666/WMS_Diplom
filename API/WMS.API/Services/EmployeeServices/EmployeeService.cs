@@ -53,7 +53,6 @@ public class EmployeeService : IDocumentRepository<EmployeeDto>
         var dtos = queryable.ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider);
 
         if (whereClause is not null) dtos = dtos.Where(whereClause);
-
         if (orderClause is not null) dtos = dtos.OrderBy(orderClause);
 
         return await dtos.ToListAsync(cancellationToken);
@@ -102,7 +101,6 @@ public class EmployeeService : IDocumentRepository<EmployeeDto>
         var dtos = queryable.ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider);
 
         if (whereClause is not null) dtos = dtos.Where(whereClause);
-
         if (orderClause is not null) dtos = dtos.OrderBy(orderClause);
 
         return await dtos.Skip((PaneNo - 1) * PageSize).Take(PageSize).ToListAsync(cancellationToken);

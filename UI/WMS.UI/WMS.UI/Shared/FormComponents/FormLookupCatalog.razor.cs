@@ -1,7 +1,7 @@
 ﻿using DevExpress.Blazor;
 using Microsoft.AspNetCore.Components;
+using WMS.Core.Models;
 using WMS.Core.Services.BaseServices;
-using WMS.UI.Model;
 
 namespace WMS.UI.Shared.FormComponents;
 

@@ -42,34 +42,5 @@ namespace WMS.UI.Services.Support
             throw new NotImplementedException();
         }
 
-        public T MapNew(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MapCopy(T source, T target)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T MapFrom<Y>(Y source)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Y MapTo<Y>(T source)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<T?> GetFirstOrDefaultAsync(Func<T, bool> func)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<T?>> GetWhereAsync(Func<T, bool> func)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

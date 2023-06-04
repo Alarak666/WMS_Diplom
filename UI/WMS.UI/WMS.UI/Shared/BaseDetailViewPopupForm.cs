@@ -4,7 +4,7 @@ using WMS.Core.Services;
 using WMS.Core.Services.UserMessages;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
-using WMS.UI.Model;
+using WMS.Core.Models;
 
 namespace WMS.UI.Shared;
 
@@ -19,6 +19,8 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
     [Parameter] public bool IsVisible { get; set; }
     [Parameter] public Guid? SelectedItemId { get; set; }
     protected ValidationResult? ValidationResult;
+    protected CancellationToken CancellationToken;
+
     protected bool IsModified { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -107,6 +109,7 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
 
     protected virtual async Task Save()
     {
+
     }
 
     protected virtual async Task<bool> CanBeSaved()
@@ -114,12 +117,10 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
         return true;
     }
 
-    protected virtual async Task Post()
-    {
-    }
 
     protected virtual async Task Cancel()
     {
+
     }
 
     protected virtual async Task<Guid?> GetModelId()
@@ -135,8 +136,6 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
         {
             await Save();
             IsModified = false;
-            //await CloseForm(true);
-            //await PopupClosed.InvokeAsync(true);
             ToastService.ShowSuccess("Object saved successfully!");
         }
         catch (Exception ex)
@@ -149,29 +148,36 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
     {
         await ViewClosed.InvokeAsync(new ViewClosedEventArgs()
         {
-            Saved = true,
+            Saved = saved, // Используйте значение параметра saved
             ObjectId = await GetModelId()
         });
+
+        if (saved)
+        {
+            // Сброс выбранной строки
+            SelectedItemId = null;
+        }
+
         IsVisible = false;
     }
 
-    protected async Task PostObject()
-    {
-        await SaveObject();
-        var validatedPost = await ValidateObjectPost();
-        if (!validatedPost) return;
-        try
-        {
-            await Post();
-            await CloseForm(true);
-            await PopupClosed.InvokeAsync(true);
-            ToastService.ShowSuccess("Document posted successfully!");
-        }
-        catch (Exception ex)
-        {
-            ToastService.ShowError("Document posting failure!");
-        }
-    }
+    //protected async Task PostObject()
+    //{
+    //    await SaveObject();
+    //    var validatedPost = await ValidateObjectPost();
+    //    if (!validatedPost) return;
+    //    try
+    //    {
+    //        await Post();
+    //        await CloseForm(true);
+    //        await PopupClosed.InvokeAsync(true);
+    //        ToastService.ShowSuccess("Document posted successfully!");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        ToastService.ShowError("Document posting failure!");
+    //    }
+    //}
 
     protected async Task CancelObject()
     {

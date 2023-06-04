@@ -1,7 +1,6 @@
-﻿using System.Globalization;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using WMS.Data.Constant;
+using System.Globalization;
 using WMS.Data.DTO.StockDtos;
 using WMS.Data.Entity.Stocks;
 using WMS.Data.Helpers;
@@ -12,12 +11,12 @@ namespace WMS.API.Controllers.AreaTypeControllers;
 [ApiController]
 [Route("api/[controller]")]
 //[ApiVersion(CoreDefaultValues.Version)]
-public class PalletController : ControllerBase
+public class AreaTypeController : ControllerBase
 {
     private readonly IDocumentRepository<AreaType> _documentService;
     private readonly IMapper _mapper;
 
-    public PalletController(IDocumentRepository<AreaType> documentService, IMapper mapper)
+    public AreaTypeController(IDocumentRepository<AreaType> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;

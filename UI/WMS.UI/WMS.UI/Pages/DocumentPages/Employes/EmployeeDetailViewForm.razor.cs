@@ -1,41 +1,36 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WMS.Core.DTO.EmployeeDtos;
+using WMS.Core.Interface;
+using WMS.Core.Models.DocumentModels.Employes;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.Employes
 {
     public partial class EmployeeDetailViewForm: BaseDetailViewPopupForm
     {
-        //[Inject] public IEmployeeService employeeService { get; set; }
-        //[Inject] public IListDivisionService divisionService { get; set; }
+        [Inject] public IEmployeeService employeeService { get; set; }
 
         #region Form
 
-        private EmployeeDto Model { get; set; } = new EmployeeDto();
+        private EmployeeDetailViewModel? Model { get; set; } = new EmployeeDetailViewModel();
 
         #endregion
         protected override async Task Load()
         {
             await base.Load();
-         //   Model = await employeeService.GetDetailViewData(SelectedItemId);
+            ToastService.ShowInfo("Load Good");
+            if(SelectedItemId !=null)
+                Model = await employeeService.GetDetailViewData(SelectedItemId, CancellationToken);
         }
-
-        protected override async Task<bool> ValidateSave()
-        {
-            //ValidationResult = await employeeService.GetValidationPost(Model);
-            StateHasChanged();
-            return ValidationResult.IsValid;
-        }
-
+       
         protected override async Task Save()
         {
-         //   await employeeService.SaveDetailViewModel(Model);
+            if (SelectedItemId != null)
+                await employeeService.UpdateDetailViewModel(Model, CancellationToken);
+            else
+                await employeeService.SaveDetailViewModel(Model, CancellationToken);
         }
-        //private async Task<IEnumerable<Division>> HandleLoadDivisions(string? arg)
-        //{
-        //   // return await divisionService.GetByDivisionOnCompany(Model.CompanyId);
-        //}
-
-
     }
 }

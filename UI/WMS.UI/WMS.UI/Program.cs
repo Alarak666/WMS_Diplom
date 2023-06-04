@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Server;
 using Serilog;
 using Serilog.Events;
 using System.Diagnostics;
@@ -20,10 +21,12 @@ try
     builder.Services.AddFrameworkUI();
     builder.Services.AddApplicationServices();
     builder.Services.AddDataServices();
-
+    builder.Services.AddDevExpressBlazor(
+        configure => configure.BootstrapVersion = DevExpress.Blazor.BootstrapVersion.v5);
     builder.Services.AddRazorPages();
     builder.Services.AddDevExpressBlazor();
     builder.Services.AddDevExpressBlazorWasmMasks();
+  
     //builder.Services.AddDevExpressServerSideBlazorReportViewer();
     builder.Services.Configure<DevExpress.Blazor.Configuration.GlobalOptions>(options =>
     {
@@ -40,6 +43,7 @@ try
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
+    app.UseStaticFiles();
     app.UseDevExpressBlazorWasmMasksStaticFiles();
     app.UseHttpsRedirection();
 

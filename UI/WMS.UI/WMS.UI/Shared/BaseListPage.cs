@@ -24,6 +24,7 @@ namespace WMS.UI.Shared
         protected bool _isLoading;
         protected bool _isFailure;
         protected string _errorMessage = string.Empty;
+        protected CancellationToken cancellationToken;
         protected ValidationResult? ValidationResult;
 
         protected override async Task OnInitializedAsync()

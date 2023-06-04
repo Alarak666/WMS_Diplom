@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
-using WMS.Data.Constant;
 using WMS.Data.DTO.IdentityDtos;
 using WMS.Data.Entity.Identity;
 using WMS.Data.Helpers;
@@ -13,12 +11,12 @@ namespace WMS.API.Controllers.ApplicationUserControllers;
 [Route("api/[controller]")]
 //[ApiVersion(CoreDefaultValues.Version)]
 
-public class PalletController : ControllerBase
+public class ApplicationUserController : ControllerBase
 {
     private readonly IDocumentRepository<ApplicationUser> _documentService;
     private readonly IMapper _mapper;
 
-    public PalletController(IDocumentRepository<ApplicationUser> documentService, IMapper mapper)
+    public ApplicationUserController(IDocumentRepository<ApplicationUser> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;

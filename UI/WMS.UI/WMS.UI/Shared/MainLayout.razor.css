@@ -42,11 +42,13 @@
 .main-menu {
 }
 
-.content {
+.footer {
+    height: 50%;
+    border-top: 1px solid black;
 }
 
-.footer {
-    background-color: white;
-    width: 100%;
-    z-index: 1200;
+.content {
+    height: 50%;
+    border-bottom: 1px solid black;
+    z-index: 100
 }
