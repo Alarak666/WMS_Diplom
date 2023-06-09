@@ -1,6 +1,13 @@
 ﻿@using WMS.Core.Services
 @using WMS.Core.Constants
-<DxTextBox Text="@Text" TextChanged="HandleTextChanged" Enabled="@Enabled" ReadOnly="@ReadOnly" InputCssClass="@(IsValid == null ? "" : IsValid == true ? "form-field-valid" : "form-field-invalid")"/>
+
+<DxTextBox
+    Text="@Text" 
+    TextChanged="HandleTextChanged"
+    Enabled="@Enabled" 
+    ReadOnly="@ReadOnly"
+    CssClass= "form-field"/>
+
 
 @code {
     [Parameter]
@@ -20,5 +27,6 @@
         ViewEventListener.FireEvents(ViewEvents.PropertyChanged, Guid.Empty);
         await TextChanged.InvokeAsync(newValue);
     }
-
+   
+  
 }

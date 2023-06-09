@@ -28,12 +28,11 @@ public class PersonController : ControllerBase
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(searchText)
                 ? null
                 : x => x.Name.ToLower().Contains(searchText.ToLower()));
-        var itemsDto = _mapper.Map<IEnumerable<PersonDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -41,8 +40,7 @@ public class PersonController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<PersonDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]

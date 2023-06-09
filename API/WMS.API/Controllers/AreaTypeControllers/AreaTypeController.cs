@@ -13,10 +13,10 @@ namespace WMS.API.Controllers.AreaTypeControllers;
 //[ApiVersion(CoreDefaultValues.Version)]
 public class AreaTypeController : ControllerBase
 {
-    private readonly IDocumentRepository<AreaType> _documentService;
+    private readonly IDocumentRepository<AreaTypeDto> _documentService;
     private readonly IMapper _mapper;
 
-    public AreaTypeController(IDocumentRepository<AreaType> documentService, IMapper mapper)
+    public AreaTypeController(IDocumentRepository<AreaTypeDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -26,12 +26,11 @@ public class AreaTypeController : ControllerBase
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(searchText)
                 ? null
                 : x => x.Name.ToLower().Contains(searchText.ToLower()));
-        var itemsDto = _mapper.Map<IEnumerable<AreaTypeDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -39,16 +38,14 @@ public class AreaTypeController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<AreaTypeDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<AreaTypeDto>> Create(
         [FromBody] AreaTypeDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<AreaType>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -56,8 +53,7 @@ public class AreaTypeController : ControllerBase
     public async Task<ActionResult<AreaTypeDto>> Update(
         [FromBody] AreaTypeDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<AreaType>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 
@@ -75,7 +71,7 @@ public class AreaTypeController : ControllerBase
         var items = await _documentService.GetPage(cancellationToken,
             pageRequestDto.PageNo,
             pageRequestDto.PageSize,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(pageRequestDto.SearchText)
                 ? null
                 : x => x.Name.ToLower().Contains(pageRequestDto.SearchText.ToLower()));

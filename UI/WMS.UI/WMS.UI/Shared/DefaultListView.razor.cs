@@ -1,5 +1,6 @@
 ﻿using DevExpress.Blazor;
 using Microsoft.AspNetCore.Components;
+using WMS.Core.Interface;
 using WMS.Core.Services.BaseServices;
 namespace WMS.UI.Shared
 {
@@ -30,7 +31,7 @@ namespace WMS.UI.Shared
 
         private async Task RefreshData()
         {
-            _items = await DataService.GetAll(_searchText);
+            _items = await DataService.GetAll(_searchText, CancellationToken.None);
         }
 
         private async Task HandleSearchTextChanged(string newSearchText)
@@ -57,7 +58,7 @@ namespace WMS.UI.Shared
 
         private async Task HandleRemoveItem()
         {
-            await DataService.Delete((Guid)(_selectedItem as IReferenceType).Id);
+            await DataService.Delete((Guid)(_selectedItem as IBaseField).Id, CancellationToken.None);
             await RefreshData();
         }
 

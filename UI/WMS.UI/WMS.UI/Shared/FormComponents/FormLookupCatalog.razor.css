@@ -82,9 +82,9 @@
     display: block;
 }
 
-/*.popup {*/
-/*    z-index: 1;*/
-/*}*/
+.popup {
+    z-index: 1;
+}
 
 /*.fixed_header{*/
 /*    table-layout: fixed;*/

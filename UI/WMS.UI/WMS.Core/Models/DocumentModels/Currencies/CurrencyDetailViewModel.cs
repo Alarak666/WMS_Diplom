@@ -1,6 +1,8 @@
-﻿namespace WMS.Core.Models.DocumentModels.Currencies
+﻿using WMS.Core.Interface;
+
+namespace WMS.Core.Models.DocumentModels.Currencies
 {
-    public class CurrencyDetailViewModel
+    public class CurrencyDetailViewModel : IBaseField
     {
         public Guid Id { get; set; }
         public Guid? CreatedUserId { get; set; }

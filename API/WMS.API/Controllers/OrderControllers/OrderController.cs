@@ -15,10 +15,10 @@ namespace WMS.API.Controllers.OrderControllers;
 
 public class OrderController : ControllerBase
 {
-    private readonly IDocumentRepository<Order> _documentService;
+    private readonly IDocumentRepository<OrderDto> _documentService;
     private readonly IMapper _mapper;
 
-    public OrderController(IDocumentRepository<Order> documentService, IMapper mapper)
+    public OrderController(IDocumentRepository<OrderDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -28,12 +28,11 @@ public class OrderController : ControllerBase
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(searchText)
                 ? null
                 : x => x.Name.ToLower().Contains(searchText.ToLower()));
-        var itemsDto = _mapper.Map<IEnumerable<OrderDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -41,16 +40,14 @@ public class OrderController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<OrderDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<OrderDto>> Create(
         [FromBody] OrderDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Order>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -58,8 +55,7 @@ public class OrderController : ControllerBase
     public async Task<ActionResult<OrderDto>> Update(
         [FromBody] OrderDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Order>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 
@@ -77,7 +73,7 @@ public class OrderController : ControllerBase
         var items = await _documentService.GetPage(cancellationToken,
             pageRequestDto.PageNo,
             pageRequestDto.PageSize,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(pageRequestDto.SearchText)
                 ? null
                 : x => x.Name.ToLower().Contains(pageRequestDto.SearchText.ToLower()));

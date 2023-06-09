@@ -1,15 +1,15 @@
 ﻿using DevExpress.Blazor;
 using Microsoft.AspNetCore.Components;
-using WMS.Core.Interface;
-using WMS.Core.Models.DocumentModels.Employes;
+using WMS.Core.Interface.DocumentInterface;
+using WMS.Core.Models.DocumentModels.Persons;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.Persons
 {
     public partial class PersonListViewForm : BaseListPage
     {
-        [Inject] public IEmployeeService _employeeService { get; set; }
-        private IEnumerable<EmployeeListViewModel>? _items;
+        [Inject] public IPersonService _PersonService { get; set; }
+        private IEnumerable<PersonListViewModel>? _items;
         private bool _detailViewPopupVisible = false;
 
         protected override async Task OnInitializedAsync()
@@ -26,7 +26,7 @@ namespace WMS.UI.Pages.DocumentPages.Persons
 
         protected override async Task LoadData()
         {
-           _items = await _employeeService.GetListViewItems(_searchText, cancellationToken);
+            _items = await _PersonService.GetListViewItems(_searchText, cancellationToken);
         }
 
         private async Task HandleDetailViewPopupClosed(bool saved)
@@ -46,13 +46,13 @@ namespace WMS.UI.Pages.DocumentPages.Persons
         private async Task HandleRemoveItem()
         {
             if (_selectedItemId == null) return;
-            await _employeeService.DeleteDetailViewModel((Guid)_selectedItemId, cancellationToken);
+            await _PersonService.DeleteDetailViewModel((Guid)_selectedItemId, cancellationToken);
             await LoadData();
             _selectedItemId = null;
         }
         private async Task HandleDoubleClickRow(GridRowClickEventArgs arg)
         {
-            //_selectedItemId = (_dataGrid.SelectedDataItem as EmployeeListViewModel)?.Id;
+            //_selectedItemId = (_dataGrid.SelectedDataItem as PersonListViewModel)?.Id;
             await HandleNewItem();
         }
         private void HandleCloneItem()

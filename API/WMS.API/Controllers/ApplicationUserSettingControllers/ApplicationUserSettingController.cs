@@ -13,10 +13,10 @@ namespace WMS.API.Controllers.ApplicationUserSettingControllers;
 
 public class ApplicationUserSettingController : ControllerBase
 {
-    private readonly IDocumentRepository<ApplicationUserSetting> _documentService;
+    private readonly IDocumentRepository<ApplicationUserSettingDto> _documentService;
     private readonly IMapper _mapper;
 
-    public ApplicationUserSettingController(IDocumentRepository<ApplicationUserSetting> documentService, IMapper mapper)
+    public ApplicationUserSettingController(IDocumentRepository<ApplicationUserSettingDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -25,8 +25,7 @@ public class ApplicationUserSettingController : ControllerBase
     public async Task<ActionResult<IEnumerable<ApplicationUserSettingDto>>> GetAll(CancellationToken cancellationToken)
     {
         var items = await _documentService.GetAll(cancellationToken);
-        var itemsDto = _mapper.Map<IEnumerable<ApplicationUserSettingDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -34,16 +33,14 @@ public class ApplicationUserSettingController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<ApplicationUserSettingDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<ApplicationUserSettingDto>> Create(
         [FromBody] ApplicationUserSettingDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<ApplicationUserSetting>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -51,8 +48,7 @@ public class ApplicationUserSettingController : ControllerBase
     public async Task<ActionResult<ApplicationUserSettingDto>> Update(
         [FromBody] ApplicationUserSettingDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<ApplicationUserSetting>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 

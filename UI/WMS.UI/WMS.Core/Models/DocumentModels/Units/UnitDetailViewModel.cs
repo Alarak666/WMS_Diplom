@@ -8,6 +8,5 @@
         public DateTime CreatedDate { get; set; }
         public string? Name { get; set; }
         public string? UniqueCode { get; set; }
-        public int RsUnitId { get; set; }
     }
 }

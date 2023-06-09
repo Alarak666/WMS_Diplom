@@ -1,6 +1,7 @@
-﻿@page "/employers"
+﻿@page "/persons"
 @using WMS.UI.Shared.Components
 @using WMS.Core.Models.DocumentModels.Employes
+@using WMS.Core.Models.DocumentModels.Persons
 @inherits BaseListPage
 
 <div class="card">
@@ -28,30 +29,31 @@
                 SelectionMode="GridSelectionMode.Single"
                 AllowSelectRowByClick="true"
                 KeyFieldName="Id"
-                SelectedDataItemChanged="(o) => _selectedItemId = ((EmployeeListViewModel)o)?.Id">
+                SelectedDataItemChanged="(o) => _selectedItemId = ((PersonListViewModel)o)?.Id">
             <Columns>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PersonName)">
-                    <CellDisplayTemplate>
-                        @((context.DataItem as EmployeeListViewModel)?.PersonName)
-                    </CellDisplayTemplate>
-                </DxGridDataColumn>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Gender)"/>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Tin)" />
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.CompanyName)">
-                    <CellDisplayTemplate>
-                        @((context.DataItem as EmployeeListViewModel)?.CompanyName)
-                    </CellDisplayTemplate>
-                </DxGridDataColumn>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DivisionName)">
-                    <CellDisplayTemplate>
-                        @((context.DataItem as EmployeeListViewModel)?.DivisionName)
-                    </CellDisplayTemplate>
-                </DxGridDataColumn>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PositionName)">
-                    <CellDisplayTemplate>
-                        @((context.DataItem as EmployeeListViewModel)?.PositionName)
-                    </CellDisplayTemplate>
-                </DxGridDataColumn>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.Email)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.IsEmailValidPerson)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.PhoneNumber)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.ActualAddress)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.ValidToDate)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.IssuedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.IssuedBy)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.DocumentNumber)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.DocumentSeries)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.DocumentType)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.Citizenship)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.AddressOfBirth)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.DateOfBirth)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.Gender)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.Tin)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.LastName)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.FirstName)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.Id)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.CreatedUserId)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.CreatedUserName)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.CreatedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(PersonListViewModel.UniqueCode)"/>
             </Columns>
         </DxGrid>
     @if (_isFailure)

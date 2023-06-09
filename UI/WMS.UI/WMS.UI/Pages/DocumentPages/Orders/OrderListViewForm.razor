@@ -1,0 +1,61 @@
+﻿@page "/orders"
+@using WMS.UI.Shared.Components
+@using WMS.Core.Models.DocumentModels.Employes
+@using WMS.Core.Models.DocumentModels.OrderModels
+@inherits BaseListPage
+
+<div class="card">
+<div class="card-header d-flex">
+    <div class="flex-grow-1"></div>
+    <div>
+        @if (_isLoading)
+        {
+            <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+    </div>
+</div>
+<div class="card-body">
+    <DefaultListToolbar OnNewItemClick="HandleNewItem"
+                        OnEditItemClick="HandleEditItem" OnCloneItemClick="HandleCloneItem"
+                        OnRefreshDataClick="LoadData"
+                        OnColumnChooserClick="HandleClickColumnChooser"
+                        SearchText="@_searchText"
+                        SearchTextChanged="HandleSearchTextChanged"
+                        OnRemoveItemClick="HandleRemoveItem"
+                        SelectedItemId="_selectedItemId"
+                        ShowDocumentActions="false">
+    </DefaultListToolbar>
+        <DxGrid Data="_items" @ref="_dataGrid" RowDoubleClick="HandleEditItem"
+                SelectionMode="GridSelectionMode.Single"
+                AllowSelectRowByClick="true"
+                KeyFieldName="Id"
+                SelectedDataItemChanged="(o) => _selectedItemId = ((OrderListViewModel)o)?.Id">
+            <Columns>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.Id)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.CreatedUserId)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.CreatedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.UniqueCode)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.EmployeeId)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.ShippingAddress)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.PaymentMethod)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.OrderStatus)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.DateOrders)"/>
+            </Columns>
+        </DxGrid>
+    @if (_isFailure)
+    {
+        <div class="alert alert-danger">
+            @_errorMessage
+        </div>
+    }
+</div>
+</div>
+
+@if (_detailViewPopupVisible)
+{
+    <OrderDetailViewForm Width="70%"
+        IsVisible="_detailViewPopupVisible"
+        PopupClosed="HandleDetailViewPopupClosed"
+        SelectedItemId="_selectedItemId"/>
+}

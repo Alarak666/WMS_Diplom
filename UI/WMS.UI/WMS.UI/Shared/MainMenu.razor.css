@@ -8,6 +8,20 @@
 .dx-menu-item.notoggle > .dropdown-menu {
     transform: matrix(1, 0, 0, 1, -112, -1) !important;
 }
+.menu-item {
+     border: 1px solid black;
+     padding: 8px;
+ }
+
+.menu-item:hover {
+    background-color: orange;
+}
+
+.menu-separator {
+    border-top: 1px ActiveBorder solid;
+    margin-top: 8px;
+    padding-top: 8px;
+}
 
 .dx-menu-item.notoggle a > span.dropdown-toggle {
     display: none;

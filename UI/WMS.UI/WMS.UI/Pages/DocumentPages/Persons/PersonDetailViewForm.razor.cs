@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Components;
-using WMS.Core.Interface;
+using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
+using WMS.Core.Models.DocumentModels.Persons;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.Persons
 {
-    public partial class EmployeeDetailViewForm: BaseDetailViewPopupForm
+    public partial class PersonDetailViewForm: BaseDetailViewPopupForm
     {
-        [Inject] public IEmployeeService employeeService { get; set; }
+        [Inject] public IPersonService PersonService { get; set; }
 
         #region Form
 
-        private EmployeeDetailViewModel? Model { get; set; } = new EmployeeDetailViewModel();
+        private PersonDetailViewModel? Model { get; set; } = new PersonDetailViewModel();
 
         #endregion
         protected override async Task Load()
@@ -19,15 +20,15 @@ namespace WMS.UI.Pages.DocumentPages.Persons
             await base.Load();
             ToastService.ShowInfo("Load Good");
             if(SelectedItemId !=null)
-                Model = await employeeService.GetDetailViewData(SelectedItemId, CancellationToken);
+                Model = await PersonService.GetDetailViewData(SelectedItemId, CancellationToken);
         }
        
         protected override async Task Save()
         {
             if (SelectedItemId != null)
-                await employeeService.UpdateDetailViewModel(Model, CancellationToken);
+                await PersonService.UpdateDetailViewModel(Model, CancellationToken);
             else
-                await employeeService.SaveDetailViewModel(Model, CancellationToken);
+                await PersonService.SaveDetailViewModel(Model, CancellationToken);
         }
     }
 }

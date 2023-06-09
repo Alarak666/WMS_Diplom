@@ -10,9 +10,9 @@
         public Guid? AreaTypeId { get; set; }
         public PalletType Type { get; set; }
         public int Quantity { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int Length { get; set; }
-        public int Weight { get; set; }
+        public decimal Width { get; set; }
+        public decimal Height { get; set; }
+        public decimal Length { get; set; }
+        public decimal Weight { get; set; }
     }
 }

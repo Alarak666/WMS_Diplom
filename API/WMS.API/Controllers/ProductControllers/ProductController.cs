@@ -15,25 +15,22 @@ namespace WMS.API.Controllers.ProductControllers;
 
 public class ProductController : ControllerBase
 {
-    private readonly IDocumentRepository<AcceptanceOfGood> _documentService;
-    private readonly IMapper _mapper;
+    private readonly IDocumentRepository<AcceptanceOfGoodDto> _documentService;
 
-    public ProductController(IDocumentRepository<AcceptanceOfGood> documentService, IMapper mapper)
+    public ProductController(IDocumentRepository<AcceptanceOfGoodDto> documentService)
     {
         _documentService = documentService;
-        _mapper = mapper;
     }
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AcceptanceOfGoodDto>>> GetAll(
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(searchText)
                 ? null
                 : x => x.Name.ToLower().Contains(searchText.ToLower()));
-        var itemsDto = _mapper.Map<IEnumerable<AcceptanceOfGoodDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -41,16 +38,14 @@ public class ProductController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<AcceptanceOfGoodDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<AcceptanceOfGoodDto>> Create(
         [FromBody] AcceptanceOfGoodDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<AcceptanceOfGood>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -58,8 +53,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<AcceptanceOfGoodDto>> Update(
         [FromBody] AcceptanceOfGoodDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<AcceptanceOfGood>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 
@@ -77,7 +71,7 @@ public class ProductController : ControllerBase
         var items = await _documentService.GetPage(cancellationToken,
             pageRequestDto.PageNo,
             pageRequestDto.PageSize,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(pageRequestDto.SearchText)
                 ? null
                 : x => x.Name.ToLower().Contains(pageRequestDto.SearchText.ToLower()));

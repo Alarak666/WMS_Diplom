@@ -1,0 +1,62 @@
+﻿@page "/divisions"
+@using WMS.UI.Shared.Components
+@using WMS.Core.Models.DocumentModels.Employes
+@using WMS.Core.Models.DocumentModels.Divisions
+@inherits BaseListPage
+
+<div class="card">
+<div class="card-header d-flex">
+    <div class="flex-grow-1"></div>
+    <div>
+        @if (_isLoading)
+        {
+            <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+    </div>
+</div>
+<div class="card-body">
+    <DefaultListToolbar OnNewItemClick="HandleNewItem"
+                        OnEditItemClick="HandleEditItem" OnCloneItemClick="HandleCloneItem"
+                        OnRefreshDataClick="LoadData"
+                        OnColumnChooserClick="HandleClickColumnChooser"
+                        SearchText="@_searchText"
+                        SearchTextChanged="HandleSearchTextChanged"
+                        OnRemoveItemClick="HandleRemoveItem"
+                        SelectedItemId="_selectedItemId"
+                        ShowDocumentActions="false">
+    </DefaultListToolbar>
+        <DxGrid Data="_items" @ref="_dataGrid" RowDoubleClick="HandleEditItem"
+                SelectionMode="GridSelectionMode.Single"
+                AllowSelectRowByClick="true"
+                KeyFieldName="Id"
+                SelectedDataItemChanged="(o) => _selectedItemId = ((DivisionListViewModel)o)?.Id">
+            <Columns>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.Id)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.CompanyId)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.CompanyName)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.ParentDivisionId)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.ParentDivisionName)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.CreatedUserId)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.CreatedUserName)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.CreatedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(DivisionListViewModel.UniqueCode)"/>
+
+            </Columns>
+        </DxGrid>
+    @if (_isFailure)
+    {
+        <div class="alert alert-danger">
+            @_errorMessage
+        </div>
+    }
+</div>
+</div>
+
+@if (_detailViewPopupVisible)
+{
+    <DivisionDetailViewForm Width="70%"
+        IsVisible="_detailViewPopupVisible"
+        PopupClosed="HandleDetailViewPopupClosed"
+        SelectedItemId="_selectedItemId"/>
+}

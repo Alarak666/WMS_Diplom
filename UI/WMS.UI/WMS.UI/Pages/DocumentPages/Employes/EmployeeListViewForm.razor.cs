@@ -1,7 +1,6 @@
 ﻿using DevExpress.Blazor;
 using Microsoft.AspNetCore.Components;
-using WMS.Core.DTO.EmployeeDtos;
-using WMS.Core.Interface;
+using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
 using WMS.UI.Shared;
 
@@ -27,7 +26,7 @@ namespace WMS.UI.Pages.DocumentPages.Employes
 
         protected override async Task LoadData()
         {
-           _items = await _employeeService.GetListViewItems(_searchText, cancellationToken);
+            _items = await _employeeService.GetListViewItems(_searchText, cancellationToken);
         }
 
         private async Task HandleDetailViewPopupClosed(bool saved)

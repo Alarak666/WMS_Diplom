@@ -15,10 +15,10 @@ namespace WMS.API.Controllers.CurrencyControllers;
 
 public class CurrencyController : ControllerBase
 {
-    private readonly IDocumentRepository<Currency> _documentService;
+    private readonly IDocumentRepository<CurrencyDto> _documentService;
     private readonly IMapper _mapper;
 
-    public CurrencyController(IDocumentRepository<Currency> documentService, IMapper mapper)
+    public CurrencyController(IDocumentRepository<CurrencyDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -28,12 +28,11 @@ public class CurrencyController : ControllerBase
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(searchText)
                 ? null
                 : x => x.Name.ToLower().Contains(searchText.ToLower()));
-        var itemsDto = _mapper.Map<IEnumerable<CurrencyDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -41,16 +40,14 @@ public class CurrencyController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<CurrencyDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<CurrencyDto>> Create(
         [FromBody] CurrencyDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Currency>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -58,8 +55,7 @@ public class CurrencyController : ControllerBase
     public async Task<ActionResult<CurrencyDto>> Update(
         [FromBody] CurrencyDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Currency>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 
@@ -77,7 +73,7 @@ public class CurrencyController : ControllerBase
         var items = await _documentService.GetPage(cancellationToken,
             pageRequestDto.PageNo,
             pageRequestDto.PageSize,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(pageRequestDto.SearchText)
                 ? null
                 : x => x.Name.ToLower().Contains(pageRequestDto.SearchText.ToLower()));

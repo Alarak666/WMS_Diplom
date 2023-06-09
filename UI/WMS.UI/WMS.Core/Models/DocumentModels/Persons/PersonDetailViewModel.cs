@@ -21,7 +21,7 @@ namespace WMS.Core.Models.DocumentModels.Persons
         public string? Tin { get; set; }
         public string? LastName { get; set; }
         public string? FirstName { get; set; }
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public string? CreatedUserUserName { get; set; }
         public Guid? CreatedUserId { get; set; }
         public string? CreatedUserName { get; set; }

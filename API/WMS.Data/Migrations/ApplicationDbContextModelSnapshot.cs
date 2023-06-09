@@ -261,9 +261,6 @@ namespace WMS.Data.Migrations
                     b.Property<string>("CurrentLocale")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("PositionId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Timezone")
                         .HasColumnType("nvarchar(max)");
 
@@ -275,8 +272,6 @@ namespace WMS.Data.Migrations
                     b.HasIndex("ApplicationUserId")
                         .IsUnique()
                         .HasFilter("[ApplicationUserId] IS NOT NULL");
-
-                    b.HasIndex("PositionId");
 
                     b.ToTable("ApplicationUserSettings", (string)null);
                 });
@@ -479,9 +474,6 @@ namespace WMS.Data.Migrations
                     b.Property<string>("AddressOfBirth")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Citizenship")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -531,9 +523,6 @@ namespace WMS.Data.Migrations
                 {
                     b.HasBaseType("WMS.Data.Entity.BaseClass.BaseCatalog");
 
-                    b.Property<Guid?>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("DateOfApproval")
                         .HasColumnType("datetime2");
 
@@ -546,9 +535,6 @@ namespace WMS.Data.Migrations
                     b.Property<decimal>("MainSalary")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("MainWorkScheduleId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("PositionApproved")
                         .HasColumnType("bit");
@@ -872,13 +858,7 @@ namespace WMS.Data.Migrations
                         .WithOne("UserSettings")
                         .HasForeignKey("WMS.Data.Entity.Identity.ApplicationUserSetting", "ApplicationUserId");
 
-                    b.HasOne("WMS.Data.Entity.Positions.Position", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId");
-
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("WMS.Data.Entity.Identity.UserActivity", b =>

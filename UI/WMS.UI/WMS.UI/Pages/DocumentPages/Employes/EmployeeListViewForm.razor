@@ -1,4 +1,4 @@
-﻿@page "/employers"
+﻿@page "/employees"
 @using WMS.UI.Shared.Components
 @using WMS.Core.Models.DocumentModels.Employes
 @inherits BaseListPage
@@ -30,28 +30,26 @@
                 KeyFieldName="Id"
                 SelectedDataItemChanged="(o) => _selectedItemId = ((EmployeeListViewModel)o)?.Id">
             <Columns>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PersonName)">
-                    <CellDisplayTemplate>
-                        @((context.DataItem as EmployeeListViewModel)?.PersonName)
-                    </CellDisplayTemplate>
-                </DxGridDataColumn>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PersonName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DivisionName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DivisionId)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PositionName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PositionId)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PersonName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PersonId)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.HireDate)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DepartureDate)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DateOfBirth)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Gender)"/>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Tin)" />
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.CompanyName)">
-                    <CellDisplayTemplate>
-                        @((context.DataItem as EmployeeListViewModel)?.CompanyName)
-                    </CellDisplayTemplate>
-                </DxGridDataColumn>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DivisionName)">
-                    <CellDisplayTemplate>
-                        @((context.DataItem as EmployeeListViewModel)?.DivisionName)
-                    </CellDisplayTemplate>
-                </DxGridDataColumn>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PositionName)">
-                    <CellDisplayTemplate>
-                        @((context.DataItem as EmployeeListViewModel)?.PositionName)
-                    </CellDisplayTemplate>
-                </DxGridDataColumn>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Tin)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.LastName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.FirstName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Id)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.CreatedUserName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.CreatedUserId)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.CreatedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.UniqueCode)"/>
             </Columns>
         </DxGrid>
     @if (_isFailure)

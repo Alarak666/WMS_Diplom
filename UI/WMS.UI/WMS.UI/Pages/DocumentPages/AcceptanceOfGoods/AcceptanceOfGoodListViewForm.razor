@@ -1,0 +1,66 @@
+﻿@page "/acceptance-of-goods"
+@using WMS.UI.Shared.Components
+@using WMS.Core.Models.DocumentModels.Employes
+@using WMS.Core.Models.DocumentModels.StockModels
+@inherits BaseListPage
+
+<div class="card">
+<div class="card-header d-flex">
+    <div class="flex-grow-1"></div>
+    <div>
+        @if (_isLoading)
+        {
+            <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+    </div>
+</div>
+<div class="card-body">
+    <DefaultListToolbar OnNewItemClick="HandleNewItem"
+                        OnEditItemClick="HandleEditItem" OnCloneItemClick="HandleCloneItem"
+                        OnRefreshDataClick="LoadData"
+                        OnColumnChooserClick="HandleClickColumnChooser"
+                        SearchText="@_searchText"
+                        SearchTextChanged="HandleSearchTextChanged"
+                        OnRemoveItemClick="HandleRemoveItem"
+                        SelectedItemId="_selectedItemId"
+                        ShowDocumentActions="false">
+    </DefaultListToolbar>
+        <DxGrid Data="_items" @ref="_dataGrid" RowDoubleClick="HandleEditItem"
+                SelectionMode="GridSelectionMode.Single"
+                AllowSelectRowByClick="true"
+                KeyFieldName="Id"
+                SelectedDataItemChanged="(o) => _selectedItemId = ((AcceptanceOfGoodListViewModel)o)?.Id">
+            <Columns>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.CreatedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.UniqueCode)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.TypePalletId)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.ProductId)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.EmployerId)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Width)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Height)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Length)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Weight)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Qty)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.DateAccepts)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.DataExpiration)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.NPallet)"/>
+            </Columns>
+        </DxGrid>
+    @if (_isFailure)
+    {
+        <div class="alert alert-danger">
+            @_errorMessage
+        </div>
+    }
+</div>
+</div>
+
+@if (_detailViewPopupVisible)
+{
+    <AcceptanceOfGoodDetailViewForm Width="70%"
+        IsVisible="_detailViewPopupVisible"
+        PopupClosed="HandleDetailViewPopupClosed"
+        SelectedItemId="_selectedItemId"/>
+}

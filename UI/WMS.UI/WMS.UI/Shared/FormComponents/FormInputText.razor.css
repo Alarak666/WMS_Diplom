@@ -1,0 +1,6 @@
+﻿.form-field-hover {
+    background-color: gray;
+}
+.form-field {
+    background-color: red; /* Цвет заливки по умолчанию */
+}

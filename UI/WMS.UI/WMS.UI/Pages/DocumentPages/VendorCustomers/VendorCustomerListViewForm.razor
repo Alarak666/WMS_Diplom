@@ -1,0 +1,78 @@
+﻿@page "/vendor-customers"
+@using WMS.UI.Shared.Components
+@using WMS.Core.Models.DocumentModels.Employes
+@using WMS.Core.Models.DocumentModels.VendorCustomers
+@inherits BaseListPage
+
+<div class="card">
+<div class="card-header d-flex">
+    <div class="flex-grow-1"></div>
+    <div>
+        @if (_isLoading)
+        {
+            <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+    </div>
+</div>
+<div class="card-body">
+    <DefaultListToolbar OnNewItemClick="HandleNewItem"
+                        OnEditItemClick="HandleEditItem" OnCloneItemClick="HandleCloneItem"
+                        OnRefreshDataClick="LoadData"
+                        OnColumnChooserClick="HandleClickColumnChooser"
+                        SearchText="@_searchText"
+                        SearchTextChanged="HandleSearchTextChanged"
+                        OnRemoveItemClick="HandleRemoveItem"
+                        SelectedItemId="_selectedItemId"
+                        ShowDocumentActions="false">
+    </DefaultListToolbar>
+        <DxGrid Data="_items" @ref="_dataGrid" RowDoubleClick="HandleEditItem"
+                SelectionMode="GridSelectionMode.Single"
+                AllowSelectRowByClick="true"
+                KeyFieldName="Id"
+                SelectedDataItemChanged="(o) => _selectedItemId = ((VendorCustomerListViewModel)o)?.Id">
+            <Columns>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.ParentName)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.ParentId)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.Description)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.VatTaxable)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.Tin)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.LegalForm)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.MainBankAccountName)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.MainBankAccountId)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.LegalAddress)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.ActualAddress)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.PhoneNumber)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.Email)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.IsEmailValidVendorCustomer)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.Other)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.Additional)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.CountryName)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.CountryId)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.IsCustomer)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.IsVendor)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.IsOther)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.Id)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.CreatedUserName)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.CreatedUserId)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.CreatedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(VendorCustomerListViewModel.UniqueCode)"/>
+
+            </Columns>
+        </DxGrid>
+    @if (_isFailure)
+    {
+        <div class="alert alert-danger">
+            @_errorMessage
+        </div>
+    }
+</div>
+</div>
+
+@if (_detailViewPopupVisible)
+{
+    <VendorCustomerDetailViewForm Width="70%"
+        IsVisible="_detailViewPopupVisible"
+        PopupClosed="HandleDetailViewPopupClosed"
+        SelectedItemId="_selectedItemId"/>
+}

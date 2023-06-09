@@ -1,4 +1,5 @@
-﻿@typeparam TItem
+﻿@using WMS.Core.Interface
+@typeparam TItem
 
 <div class="input-group input-group-sm" id="@($"flyout-overview-target-container_{_componentId}")">
     <input type="text" 
@@ -62,9 +63,9 @@
                         <tr style="cursor: pointer" @onclick="@(() => HandleSelectItem(item))">
                             @if (Columns == null)
                             {
-                                @*<td style="width: 100%">
-                                    @((item as BaseCatalog)?.Name)
-                                </td>*@
+                                <td style="width: 100%">
+                                    @((item as ISearchable )?.Name)
+                                </td>
                             }
                             else
                             {

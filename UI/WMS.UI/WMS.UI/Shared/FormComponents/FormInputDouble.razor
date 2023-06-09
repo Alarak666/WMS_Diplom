@@ -1,0 +1,26 @@
+﻿<DxSpinEdit Value="@Value"
+            T="double"
+            DisplayFormat="@DisplayFormat"
+            ValueChanged="ValueChanged" 
+            Enabled="@Enabled" 
+            ReadOnly="@ReadOnly" 
+            Mask="@Mask"
+            InputCssClass="@(IsValid == null ? "" : IsValid == true ? "form-field-valid" : "form-field-invalid")"/>
+
+@code {
+    [Parameter]
+    public double Value { get; set; }
+    [Parameter]
+    public EventCallback<double> ValueChanged { get; set; }
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+    [Parameter]
+    public bool? IsValid { get; set; }
+    [Parameter]
+    public string? DisplayFormat { get; set; }
+    [Parameter]
+    public string? Mask { get; set; } = NumericMask.RealNumberWithThousandSeparator;
+
+}

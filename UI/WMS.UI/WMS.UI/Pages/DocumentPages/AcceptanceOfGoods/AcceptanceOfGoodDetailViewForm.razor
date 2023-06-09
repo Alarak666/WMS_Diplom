@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Components
+@using WMS.Core.Constants.Enum
+@using WMS.Core.DTO.PositionDtos
+@using WMS.UI.Shared.FormComponents
+@using Blazored.Toast.Services
+@using WMS.Core.Models.DocumentModels.Employes
+@inherits BaseDetailViewPopupForm
+
+<DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
+         @bind-Visible="@IsVisible"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="true"
+         HeaderText="Acceptance of good"
+         CloseButtonClick="@(Close)">
+    <HeaderContentTemplate>
+        Acceptance of good @(IsModified ? "*" : "")
+    </HeaderContentTemplate>
+<BodyContentTemplate Context="BodyContentTemplateContext">
+        <DxFormLayout CssClass="w-300 h-100">
+            <DxFormLayoutGroup Caption="Information" ColSpanMd="12">
+                <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.UniqueCode" IsValid="@(IsFieldValid(nameof(Model.UniqueCode)))" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Name:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.Name" />
+                </DxFormLayoutItem>
+               @* <DxFormLayoutItem Caption="Type Pallet ID:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.TypePalletId" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Product ID:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.ProductId" />
+                </DxFormLayoutItem>*@
+               <DxFormLayoutItem Caption="Employer ID:" ColSpanMd="6">
+                   <DxComboBox Data="@EmployeeListViewModels"
+                               TextFieldName ="@nameof(EmployeeListViewModel.Name)"
+                               @bind-Value="@EmployeDetailModel"
+                                DisplayFormat="@(EmployeDetailModel.Name + EmployeDetailModel.Tin)"
+                               NullText="Empty"
+                               ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                       <ItemTemplate Context="employee">
+                               <div>@employee.Name - @employee.Tin</div>
+                       </ItemTemplate>
+                   </DxComboBox>
+                   @*  <FormLookupEmployee SelectedItemIdChanged="EmployeeUpdate" EmployeeId = "@Model.EmployerId" SelectedItemId="SelectedItemId" />*@
+               </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Width:" ColSpanMd="6">
+                    <FormInputDouble @bind-Value="@Model.Width" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Height:" ColSpanMd="6">
+                    <FormInputDouble @bind-Value="@Model.Height" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Length:" ColSpanMd="6">
+                    <FormInputDouble @bind-Value="@Model.Length" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Weight:" ColSpanMd="6">
+                    <FormInputDouble @bind-Value="@Model.Weight" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Quantity:" ColSpanMd="6">
+                    <FormInputInt @bind-Value="@Model.Qty" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Date Accepts:" ColSpanMd="6">
+                    <FormInputDate @bind-Date="@Model.DateAccepts" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Data Expiration:" ColSpanMd="6">
+                    <FormInputDate @bind-Date="@Model.DataExpiration" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="N Pallet:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.NPallet" />
+                </DxFormLayoutItem>
+            </DxFormLayoutGroup>
+            <DxFormLayoutTabPages>
+                <DxFormLayoutTabPage Caption="Additional">
+                    <DxFormLayoutItem Caption="Created Date:" ColSpanMd="12">
+                        <FormInputDate @bind-Date="@Model.CreatedDate" />
+                    </DxFormLayoutItem>
+                </DxFormLayoutTabPage>
+            </DxFormLayoutTabPages>
+        </DxFormLayout>
+
+</BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="Save" Click="SaveObject"/>
+        <DxButton RenderStyle="ButtonRenderStyle.Secondary" Text="SaveAndClose" Click="SaveAndClose" />
+        <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="Cancel" Click="CloseObject"/>
+    </FooterContentTemplate>
+</DxPopup>

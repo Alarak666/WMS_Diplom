@@ -1,0 +1,45 @@
+﻿@using WMS.Core.Models.DocumentModels.Employes
+@using WMS.UI.Pages.DocumentPages.Employes
+@using WMS.Core.Interface.DocumentInterface
+@using WMS.UI.Pages.DocumentPages.Divisions
+
+<FormLookupCatalog SelectedItemId="SelectedItemId"
+                   SelectedItemIdChanged="SelectedItemIdChanged"
+                   ReadOnly="ReadOnly"
+                   Enabled="Enabled"
+                   DetailViewType="typeof(EmployeeDetailViewForm)"
+                   TItem="EmployeeListViewModel"
+                   PrepareNewObjectParams="PrepareNewObjectParams"
+                   IsValid="IsValid"
+                   ServerData="HandleLoadEmployees"
+                   ShowCreateButton="true" 
+                   ShowEditButton="true">
+    <Columns>
+        <FormLookupCatalogColumn Item="context" Caption="Name" Name="@nameof(EmployeeListViewModel.Name)" />
+        <FormLookupCatalogColumn Item="context" Caption="Code" Name="@nameof(EmployeeListViewModel.UniqueCode)" />
+    </Columns>
+</FormLookupCatalog>
+
+@code {
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+    [Parameter]
+    public bool? IsValid { get; set; }
+    [Parameter]
+    public Guid? SelectedItemId { get; set; }
+    [Parameter]
+    public Guid? EmployeeId { get; set; }
+    [Parameter]
+    public EventCallback<Guid?> SelectedItemIdChanged { get; set; }
+    [Inject]
+    public IEmployeeService employeeService { get; set; }
+
+    [Parameter] public Func<Task<Dictionary<string, object?>>>? PrepareNewObjectParams { get; set; }
+
+    private async Task<IEnumerable<EmployeeListViewModel>> HandleLoadEmployees(string? searchText)
+    {
+        return await employeeService.GetListViewItems(searchText, CancellationToken.None);
+    }
+}

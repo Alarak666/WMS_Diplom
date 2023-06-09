@@ -1,8 +1,9 @@
 ﻿using WMS.Core.Constants.Enum;
+using WMS.Core.Interface;
 
 namespace WMS.Core.Models.DocumentModels.Employes
 {
-    public class EmployeeDetailViewModel
+    public class EmployeeDetailViewModel: IBaseField
     {
         public EmployeeDetailViewModel()
         {

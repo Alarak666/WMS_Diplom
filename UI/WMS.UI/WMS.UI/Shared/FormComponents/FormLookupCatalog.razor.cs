@@ -1,5 +1,6 @@
 ﻿using DevExpress.Blazor;
 using Microsoft.AspNetCore.Components;
+using WMS.Core.Interface;
 using WMS.Core.Models;
 using WMS.Core.Services.BaseServices;
 
@@ -96,7 +97,7 @@ public partial class FormLookupCatalog<TItem> where TItem : class
     {
         if (SelectedItemId != null)
         {
-            var item = await DataService.Get(SelectedItemId.Value);
+            var item = await DataService.Get(SelectedItemId.Value , CancellationToken.None);
             if (item != null)
             {
                 //_searchText = (item as BaseCatalog)?.Name;
@@ -140,7 +141,7 @@ public partial class FormLookupCatalog<TItem> where TItem : class
             // }
             // else
             // {
-                _items = await DataService.GetTop(searchText, 20, SearchableColumns);
+                _items = await DataService.GetTop(searchText, CancellationToken.None, searchableColumns: SearchableColumns);
             // }
         }
     }
@@ -155,7 +156,7 @@ public partial class FormLookupCatalog<TItem> where TItem : class
     {
         if (ReadOnly) return;
         IsOpen = false;
-       // await SelectedItemIdChanged.InvokeAsync((selectedItem as BaseCatalog)?.Id);
+         await SelectedItemIdChanged.InvokeAsync((selectedItem as IBaseField)?.Id);
     }
 
     private async Task HandleSearchTextChange(ChangeEventArgs arg)

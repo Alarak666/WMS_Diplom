@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Components
+@using WMS.Core.Constants.Enum
+@using WMS.Core.DTO.PositionDtos
+@using WMS.UI.Shared.FormComponents
+@using Blazored.Toast.Services
+@inherits BaseDetailViewPopupForm
+
+<DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
+         @bind-Visible="@IsVisible"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="true"
+         HeaderText="Area type"
+         CloseButtonClick="@(Close)">
+    <HeaderContentTemplate>
+        Area type  @(IsModified ? "*" : "")
+    </HeaderContentTemplate>
+<BodyContentTemplate Context="BodyContentTemplateContext">
+    <DxFormLayout CssClass="w-300 h-100">
+        <DxFormLayoutGroup Caption="Area Type Information" ColSpanMd="12">
+            <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="6">
+                <FormInputText @bind-Text="@Model.UniqueCode" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Name:" ColSpanMd="6">
+                <FormInputText @bind-Text="@Model.Name" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Include Area ID:" ColSpanMd="6">
+              @*  <FormInputText @bind-Text="@Model.IncludeAreaId" />*@
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Region ID:" ColSpanMd="6">
+               @* <FormInputText @bind-Text="@Model.RegionId" />*@
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Rack Qty:" ColSpanMd="6">
+                <FormInputInt @bind-Value="@Model.RackQty" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Term Max:" ColSpanMd="6">
+                <FormInputInt @bind-Value="@Model.TermMax" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Max Place:" ColSpanMd="6">
+                <FormInputInt @bind-Value="@Model.MaxPlace" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Available Place:" ColSpanMd="6">
+                <FormInputInt @bind-Value="@Model.AvailablePlace" />
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+    </DxFormLayout>
+</BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="Save" Click="SaveObject"/>
+        <DxButton RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="CloseObject"/>
+    </FooterContentTemplate>
+</DxPopup>

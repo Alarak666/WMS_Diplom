@@ -15,7 +15,6 @@ public class Person : BaseCatalog
     public string? DocumentNumber { get; set; }
     public string? DocumentSeries { get; set; }
     public string? DocumentType { get; set; }
-    public string? Citizenship { get; set; }
     public string? AddressOfBirth { get; set; }
     public DateTime DateOfBirth { get; set; }
     public Gender Gender { get; set; }

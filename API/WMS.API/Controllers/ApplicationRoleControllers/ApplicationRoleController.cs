@@ -12,10 +12,10 @@ namespace WMS.API.Controllers.ApplicationRoleControllers;
 //[ApiVersion(CoreDefaultValues.Version)]
 public class ApplicationRoleController : ControllerBase
 {
-    private readonly IDocumentRepository<ApplicationRole> _documentService;
+    private readonly IDocumentRepository<ApplicationRoleDto> _documentService;
     private readonly IMapper _mapper;
 
-    public ApplicationRoleController(IDocumentRepository<ApplicationRole> documentService, IMapper mapper)
+    public ApplicationRoleController(IDocumentRepository<ApplicationRoleDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -25,8 +25,7 @@ public class ApplicationRoleController : ControllerBase
         CancellationToken cancellationToken)
     {
         var items = await _documentService.GetAll(cancellationToken);
-        var itemsDto = _mapper.Map<IEnumerable<ApplicationRoleDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -34,16 +33,14 @@ public class ApplicationRoleController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<ApplicationRoleDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<ApplicationRoleDto>> Create(
         [FromBody] ApplicationRoleDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<ApplicationRole>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -51,8 +48,7 @@ public class ApplicationRoleController : ControllerBase
     public async Task<ActionResult<ApplicationRoleDto>> Update(
         [FromBody] ApplicationRoleDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<ApplicationRole>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 

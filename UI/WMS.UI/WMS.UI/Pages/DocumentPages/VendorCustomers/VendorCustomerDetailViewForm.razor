@@ -1,0 +1,83 @@
+﻿@using Microsoft.AspNetCore.Components
+@using WMS.Core.Constants.Enum
+@using WMS.Core.DTO.PositionDtos
+@using WMS.UI.Shared.FormComponents
+@using Blazored.Toast.Services
+@inherits BaseDetailViewPopupForm
+
+<DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
+         @bind-Visible="@IsVisible"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="true"
+         HeaderText="Vendor/Customer"
+         CloseButtonClick="@(Close)">
+    <HeaderContentTemplate>
+        Vendor/Customer @(IsModified ? "*" : "")
+    </HeaderContentTemplate>
+<BodyContentTemplate Context="BodyContentTemplateContext">
+    <DxFormLayout CssClass="w-300 h-100">
+    <DxFormLayoutGroup Caption="Vendor/Customer Information" ColSpanMd="12">
+        <DxFormLayoutItem Caption="Parent Name:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.ParentName" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Description:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Description" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="VAT Taxable:" ColSpanMd="6">
+            <DxCheckBox @bind-Checked="@Model.VatTaxable" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="TIN:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Tin" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Main Bank Account Name:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.MainBankAccountName" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Legal Address:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.LegalAddress" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Actual Address:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.ActualAddress" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Phone Number:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.PhoneNumber" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Email:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Email" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Is Email Valid Vendor/Customer:" ColSpanMd="6">
+                    <DxCheckBox @bind-Checked="@Model.IsEmailValidVendorCustomer" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Other:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Other" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Additional:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Additional" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Country Name:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.CountryName" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Is Customer:" ColSpanMd="6">
+                    <DxCheckBox @bind-Checked="@Model.IsCustomer" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Is Vendor:" ColSpanMd="6">
+                    <DxCheckBox @bind-Checked="@Model.IsVendor" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Is Other:" ColSpanMd="6">
+                    <DxCheckBox @bind-Checked="@Model.IsOther" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Name:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Name" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.UniqueCode" />
+        </DxFormLayoutItem>
+    </DxFormLayoutGroup>
+</DxFormLayout>
+</BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="Save" Click="SaveObject"/>
+        <DxButton RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="CloseObject"/>
+    </FooterContentTemplate>
+</DxPopup>

@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Components
-@using WMS.Core.Constants.Enum
 @using WMS.Core.DTO.PositionDtos
 @using WMS.UI.Shared.FormComponents
 @using Blazored.Toast.Services
+@using WMS.Core.Constants.Enum
 @inherits BaseDetailViewPopupForm
 
 <DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
@@ -11,15 +11,81 @@
          CloseOnEscape="false"
          CloseOnOutsideClick="false"
          ShowCloseButton="true"
-         HeaderText="Employee"
+         HeaderText="Person"
          CloseButtonClick="@(Close)">
     <HeaderContentTemplate>
-        Employee @(IsModified ? "*" : "")
+        Person @(IsModified ? "*" : "")
     </HeaderContentTemplate>
 <BodyContentTemplate Context="BodyContentTemplateContext">
-    <DxFormLayout CssClass="w-300 h-100">
-       
-    </DxFormLayout>
+   <DxFormLayout CssClass="w-300 h-100">
+    <DxFormLayoutGroup Caption="Personal Information" ColSpanMd="12">
+        <DxFormLayoutItem Caption="Email:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Email" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Is Email Valid Person:" ColSpanMd="6">
+            <DxCheckBox @bind-Checked="@Model.IsEmailValidPerson" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Phone Number:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.PhoneNumber" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Actual Address:" ColSpanMd="12">
+            <FormInputText @bind-Text="@Model.ActualAddress" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Valid To Date:" ColSpanMd="6">
+            <FormInputDate @bind-Date="@Model.ValidToDate" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Issued Date:" ColSpanMd="6">
+            <FormInputDate @bind-Date="@Model.IssuedDate" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Issued By:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.IssuedBy" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Document Number:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.DocumentNumber" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Document Series:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.DocumentSeries" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Document Type:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.DocumentType" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Citizenship:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Citizenship" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Address of Birth:" ColSpanMd="12">
+            <FormInputText @bind-Text="@Model.AddressOfBirth" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Date of Birth:" ColSpanMd="6">
+            <FormInputDate @bind-Date="@Model.DateOfBirth" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Gender:" ColSpanMd="6">
+            <FormLookupEnum TItem="Gender" @bind-Value="@Model.Gender" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="TIN:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.Tin" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Last Name:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.LastName" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="First Name:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.FirstName" />
+        </DxFormLayoutItem>
+    </DxFormLayoutGroup>
+    <DxFormLayoutGroup Caption="Additional Information" ColSpanMd="12">
+        <DxFormLayoutItem Caption="Created User Name:" ColSpanMd="6">
+            <FormInputText @bind-Text="@Model.CreatedUserName" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Created Date:" ColSpanMd="6">
+            <FormInputDate @bind-Date="@Model.CreatedDate" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Name:" ColSpanMd="12">
+            <FormInputText @bind-Text="@Model.Name" />
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="12">
+            <FormInputText @bind-Text="@Model.UniqueCode" />
+        </DxFormLayoutItem>
+    </DxFormLayoutGroup>
+</DxFormLayout>
 </BodyContentTemplate>
     <FooterContentTemplate>
         <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="Save" Click="SaveObject"/>

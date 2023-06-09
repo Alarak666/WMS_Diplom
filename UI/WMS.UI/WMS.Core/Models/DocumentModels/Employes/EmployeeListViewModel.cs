@@ -1,19 +1,16 @@
 ﻿using WMS.Core.Constants.Enum;
+using WMS.Core.Interface;
 
 namespace WMS.Core.Models.DocumentModels.Employes
 {
-    public class EmployeeListViewModel
+    public class EmployeeListViewModel : IBaseField
     {
-        public decimal CompanyInsurance { get; set; }
-        public decimal CompanySalary { get; set; }
         public string? DivisionName { get; set; }
         public Guid? DivisionId { get; set; }
         public string? PositionName { get; set; }
         public Guid? PositionId { get; set; }
         public string? PersonName { get; set; }
         public Guid? PersonId { get; set; }
-        public string? CompanyName { get; set; }
-        public Guid? CompanyId { get; set; }
         public DateTime HireDate { get; set; }
         public DateTime DepartureDate { get; set; }
         public DateTime DateOfBirth { get; set; }

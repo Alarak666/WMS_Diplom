@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Components
+@using WMS.Core.Constants.Enum
+@using WMS.Core.DTO.PositionDtos
+@using WMS.UI.Shared.FormComponents
+@using Blazored.Toast.Services
+@using WMS.Core.Models.DocumentModels.OrderModels
+@using WMS.Core.Models.DocumentModels.Products
+@using WMS.UI.Pages.DocumentPages.Products
+@inherits BaseDetailViewPopupForm
+
+<DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
+         @bind-Visible="@IsVisible"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="true"
+         HeaderText="Order"
+         CloseButtonClick="@(Close)">
+    <HeaderContentTemplate>
+        Order @(IsModified ? "*" : "")
+    </HeaderContentTemplate>
+<BodyContentTemplate Context="BodyContentTemplateContext">
+    <DxFormLayout CssClass="w-300 h-100">
+        <DxFormLayoutGroup Caption="Order Information" ColSpanMd="12">
+            <DxFormLayoutItem Caption="Created User Id:" ColSpanMd="6">
+              @*  <FormInputText @bind-Text="@Model.CreatedUserId" />*@
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Created Date:" ColSpanMd="6">
+                <FormInputDate @bind-Date="@Model.CreatedDate" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="12">
+                <FormInputText @bind-Text="@Model.UniqueCode" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Name:" ColSpanMd="12">
+                <FormInputText @bind-Text="@Model.Name" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Employee Id:" ColSpanMd="6">
+               @* <FormInputText @bind-Text="@Model.EmployeeId" />*@
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Shipping Address:" ColSpanMd="12">
+                <FormInputText @bind-Text="@Model.ShippingAddress" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Payment Method:" ColSpanMd="12">
+                <FormInputText @bind-Text="@Model.PaymentMethod" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Order Status:" ColSpanMd="12">
+                <FormInputText @bind-Text="@Model.OrderStatus" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Date Orders:" ColSpanMd="6">
+                <FormInputDate @bind-Date="@Model.DateOrders" />
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+        <DxFormLayoutTabPage Caption="Product and services">
+
+            @* <FormTable TItem="OrderDetailModel" Items="OrderDetailModels">
+                        <HeaderTemplate>
+                            <th>ProductId</th>
+                            <th>Quantity</th>
+                            <th>UnitPrice</th>
+                            <th>Amount</th>
+                        </HeaderTemplate>
+                        <RowTemplate Context="productLine">
+                            <td>
+                                <DxComboBox Data="@OrderDetailModels"
+                                        TextFieldName="@nameof(OrderDetailModel.Name)"
+                                        @bind-Value="@OrderDetailModel"
+                                            NullText="Empty"
+                                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                                    <ItemTemplate Context="product">
+                                    <div>@product.Name</div>
+                                    </ItemTemplate>
+                                </DxComboBox>
+
+                                <FormLookupCatalog TItem="ProductDetailViewModel" SelectedItemId="@productLine.ProductId"
+                                                   DetailViewType="@typeof(ProductDetailViewForm)"
+                                                   ShowCreateButton="true" ShowEditButton="true"
+                                                   SelectedItemIdChanged="(newItemId) => HandleChangeProduct(productLine, newItemId)"/>
+                            </td>
+                            <td>
+                                <FormLookupCatalog TItem="Product" SelectedItemId="@productLine.ProductId"  
+                                                   DetailViewType="@typeof(ProductDetailViewForm)"
+                                                   ShowCreateButton="true" ShowEditButton="true"
+                                                   SelectedItemIdChanged="(newItemId) => HandleChangeProduct(productLine, newItemId)"/>
+                            </td>
+                            <td>
+                                <FormInputDecimal Value="@productLine.Quantity" DisplayFormat="N3" Mask="N3" ValueChanged="(newValue) => HandleChangeProductQuantity(productLine, newValue)"/>
+                            </td>
+                            <td>
+                                <FormInputDecimal Value="@productLine.Price" DisplayFormat="N2" ValueChanged="(newValue) => HandleChangeProductPrice(productLine, newValue)"/>
+                            </td>
+                            <td>
+                                <FormInputDecimal @bind-Value="@productLine.Amount" DisplayFormat="N2"/>
+                            </td>
+                        </RowTemplate>
+                        <FooterTemplate>
+                            <tr>
+                                <td colspan="4" class="text-right">Total Amount</td>
+                                <td class="bold text-right">@Model.TotalAmount.ToString("N2")</td>
+                                <td></td>
+                            </tr>
+                        </FooterTemplate>
+                    </FormTable>*@
+        </DxFormLayoutTabPage>
+    </DxFormLayout>
+</BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="Save" Click="SaveObject"/>
+        <DxButton RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="CloseObject"/>
+    </FooterContentTemplate>
+</DxPopup>

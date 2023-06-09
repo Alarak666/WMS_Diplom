@@ -61,7 +61,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDocumentRepository<DivisionDto>, DivisionService>();
         services.AddScoped<IDocumentRepository<EmployeeDto>, EmployeeService>();
         services.AddScoped<IDocumentRepository<OrderDto>, OrderService>();
-        services.AddScoped<IDocumentRepository<OrderDetailDto>, OrderDetailService>();
         services.AddScoped<IDocumentRepository<PalletDto>, PalletService>();
         services.AddScoped<IDocumentRepository<PersonDto>, PersonService>();
         services.AddScoped<IDocumentRepository<PlaceParameterDto>, PlaceParameterService>();

@@ -1,0 +1,60 @@
+﻿@page "/place-parameters"
+@using WMS.UI.Shared.Components
+@using WMS.Core.Models.DocumentModels.Employes
+@using WMS.Core.Models.DocumentModels.StockModels
+@inherits BaseListPage
+
+<div class="card">
+<div class="card-header d-flex">
+    <div class="flex-grow-1"></div>
+    <div>
+        @if (_isLoading)
+        {
+            <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+    </div>
+</div>
+<div class="card-body">
+    <DefaultListToolbar OnNewItemClick="HandleNewItem"
+                        OnEditItemClick="HandleEditItem" OnCloneItemClick="HandleCloneItem"
+                        OnRefreshDataClick="LoadData"
+                        OnColumnChooserClick="HandleClickColumnChooser"
+                        SearchText="@_searchText"
+                        SearchTextChanged="HandleSearchTextChanged"
+                        OnRemoveItemClick="HandleRemoveItem"
+                        SelectedItemId="_selectedItemId"
+                        ShowDocumentActions="false">
+    </DefaultListToolbar>
+        <DxGrid Data="_items" @ref="_dataGrid" RowDoubleClick="HandleEditItem"
+                SelectionMode="GridSelectionMode.Single"
+                AllowSelectRowByClick="true"
+                KeyFieldName="Id"
+                SelectedDataItemChanged="(o) => _selectedItemId = ((PlaceParameterListViewModel)o)?.Id">
+            <Columns>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.CreatedUserId)"/>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.CreatedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.UniqueCode)"/>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.PalletId)"/>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.Width)"/>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.Length)"/>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.Height)"/>
+                <DxGridDataColumn FieldName="@nameof(PlaceParameterListViewModel.Weight)"/>
+            </Columns>
+        </DxGrid>
+    @if (_isFailure)
+    {
+        <div class="alert alert-danger">
+            @_errorMessage
+        </div>
+    }
+</div>
+</div>
+
+@if (_detailViewPopupVisible)
+{
+    <PlaceParameterDetailViewForm Width="70%"
+        IsVisible="_detailViewPopupVisible"
+        PopupClosed="HandleDetailViewPopupClosed"
+        SelectedItemId="_selectedItemId"/>
+}

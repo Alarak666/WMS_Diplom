@@ -19,6 +19,5 @@ namespace WMS.Core.Models.DocumentModels.Products
         public string? MainUnitName { get; set; }
         public string? ReportingUnitName { get; set; }
         public Guid? MainUnitId { get; set; }
-        public Guid? ReportingUnitId { get; set; }
     }
 }

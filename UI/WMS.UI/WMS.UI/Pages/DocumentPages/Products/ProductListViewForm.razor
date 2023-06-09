@@ -1,0 +1,66 @@
+﻿@page "/products"
+@using WMS.UI.Shared.Components
+@using WMS.Core.Models.DocumentModels.Employes
+@using WMS.Core.Models.DocumentModels.Products
+@inherits BaseListPage
+
+<div class="card">
+<div class="card-header d-flex">
+    <div class="flex-grow-1"></div>
+    <div>
+        @if (_isLoading)
+        {
+            <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+    </div>
+</div>
+<div class="card-body">
+    <DefaultListToolbar OnNewItemClick="HandleNewItem"
+                        OnEditItemClick="HandleEditItem" OnCloneItemClick="HandleCloneItem"
+                        OnRefreshDataClick="LoadData"
+                        OnColumnChooserClick="HandleClickColumnChooser"
+                        SearchText="@_searchText"
+                        SearchTextChanged="HandleSearchTextChanged"
+                        OnRemoveItemClick="HandleRemoveItem"
+                        SelectedItemId="_selectedItemId"
+                        ShowDocumentActions="false">
+    </DefaultListToolbar>
+        <DxGrid Data="_items" @ref="_dataGrid" RowDoubleClick="HandleEditItem"
+                SelectionMode="GridSelectionMode.Single"
+                AllowSelectRowByClick="true"
+                KeyFieldName="Id"
+                SelectedDataItemChanged="(o) => _selectedItemId = ((ProductListViewModel)o)?.Id">
+            <Columns>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.Name)" />
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.CreatedUserName)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.CreatedUserId)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.CreatedDate)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.UniqueCode)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.ItemType)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.Description)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.CompanyName)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.CompanyId)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.Barcode)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.VendorCode)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.MainUnitName)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.ReportingUnitName)"/>
+                <DxGridDataColumn FieldName="@nameof(ProductListViewModel.MainUnitId)"/>
+            </Columns>
+        </DxGrid>
+    @if (_isFailure)
+    {
+        <div class="alert alert-danger">
+            @_errorMessage
+        </div>
+    }
+</div>
+</div>
+
+@if (_detailViewPopupVisible)
+{
+    <ProductDetailViewForm Width="70%"
+        IsVisible="_detailViewPopupVisible"
+        PopupClosed="HandleDetailViewPopupClosed"
+        SelectedItemId="_selectedItemId"/>
+}

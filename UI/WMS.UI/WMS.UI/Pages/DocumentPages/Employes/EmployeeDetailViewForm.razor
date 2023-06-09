@@ -31,13 +31,21 @@
                     <FormInputText @bind-Text="@Model.UniqueCode" IsValid="@(IsFieldValid(nameof(Model.UniqueCode)))" />
                 </DxFormLayoutItem>
             <DxFormLayoutItem Caption="Person:" ColSpanMd="6">
-                <FormLookupCatalog @bind-SelectedItemId="@Model.PersonId" TItem="Person"/>
+                <DxComboBox Data="@Persons"
+                                TextFieldName="@nameof(Person.Name)"
+                            @bind-Value="@Person"
+                            NullText="Empty"
+                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                    <ItemTemplate Context="employee">
+                        <div>@employee.Name</div>
+                    </ItemTemplate>
+                </DxComboBox>
             </DxFormLayoutItem>
         </DxFormLayoutGroup>
         <DxFormLayoutTabPages>
             <DxFormLayoutTabPage Caption="Main">
                 <DxFormLayoutItem Caption="Tin:" ColSpanMd="6">
-                        <FormInputText @bind-Text="@Model.Tin" />
+                    <FormInputText @bind-Text="@Model.Tin" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Gender:" ColSpanMd="6">
                     <FormLookupEnum TItem="Gender" @bind-Value="@Model.Gender" />

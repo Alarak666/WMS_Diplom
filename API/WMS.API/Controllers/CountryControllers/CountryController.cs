@@ -14,10 +14,10 @@ namespace WMS.API.Controllers.CountryControllers;
 
 public class CountryController : ControllerBase
 {
-    private readonly IDocumentRepository<Country> _documentService;
+    private readonly IDocumentRepository<CountryDto> _documentService;
     private readonly IMapper _mapper;
 
-    public CountryController(IDocumentRepository<Country> documentService, IMapper mapper)
+    public CountryController(IDocumentRepository<CountryDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -27,12 +27,11 @@ public class CountryController : ControllerBase
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(searchText)
                 ? null
                 : x => x.Name.ToLower().Contains(searchText.ToLower()));
-        var itemsDto = _mapper.Map<IEnumerable<CountryDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -40,16 +39,14 @@ public class CountryController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<CountryDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<CountryDto>> Create(
         [FromBody] CountryDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Country>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -57,8 +54,7 @@ public class CountryController : ControllerBase
     public async Task<ActionResult<CountryDto>> Update(
         [FromBody] CountryDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Country>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 
@@ -76,7 +72,7 @@ public class CountryController : ControllerBase
         var items = await _documentService.GetPage(cancellationToken,
             pageRequestDto.PageNo,
             pageRequestDto.PageSize,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(pageRequestDto.SearchText)
                 ? null
                 : x => x.Name.ToLower().Contains(pageRequestDto.SearchText.ToLower()));

@@ -1,6 +1,8 @@
-﻿namespace WMS.Core.Models.DocumentModels.StockModels
+﻿using WMS.Core.Interface;
+
+namespace WMS.Core.Models.DocumentModels.StockModels
 {
-    public class AcceptanceOfGoodListViewModel
+    public class AcceptanceOfGoodListViewModel : IBaseField
     {
         public Guid Id { get; set; }
         public Guid? CreatedUserId { get; set; }

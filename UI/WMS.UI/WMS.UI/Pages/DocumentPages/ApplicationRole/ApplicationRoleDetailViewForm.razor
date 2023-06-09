@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Components
+@using WMS.Core.Constants.Enum
+@using WMS.Core.DTO.PositionDtos
+@using WMS.UI.Shared.FormComponents
+@using Blazored.Toast.Services
+@inherits BaseDetailViewPopupForm
+
+<DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
+         @bind-Visible="@IsVisible"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="true"
+         HeaderText="Application Role"
+         CloseButtonClick="@(Close)">
+    <HeaderContentTemplate>
+        Application Role @(IsModified ? "*" : "")
+    </HeaderContentTemplate>
+    <BodyContentTemplate Context="BodyContentTemplateContext">
+        <DxFormLayout CssClass="w-300 h-100">
+            <DxFormLayoutGroup Caption="Information" ColSpanMd="12">
+                <DxFormLayoutItem Caption="Name:" ColSpanMd="6">
+                    <FormInputText @bind-Text="@Model.Name" IsValid="@(IsFieldValid(nameof(Model.Name)))" />
+                </DxFormLayoutItem>
+            </DxFormLayoutGroup>
+        </DxFormLayout>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="Save" Click="SaveObject" />
+        <DxButton RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="CloseObject" />
+    </FooterContentTemplate>
+</DxPopup>

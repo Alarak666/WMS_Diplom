@@ -15,10 +15,10 @@ namespace WMS.API.Controllers.RegionControllers;
 
 public class RegionController : ControllerBase
 {
-    private readonly IDocumentRepository<Region> _documentService;
+    private readonly IDocumentRepository<RegionDto> _documentService;
     private readonly IMapper _mapper;
 
-    public RegionController(IDocumentRepository<Region> documentService, IMapper mapper)
+    public RegionController(IDocumentRepository<RegionDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -28,12 +28,11 @@ public class RegionController : ControllerBase
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(searchText)
                 ? null
                 : x => x.Name.ToLower().Contains(searchText.ToLower()));
-        var itemsDto = _mapper.Map<IEnumerable<RegionDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -41,16 +40,14 @@ public class RegionController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<RegionDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<RegionDto>> Create(
         [FromBody] RegionDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Region>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -58,8 +55,7 @@ public class RegionController : ControllerBase
     public async Task<ActionResult<RegionDto>> Update(
         [FromBody] RegionDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<Region>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 
@@ -77,7 +73,7 @@ public class RegionController : ControllerBase
         var items = await _documentService.GetPage(cancellationToken,
             pageRequestDto.PageNo,
             pageRequestDto.PageSize,
-            orderClause: x => x.CreatedDate.ToString(CultureInfo.CurrentCulture),
+            orderClause: x => x.Name,
             whereClause: string.IsNullOrWhiteSpace(pageRequestDto.SearchText)
                 ? null
                 : x => x.Name.ToLower().Contains(pageRequestDto.SearchText.ToLower()));

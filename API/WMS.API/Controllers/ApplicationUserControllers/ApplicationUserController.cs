@@ -13,10 +13,10 @@ namespace WMS.API.Controllers.ApplicationUserControllers;
 
 public class ApplicationUserController : ControllerBase
 {
-    private readonly IDocumentRepository<ApplicationUser> _documentService;
+    private readonly IDocumentRepository<ApplicationUserDto> _documentService;
     private readonly IMapper _mapper;
 
-    public ApplicationUserController(IDocumentRepository<ApplicationUser> documentService, IMapper mapper)
+    public ApplicationUserController(IDocumentRepository<ApplicationUserDto> documentService, IMapper mapper)
     {
         _documentService = documentService;
         _mapper = mapper;
@@ -26,8 +26,7 @@ public class ApplicationUserController : ControllerBase
         CancellationToken cancellationToken)
     {
         var items = await _documentService.GetAll(cancellationToken);
-        var itemsDto = _mapper.Map<IEnumerable<ApplicationUserDto>>(items);
-        return Ok(itemsDto);
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
@@ -35,16 +34,14 @@ public class ApplicationUserController : ControllerBase
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
-        var itemDto = _mapper.Map<ApplicationUserDto>(item);
-        return Ok(itemDto);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<ActionResult<ApplicationUserDto>> Create(
         [FromBody] ApplicationUserDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<ApplicationUser>(itemDto);
-        var request = await _documentService.Create(item, cancellationToken);
+        var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
@@ -52,8 +49,7 @@ public class ApplicationUserController : ControllerBase
     public async Task<ActionResult<ApplicationUserDto>> Update(
         [FromBody] ApplicationUserDto itemDto, CancellationToken cancellationToken)
     {
-        var item = _mapper.Map<ApplicationUser>(itemDto);
-        await _documentService.Update(item, cancellationToken);
+        await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
     }
 

@@ -1,15 +1,30 @@
-﻿using System.Reflection;
-using System.Text;
-using Blazored.Toast;
+﻿using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WMS.Core.DemoTemplate;
-using WMS.Core.Interface;
+using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Services;
 using WMS.Core.Services.BaseServices;
 using WMS.Core.Services.UserMessages;
-using WMS.UI.Services.DocumentService.Employees;
+using WMS.UI.Services.DocumentService.AcceptanceOfGoodServices;
+using WMS.UI.Services.DocumentService.ApplicationRoleServices;
+using WMS.UI.Services.DocumentService.ApplicationUserServices;
+using WMS.UI.Services.DocumentService.ApplicationUserSettingServices;
+using WMS.UI.Services.DocumentService.AreaTypeServices;
+using WMS.UI.Services.DocumentService.CountryServices;
+using WMS.UI.Services.DocumentService.CurrencyServices;
+using WMS.UI.Services.DocumentService.DivisionServices;
+using WMS.UI.Services.DocumentService.EmployeeServices;
+using WMS.UI.Services.DocumentService.OrderServices;
+using WMS.UI.Services.DocumentService.PalletServices;
+using WMS.UI.Services.DocumentService.PersonServices;
+using WMS.UI.Services.DocumentService.PlaceParameterServices;
+using WMS.UI.Services.DocumentService.PositionServices;
+using WMS.UI.Services.DocumentService.ProductServices;
+using WMS.UI.Services.DocumentService.RegionServices;
+using WMS.UI.Services.DocumentService.UnitServices;
+using WMS.UI.Services.DocumentService.VendorCustomerServices;
 using WMS.UI.Services.HttpClients;
 using WMS.UI.Services.Support;
 using WMS.UI.Services.UserMessages;
@@ -40,11 +55,33 @@ public static class ServiceCollectionExtensions
         {
             options.DetailedErrors = true;
         });
+
+        #region RepositoryDocument
+        services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddScoped<ICountryService, CountryService>();
+        services.AddScoped<ICurrencyService, CurrencyService>();
+        services.AddScoped<IDivisionService, DivisionService>();
+        services.AddScoped<IApplicationRoleService, ApplicationRoleService>();
+        services.AddScoped<IApplicationUserService, ApplicationUserService>();
+        services.AddScoped<IApplicationUserSettingService, ApplicationUserSettingService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IPersonService, PersonService>();
+        services.AddScoped<IPositionService, PositionService>();
+        services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IAcceptanceOfGoodService, AcceptanceOfGoodService>();
+        services.AddScoped<IAreaTypeService, AreaTypeService>();
+        services.AddScoped<IPalletService, PalletService>();
+        services.AddScoped<IPlaceParameterService, PlaceParameterService>();
+        services.AddScoped<IRegionService, RegionService>();
+        services.AddScoped<IUnitService, UnitService>();
+        services.AddScoped<IVendorCustomerService, VendorCustomerService>();
+
+        #endregion
+
         services.AddScoped<IViewEventListener, ViewEventListener>();
         services.AddSingleton<ISalesInfoDataProvider, DataProviderAccessArea>();
         services.AddSingleton<IUserNotificationService, UserNotificationService>();
         services.AddScoped(typeof(IBaseDataService<>), typeof(BaseDataService<>));
-        services.AddScoped<IEmployeeService, EmployeeService>();
         services.AddScoped<HttpClientHelper>();
         services.AddSingleton<TabPageService>();
         return services;
