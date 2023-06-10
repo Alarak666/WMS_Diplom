@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using System.Linq.Expressions;
 using WMS.Data.Constant;
 using WMS.Data.DTO.EmployeeDtos;
 using WMS.Data.Entity.Employees;
@@ -23,15 +24,37 @@ public class EmployeeController : ControllerBase
         _documentService = documentService;
         _mapper = mapper;
     }
+    private Expression<Func<EmployeeDto, bool>> GetWhereClause(string? searchText, string? searchOption)
+    {
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return null;
+        }
+
+        if (searchOption == "F")
+        {
+            return x => x.FirstName.ToLower().Contains(searchText.ToLower());
+        }
+        if (searchOption == "M")
+        {
+            return x => x.MiddleName.ToLower().Contains(searchText.ToLower());
+        }
+        if (searchOption == "L")
+        {
+            return x => x.LastName.ToLower().Contains(searchText.ToLower());
+        }
+
+        return null;
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAll(
-        CancellationToken cancellationToken, [FromQuery] string? searchText = null)
+        CancellationToken cancellationToken, [FromQuery] string? searchText = null,
+        [FromQuery] string? searchOption = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
-            orderClause: x => x.Name,
-            whereClause: string.IsNullOrWhiteSpace(searchText)
-                ? null
-                : x => x.Name.ToLower().Contains(searchText.ToLower()));
+            orderClause: x => x.FirstName,
+            whereClause: GetWhereClause(searchText, searchOption));
         return Ok(items);
     }
 

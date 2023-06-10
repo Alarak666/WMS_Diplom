@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq.Expressions;
+using Newtonsoft.Json;
 using System.Text;
+using WMS.Core.DTO.EmployeeDtos;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
 using WMS.UI.Services.HttpClients;
@@ -13,10 +15,9 @@ namespace WMS.UI.Services.DocumentService.EmployeeServices
         {
             _httpClientHelper = httpClientHelper;
         }
-
-        public async Task<IEnumerable<EmployeeListViewModel>?> GetListViewItems(string? searchText, CancellationToken cancellation)
+        public async Task<IEnumerable<EmployeeListViewModel>?> GetListViewItems(string? searchText, CancellationToken cancellation, string? searchOption)
         {
-            var response = await _httpClientHelper.Get($"api/Employee", cancellation);
+            var response = await _httpClientHelper.Get($"api/Employee?searchText={searchText}&searchOption={searchOption}", cancellation);
             var responseContent = await response.Content.ReadAsStringAsync(cancellation);
             var items = JsonConvert.DeserializeObject<List<EmployeeListViewModel>>(responseContent);
             return items;

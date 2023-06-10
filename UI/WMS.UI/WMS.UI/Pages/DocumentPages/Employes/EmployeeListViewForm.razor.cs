@@ -9,13 +9,34 @@ namespace WMS.UI.Pages.DocumentPages.Employes
     public partial class EmployeeListViewForm : BaseListPage
     {
         [Inject] public IEmployeeService _employeeService { get; set; }
+        public string? selectedOption { get; set; }
+        bool isCheckedF;
+        bool isCheckedM;
+        bool isCheckedL;
+        private void HandleCheckboxChange(bool value)
+        {
+            if (isCheckedF)
+            {
+                isCheckedM = false;
+                isCheckedL = false;
+            }
+            else if (isCheckedM)
+            {
+                isCheckedF = false;
+                isCheckedL = false;
+            }
+            else if (isCheckedL)
+            {
+                isCheckedF = false;
+                isCheckedM = false;
+            }
+        }
         private IEnumerable<EmployeeListViewModel>? _items;
         private bool _detailViewPopupVisible = false;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            await LoadData();
         }
 
         private async Task HandleNewItem()
@@ -34,7 +55,7 @@ namespace WMS.UI.Pages.DocumentPages.Employes
             _detailViewPopupVisible = false;
             _selectedItemId = default;
             _dataGrid.ClearSelection();
-             await LoadData();
+            await LoadData();
         }
 
         private async Task HandleEditItem()
@@ -55,6 +76,13 @@ namespace WMS.UI.Pages.DocumentPages.Employes
             //_selectedItemId = (_dataGrid.SelectedDataItem as EmployeeListViewModel)?.Id;
             await HandleNewItem();
         }
+
+        protected override async Task HandleSearchTextChanged(string newSearchText)
+        {
+            // await base.HandleSearchTextChanged(newSearchText);
+            _items = await _employeeService.GetListViewItems(newSearchText, cancellationToken, selectedOption);
+        }
+
         private void HandleCloneItem()
         {
             throw new NotImplementedException();

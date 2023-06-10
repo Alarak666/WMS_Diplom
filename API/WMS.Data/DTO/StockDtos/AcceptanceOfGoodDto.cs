@@ -15,6 +15,6 @@ namespace WMS.Data.DTO.StockDtos
         public int Qty { get; set; }
         public DateTime DateAccepts { get; set; }
         public DateTime DataExpiration { get; set; }
-        public string NPallet { get; set; }
+        public string? NPallet { get; set; }
     }
 }

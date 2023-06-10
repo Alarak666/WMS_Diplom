@@ -23,7 +23,13 @@
                         OnRemoveItemClick="HandleRemoveItem"
                         SelectedItemId="_selectedItemId"
                         ShowDocumentActions="false">
+        <DxToolbarItem Text="Search Mode">
+    @*        <DxCheckBox @bind-Checked ="" CheckType="CheckType.Switch"  />
+            <DxCheckBox CheckType="CheckType.Switch" />
+            <DxCheckBox CheckType="CheckType.Switch" />*@
+        </DxToolbarItem>
     </DefaultListToolbar>
+
         <DxGrid Data="_items" @ref="_dataGrid" RowDoubleClick="HandleEditItem"
                 SelectionMode="GridSelectionMode.Single"
                 AllowSelectRowByClick="true"
