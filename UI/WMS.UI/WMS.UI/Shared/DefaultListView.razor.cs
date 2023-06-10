@@ -48,7 +48,7 @@ namespace WMS.UI.Shared
         private async Task HandleDetailViewPopupClosed(bool saved)
         {
             _detailViewPopupVisible = false;
-            if (saved) await RefreshData();
+             await RefreshData();
         }
 
         private async Task HandleEditItem()

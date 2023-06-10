@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
+using WMS.Core.Models.DocumentModels.Products;
 using WMS.Core.Models.DocumentModels.StockModels;
 using WMS.UI.Shared;
 
@@ -11,20 +12,28 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
     {
         [Inject] public IAcceptanceOfGoodService AcceptanceOfGoodService { get; set; }
         [Inject] public IEmployeeService EmployeeService { get; set; }
+        [Inject] public IProductService ProductService { get; set; }
+        [Inject] public IPalletService PalletService { get; set; }
+
 
         #region Form
 
         private AcceptanceOfGoodDetailViewModel? Model { get; set; } = new AcceptanceOfGoodDetailViewModel();
-        private IEnumerable<EmployeeListViewModel> EmployeeListViewModels { get; set; } =
+        private IEnumerable<EmployeeListViewModel>? EmployeeListViewModels { get; set; } =
             new List<EmployeeListViewModel>();
+        private IEnumerable<PalletListViewModel>? PalletListViewModels { get; set; } =
+            new List<PalletListViewModel>();
+        private IEnumerable<ProductListViewModel>? ProductListViewModels { get; set; } =
+            new List<ProductListViewModel>();
 
         private EmployeeListViewModel EmployeDetailModel { get; set; } = new EmployeeListViewModel();
-
+        private ProductListViewModel ProductListViewModel { get; set; } = new ProductListViewModel();
+        private PalletListViewModel PalletListViewModel { get; set; } = new PalletListViewModel();
         #endregion
         protected override async Task Load()
         {
             await base.Load();
-            await EmployeeLoad(string.Empty);
+            await LoadCombobox(string.Empty);
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await AcceptanceOfGoodService.GetDetailViewData(SelectedItemId, CancellationToken);
@@ -32,16 +41,19 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
 
         protected override async Task Save()
         {
-           await UpdateModel();
+            await UpdateModel();
             if (SelectedItemId != null)
                 await AcceptanceOfGoodService.UpdateDetailViewModel(Model, CancellationToken);
             else
                 await AcceptanceOfGoodService.SaveDetailViewModel(Model, CancellationToken);
         }
 
-        private async Task EmployeeLoad(string? search)
+        private async Task LoadCombobox(string? search)
         {
             EmployeeListViewModels = await EmployeeService.GetListViewItems(search, CancellationToken);
+            ProductListViewModels = await ProductService.GetListViewItems(search, CancellationToken);
+            PalletListViewModels = await PalletService.GetListViewItems(search, CancellationToken);
+
             StateHasChanged();
         }
 
@@ -51,12 +63,18 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
                 await AcceptanceOfGoodService.UpdateDetailViewModel(Model, CancellationToken);
             else
                 await AcceptanceOfGoodService.SaveDetailViewModel(Model, CancellationToken);
-                await Close();
+            await Close();
         }
 
-        private async  Task UpdateModel()
+        private async Task UpdateModel()
         {
-            Model.EmployerId = EmployeDetailModel.Id;
+            if (EmployeDetailModel.Id != Guid.Empty)
+                Model.EmployerId = EmployeDetailModel.Id;
+            if (ProductListViewModel.Id != Guid.Empty)
+                Model.ProductId = ProductListViewModel.Id;
+            if (PalletListViewModel.Id != Guid.Empty)
+                Model.TypePalletId = PalletListViewModel.Id;
+
         }
     }
 }

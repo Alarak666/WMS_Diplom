@@ -26,12 +26,28 @@
                 <DxFormLayoutItem Caption="Name:" ColSpanMd="6">
                     <FormInputText @bind-Text="@Model.Name" />
                 </DxFormLayoutItem>
-               @* <DxFormLayoutItem Caption="Type Pallet ID:" ColSpanMd="6">
-                    <FormInputText @bind-Text="@Model.TypePalletId" />
+                <DxFormLayoutItem Caption="Type Pallet ID:" ColSpanMd="6">
+                    <DxComboBox Data="@PalletListViewModels"
+                                TextFieldName ="@nameof(EmployeeListViewModel.Name)"
+                                @bind-Value="@PalletListViewModel"
+                                NullText="Empty"
+                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                        <ItemTemplate Context="pallet">
+                            <div>@pallet.Name</div>
+                        </ItemTemplate>
+                    </DxComboBox>
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Product ID:" ColSpanMd="6">
-                    <FormInputText @bind-Text="@Model.ProductId" />
-                </DxFormLayoutItem>*@
+                    <DxComboBox Data="@ProductListViewModels"
+                                TextFieldName ="@nameof(EmployeeListViewModel.Name)"
+                                @bind-Value="@ProductListViewModel"
+                                NullText="Empty"
+                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                        <ItemTemplate Context="product">
+                            <div>@product.Name</div>
+                        </ItemTemplate>
+                    </DxComboBox>
+                </DxFormLayoutItem>
                <DxFormLayoutItem Caption="Employer ID:" ColSpanMd="6">
                    <DxComboBox Data="@EmployeeListViewModels"
                                TextFieldName ="@nameof(EmployeeListViewModel.Name)"
@@ -43,7 +59,6 @@
                                <div>@employee.Name - @employee.Tin</div>
                        </ItemTemplate>
                    </DxComboBox>
-                   @*  <FormLookupEmployee SelectedItemIdChanged="EmployeeUpdate" EmployeeId = "@Model.EmployerId" SelectedItemId="SelectedItemId" />*@
                </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Width:" ColSpanMd="6">
                     <FormInputDouble @bind-Value="@Model.Width" />

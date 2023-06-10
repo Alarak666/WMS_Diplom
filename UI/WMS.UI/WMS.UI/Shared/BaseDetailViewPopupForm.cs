@@ -75,29 +75,6 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
 
         return result;
     }
-    private async Task<bool> ValidateObjectPost()
-    {
-        var result = await ValidatePost();
-        if (result) return result;
-
-        UserNotificationService.AddMessage(new UserMessage()
-        {
-            Message = "Validation error!",
-            Type = UserMessageType.Error
-        });
-        foreach (var error in ValidationResult.Errors)
-        {
-            UserNotificationService.AddMessage(new UserMessage()
-            {
-                Message = error.ErrorMessage,
-                Type = UserMessageType.Error
-            });
-        }
-
-        ToastService.ShowError("Validation error!");
-
-        return result;
-    }
     protected bool? IsFieldValid(string propertyName)
     {
         if (ValidationResult == null) return null;
@@ -160,32 +137,6 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
 
         IsVisible = false;
     }
-
-    //protected async Task PostObject()
-    //{
-    //    await SaveObject();
-    //    var validatedPost = await ValidateObjectPost();
-    //    if (!validatedPost) return;
-    //    try
-    //    {
-    //        await Post();
-    //        await CloseForm(true);
-    //        await PopupClosed.InvokeAsync(true);
-    //        ToastService.ShowSuccess("Document posted successfully!");
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        ToastService.ShowError("Document posting failure!");
-    //    }
-    //}
-
-    protected async Task CancelObject()
-    {
-        await Cancel();
-
-        ToastService.ShowSuccess("Document canceled successfully!");
-    }
-
     protected virtual async Task Close()
     {
         await CloseForm(false);

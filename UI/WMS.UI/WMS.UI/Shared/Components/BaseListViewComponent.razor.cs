@@ -53,7 +53,7 @@ public partial class BaseListViewComponent
         // private async Task HandleDetailViewPopupClosed(bool saved)
         // {
         //     DetailViewPopupVisible = false;
-        //     if (saved) await LoadData();
+        //      await LoadData();
     }
 
     protected virtual async Task HandleEditItem()

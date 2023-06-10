@@ -34,7 +34,7 @@ namespace WMS.UI.Pages.DocumentPages.Divisions
             _detailViewPopupVisible = false;
             _selectedItemId = default;
             _dataGrid.ClearSelection();
-            if (saved) await LoadData();
+             await LoadData();
         }
 
         private async Task HandleEditItem()
