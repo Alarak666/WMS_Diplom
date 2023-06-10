@@ -1,4 +1,5 @@
-﻿using WMS.Core.Services.UserMessages;
+﻿using WMS.Core.Constants.Enum;
+using WMS.Core.Interface.ControllerInterface;
 
 namespace WMS.UI.Services.UserMessages;
 
@@ -18,7 +19,12 @@ public class UserNotificationService : IUserNotificationService
         _messages.Add(message);
         OnMessageAdded?.Invoke(message);
     }
-    
+
+    public void AddErrorMessage(string message)
+    {
+        throw new NotImplementedException();
+    }
+
     public ICollection<UserMessage> GetMessages()
     {
         return _messages;

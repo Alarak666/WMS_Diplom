@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using Newtonsoft.Json;
-using WMS.Core.Interface;
-using WMS.Core.Models.DocumentModels.StockModels;
+﻿using Newtonsoft.Json;
 using WMS.Core.Services.BaseServices;
-using WMS.Core.Services.UserMessages;
 using WMS.UI.Services.HttpClients;
 
 namespace WMS.UI.Services.Support
@@ -33,7 +29,7 @@ namespace WMS.UI.Services.Support
             return null;
         }
 
-        public async Task<IEnumerable<T>> GetAll(string? searchText,CancellationToken cancellation,  Type? entityType = null)
+        public async Task<IEnumerable<T>> GetAll(string? searchText, CancellationToken cancellation, Type? entityType = null)
         {
             var response = await _httpClientHelper.Get($"api/{nameof(T).Replace("DetailViewModel", "")}", cancellation);
             var responseContent = await response.Content.ReadAsStringAsync(cancellation);
@@ -43,7 +39,7 @@ namespace WMS.UI.Services.Support
 
         public async Task<T?> Create(T entity, CancellationToken cancellationToken)
         {
-                       return null;
+            return null;
         }
 
         public async Task Delete(Guid id, CancellationToken cancellationToken)

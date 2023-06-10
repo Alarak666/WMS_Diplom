@@ -1,10 +1,12 @@
-﻿namespace WMS.Core.Services.UserMessages
+﻿using WMS.Core.Constants.Enum;
+
+namespace WMS.Core.Interface.ControllerInterface
 {
     public class UserMessage
     {
         public UserMessage()
         {
-            Date = System.DateTime.Now;
+            Date = DateTime.Now;
         }
         public DateTime Date { get; }
         public string Message { get; set; }

@@ -13,10 +13,24 @@ namespace WMS.UI.Pages.DocumentPages.Divisions
 
         private DivisionDetailViewModel? Model { get; set; } = new DivisionDetailViewModel();
 
+        public IEnumerable<DivisionListViewModel>? DivisionListViewModels { get; set; }
+        public DivisionListViewModel? DivisionListViewModel { get; set; }
+
+        private async Task LoadListViewModel()
+        {
+            DivisionListViewModels = await DivisionService.GetListViewItems("", CancellationToken);
+        }
+
+        private async Task UpdateModel()
+        {
+            if (DivisionListViewModel?.Id != Guid.Empty)
+                Model.ParentDivisionId = DivisionListViewModel?.Id;
+        }
         #endregion
         protected override async Task Load()
         {
             await base.Load();
+            await LoadListViewModel();
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await DivisionService.GetDetailViewData(SelectedItemId, CancellationToken);
@@ -24,6 +38,7 @@ namespace WMS.UI.Pages.DocumentPages.Divisions
 
         protected override async Task Save()
         {
+            await UpdateModel();
             if (SelectedItemId != null)
                 await DivisionService.UpdateDetailViewModel(Model, CancellationToken);
             else

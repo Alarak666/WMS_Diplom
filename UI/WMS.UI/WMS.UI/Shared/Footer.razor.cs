@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WMS.Core.Services.UserMessages;
+using WMS.Core.Constants.Enum;
+using WMS.Core.Interface.ControllerInterface;
 
 namespace WMS.UI.Shared
 {

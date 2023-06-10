@@ -3,6 +3,7 @@
 @using WMS.Core.DTO.PositionDtos
 @using WMS.UI.Shared.FormComponents
 @using Blazored.Toast.Services
+@using WMS.Core.Models.DocumentModels.Divisions
 @inherits BaseDetailViewPopupForm
 
 <DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
@@ -31,14 +32,19 @@
                 <DxFormLayoutItem Caption="Main Salary:" ColSpanMd="6">
                     <DxSpinEdit T="decimal" @bind-Value="@Model.MainSalary" />
                 </DxFormLayoutItem>
-                <DxFormLayoutItem Caption="Company Name:" ColSpanMd="6">
-                    <FormInputText @bind-Text="@Model.CompanyName" />
-                </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Division Name:" ColSpanMd="6">
                     <FormInputText @bind-Text="@Model.DivisionName" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Division Id:" ColSpanMd="6">
-                    @*   <FormInputText @bind-Text="@Model.DivisionId" />*@
+                    <DxComboBox Data="@DivisionListViewModels"
+                                TextFieldName="@(nameof(DivisionDetailViewModel.Name))"
+                                @bind-Value="@DivisionListViewModel"
+                                NullText="Empty"
+                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                        <ItemTemplate Context="detail">
+                            <div>@detail.Name</div>
+                        </ItemTemplate>
+                    </DxComboBox>
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Created User Name:" ColSpanMd="6">
                     <FormInputText @bind-Text="@Model.CreatedUserName" />

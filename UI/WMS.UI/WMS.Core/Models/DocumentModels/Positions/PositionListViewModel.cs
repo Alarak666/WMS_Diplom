@@ -6,10 +6,6 @@
         public DateTime DateOfApproval { get; set; }
         public bool PositionApproved { get; set; }
         public decimal MainSalary { get; set; }
-        public string? MainWorkScheduleName { get; set; }
-        public Guid? MainWorkScheduleId { get; set; }
-        public string? CompanyName { get; set; }
-        public Guid? CompanyId { get; set; }
         public string? DivisionName { get; set; }
         public Guid? DivisionId { get; set; }
         public Guid Id { get; set; }

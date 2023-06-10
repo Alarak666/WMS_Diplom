@@ -6,7 +6,7 @@ namespace WMS.Core.Models.DocumentModels.Currencies
     {
         public Guid Id { get; set; }
         public Guid? CreatedUserId { get; set; }
-        public string? ApplicationUserName { get; set; }
+        public string? CreatedUserName { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Name { get; set; }
         public string? UniqueCode { get; set; }

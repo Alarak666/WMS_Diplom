@@ -3,7 +3,7 @@
 public enum UserMessageType
 {
     Success,
-    Info,
+    Information,
     Warning,
     Error
 }

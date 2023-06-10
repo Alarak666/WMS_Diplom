@@ -197,6 +197,7 @@ namespace WMS.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedUserName = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UniqueCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -644,6 +645,7 @@ namespace WMS.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    VendorCustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ShippingAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -661,6 +663,11 @@ namespace WMS.Data.Migrations
                         name: "FK_Orders_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_VendorCustomers_VendorCustomerId",
+                        column: x => x.VendorCustomerId,
+                        principalTable: "VendorCustomers",
                         principalColumn: "Id");
                 });
 
@@ -814,6 +821,11 @@ namespace WMS.Data.Migrations
                 name: "IX_Orders_EmployeeId",
                 table: "Orders",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_VendorCustomerId",
+                table: "Orders",
+                column: "VendorCustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pallets_AreaTypeId",

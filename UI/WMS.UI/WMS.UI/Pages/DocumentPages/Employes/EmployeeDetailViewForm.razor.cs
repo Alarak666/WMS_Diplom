@@ -30,8 +30,10 @@ namespace WMS.UI.Pages.DocumentPages.Employes
 
         private async Task UpdateModel()
         {
-            Model.PersonId = Person.Id;
-            Model.PositionId = Position.Id;
+            if (Person?.Id != Guid.Empty)
+                Model.PersonId = Person.Id;
+            if (Position?.Id != Guid.Empty)
+                Model.PositionId = Position.Id;
         }
         protected override async Task Save()
         {

@@ -1,4 +1,4 @@
-﻿@using WMS.Core.Models.Dashboards
+﻿@*@using WMS.Core.Models.Dashboards
 @using WMS.Core.Services.Dashboards
 @using WMS.Core.Extensions
 <div class="card">
@@ -62,4 +62,4 @@
         salesData = await SalePurchaseCardService.GetData(System.DateTime.Now.StartOfMonth().AddMonths(-1), System.DateTime.Now.EndOfMonth().AddMonths(1));
     }
 
-}
+}*@

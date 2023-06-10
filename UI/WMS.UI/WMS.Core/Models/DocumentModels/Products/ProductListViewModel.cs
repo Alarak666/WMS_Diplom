@@ -17,7 +17,6 @@ namespace WMS.Core.Models.DocumentModels.Products
         public string? Barcode { get; set; }
         public string? VendorCode { get; set; }
         public string? MainUnitName { get; set; }
-        public string? ReportingUnitName { get; set; }
         public Guid? MainUnitId { get; set; }
     }
 }

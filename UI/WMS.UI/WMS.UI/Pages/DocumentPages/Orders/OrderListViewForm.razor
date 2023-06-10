@@ -32,7 +32,9 @@
                 SelectedDataItemChanged="(o) => _selectedItemId = ((OrderListViewModel)o)?.Id">
             <Columns>
                 <DxGridDataColumn FieldName="@nameof(OrderListViewModel.Id)"/>
-                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.CreatedUserId)"/>
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.VendorCustomerId)" />
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.VendorCustomerName)" />
+                <DxGridDataColumn FieldName="@nameof(OrderListViewModel.CreatedUserName)"/>
                 <DxGridDataColumn FieldName="@nameof(OrderListViewModel.CreatedDate)"/>
                 <DxGridDataColumn FieldName="@nameof(OrderListViewModel.UniqueCode)"/>
                 <DxGridDataColumn FieldName="@nameof(OrderListViewModel.Name)"/>

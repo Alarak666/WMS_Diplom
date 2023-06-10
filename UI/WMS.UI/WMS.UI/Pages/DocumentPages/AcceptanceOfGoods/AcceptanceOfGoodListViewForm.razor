@@ -32,6 +32,7 @@
                 SelectedDataItemChanged="(o) => _selectedItemId = ((AcceptanceOfGoodListViewModel)o)?.Id">
             <Columns>
                 <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Name)"/>
+                <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.CreatedUserName)" />
                 <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.CreatedDate)"/>
                 <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.UniqueCode)"/>
                 <DxGridDataColumn FieldName="@nameof(AcceptanceOfGoodListViewModel.Name)"/>

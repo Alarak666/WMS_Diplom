@@ -6,6 +6,7 @@
         public Guid? CreatedUserId { get; set; }
         public DateTime CreatedDate { get; set; } = default;
         public string? UniqueCode { get; set; }
+        public string? CreatedUserName { get; set; }
         public string Name { get; set; } = string.Empty;
         public Guid? PalletId { get; set; }
         public double Width { get; set; }

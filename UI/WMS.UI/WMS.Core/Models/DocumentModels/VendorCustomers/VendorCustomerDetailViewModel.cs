@@ -2,13 +2,9 @@
 {
     public class VendorCustomerDetailViewModel
     {
-        public string? ParentName { get; set; }
-        public Guid? ParentId { get; set; }
         public string Description { get; set; } = string.Empty;
         public bool VatTaxable { get; set; }
         public string? Tin { get; set; }
-        public string? MainBankAccountName { get; set; }
-        public Guid? MainBankAccountId { get; set; }
         public string? LegalAddress { get; set; }
         public string? ActualAddress { get; set; }
         public string? PhoneNumber { get; set; }

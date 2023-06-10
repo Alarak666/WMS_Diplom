@@ -39,11 +39,13 @@ using WMS.Data.DTO.PositionDtos;
 using WMS.Data.DTO.ProductDtos;
 using WMS.Data.DTO.StockDtos;
 using WMS.Data.DTO.UnitDtos;
+using WMS.Data.DTO.VendorCustomerDtos;
 using WMS.Data.Entity.Identity;
 using WMS.Data.Entity.Stocks;
 using WMS.Data.Interface;
 using WMS.Data.Interface.ControllerInterface;
 using WMS.Data.MapperProfiles;
+using WMS.API.Services.VendorCustomerControllers;
 
 namespace WMS.API.Extensions;
 
@@ -62,6 +64,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDocumentRepository<EmployeeDto>, EmployeeService>();
         services.AddScoped<IDocumentRepository<OrderDto>, OrderService>();
         services.AddScoped<IDocumentRepository<PalletDto>, PalletService>();
+        services.AddScoped<IDocumentRepository<VendorCustomerDto>, VendorCustomerService>();
         services.AddScoped<IDocumentRepository<PersonDto>, PersonService>();
         services.AddScoped<IDocumentRepository<PlaceParameterDto>, PlaceParameterService>();
         services.AddScoped<IDocumentRepository<PositionDto>, PositionService>();
@@ -131,16 +134,7 @@ public static class ServiceCollectionExtensions
 
         services.AddAutoMapper(typeof(Program).Assembly);
         services.AddAutoMapper(typeof(PersonProfile));
-        // ...
-
-        // Получение всех зарегистрированных профилей маппинга
-        var mapperConfiguration = services.BuildServiceProvider().GetService<IMapper>().ConfigurationProvider;
-        // Вывод профилей маппинга в консоль
-
-        // Вывод профилей маппинга в консоль
-
-
-        // Регистрация мапперов из проекта Data
+        
         services.AddCors(options =>
         {
             options.AddPolicy("CorsPolicy", builder =>

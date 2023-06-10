@@ -4,6 +4,7 @@ namespace WMS.Data.DTO.OrderDtos;
 public class OrderDto : BaseCatalogDto
 {
     public Guid? EmployeeId { get; set; }
+    public Guid? VendorCustomerId { get; set; }
     public string? ShippingAddress { get; set; }
     public string? PaymentMethod { get; set; }
     public string? OrderStatus { get; set; }

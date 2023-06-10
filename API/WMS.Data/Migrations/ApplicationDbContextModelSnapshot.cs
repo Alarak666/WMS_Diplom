@@ -137,6 +137,9 @@ namespace WMS.Data.Migrations
                     b.Property<Guid?>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CreatedUserName")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -434,7 +437,12 @@ namespace WMS.Data.Migrations
                     b.Property<string>("ShippingAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("VendorCustomerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("VendorCustomerId");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -956,7 +964,13 @@ namespace WMS.Data.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
+                    b.HasOne("WMS.Data.Entity.VendorCustomers.VendorCustomer", "VendorCustomer")
+                        .WithMany()
+                        .HasForeignKey("VendorCustomerId");
+
                     b.Navigation("Employee");
+
+                    b.Navigation("VendorCustomer");
                 });
 
             modelBuilder.Entity("WMS.Data.Entity.Orders.OrderDetail", b =>

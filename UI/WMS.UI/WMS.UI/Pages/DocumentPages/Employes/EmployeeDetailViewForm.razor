@@ -3,6 +3,7 @@
 @using WMS.Core.DTO.PositionDtos
 @using WMS.UI.Shared.FormComponents
 @using Blazored.Toast.Services
+@using WMS.Core.Models.DocumentModels.Positions
 @inherits BaseDetailViewPopupForm
 <DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
          @bind-Visible="@IsVisible"
@@ -25,7 +26,7 @@
                 <FormInputText @bind-Text="@Model.LastName" />
             </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Full Name:" ColSpanMd="6">
-                    <FormInputText @bind-Text="@Model.Name" IsValid="@(IsFieldValid(nameof(Model.Name)))" />
+                    <FormInputText @bind-Text="@Model.Name" Enabled="false" IsValid="@(IsFieldValid(nameof(Model.Name)))" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="6">
                     <FormInputText @bind-Text="@Model.UniqueCode" IsValid="@(IsFieldValid(nameof(Model.UniqueCode)))" />
@@ -54,7 +55,15 @@
                     <FormInputDate @bind-Date="@Model.DateOfBirth" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Position:" ColSpanMd="6">
-                    <FormLookupCatalog @bind-SelectedItemId="@Model.PositionId" TItem="PositionDto" />
+                    <DxComboBox Data="@Positions"
+                                TextFieldName="@(nameof(PositionDetailViewModel.Name))"
+                                @bind-Value="@Position"
+                                NullText="Empty"
+                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                        <ItemTemplate Context="detail">
+                            <div>@detail.Name</div>
+                        </ItemTemplate>
+                    </DxComboBox>
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Hire Date:" ColSpanMd="6">
                     <FormInputDate @bind-Date="@Model.HireDate" />

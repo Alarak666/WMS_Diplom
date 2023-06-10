@@ -43,6 +43,18 @@ try
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
+    app.Use(async (context, next) =>
+    {
+        try
+        {
+            await next(context);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    });
     app.UseStaticFiles();
     app.UseDevExpressBlazorWasmMasksStaticFiles();
     app.UseHttpsRedirection();
@@ -58,7 +70,6 @@ try
     app.MapFallbackToPage("/_Host");
 
     Log.Information("Application is starting");
-    app.Run();
     app.Run();
 }
 catch (Exception ex)

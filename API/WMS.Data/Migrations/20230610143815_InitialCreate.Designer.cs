@@ -12,7 +12,7 @@ using WMS.Data.Context;
 namespace WMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230606124105_InitialCreate")]
+    [Migration("20230610143815_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,6 +137,9 @@ namespace WMS.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedUserName")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -436,7 +439,12 @@ namespace WMS.Data.Migrations
                     b.Property<string>("ShippingAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("VendorCustomerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("VendorCustomerId");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -958,7 +966,13 @@ namespace WMS.Data.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
+                    b.HasOne("WMS.Data.Entity.VendorCustomers.VendorCustomer", "VendorCustomer")
+                        .WithMany()
+                        .HasForeignKey("VendorCustomerId");
+
                     b.Navigation("Employee");
+
+                    b.Navigation("VendorCustomer");
                 });
 
             modelBuilder.Entity("WMS.Data.Entity.Orders.OrderDetail", b =>

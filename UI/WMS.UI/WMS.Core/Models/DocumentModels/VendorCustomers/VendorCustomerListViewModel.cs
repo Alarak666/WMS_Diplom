@@ -2,14 +2,9 @@
 {
     public class VendorCustomerListViewModel
     {
-        public string? ParentName { get; set; }
-        public Guid? ParentId { get; set; }
         public string Description { get; set; } = string.Empty;
         public bool VatTaxable { get; set; }
         public string? Tin { get; set; }
-        public string? LegalForm { get; set; }
-        public string? MainBankAccountName { get; set; }
-        public Guid? MainBankAccountId { get; set; }
         public string? LegalAddress { get; set; }
         public string? ActualAddress { get; set; }
         public string? PhoneNumber { get; set; }
@@ -22,8 +17,8 @@
         public bool IsCustomer { get; set; }
         public bool IsVendor { get; set; }
         public bool IsOther { get; set; }
-        public Guid Id { get; set; }
-        public string? CreatedUserName { get; set; }
+        public Guid? Id { get; set; }
+        public string? CreatedUserUserName { get; set; }
         public Guid? CreatedUserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Name { get; set; }

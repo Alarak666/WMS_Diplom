@@ -3,8 +3,10 @@
 @using WMS.Core.DTO.PositionDtos
 @using WMS.UI.Shared.FormComponents
 @using Blazored.Toast.Services
+@using WMS.Core.Models.DocumentModels.Employes
 @using WMS.Core.Models.DocumentModels.OrderModels
 @using WMS.Core.Models.DocumentModels.Products
+@using WMS.Core.Models.DocumentModels.VendorCustomers
 @using WMS.UI.Pages.DocumentPages.Products
 @inherits BaseDetailViewPopupForm
 
@@ -22,8 +24,8 @@
 <BodyContentTemplate Context="BodyContentTemplateContext">
     <DxFormLayout CssClass="w-300 h-100">
         <DxFormLayoutGroup Caption="Order Information" ColSpanMd="12">
-            <DxFormLayoutItem Caption="Created User Id:" ColSpanMd="6">
-              @*  <FormInputText @bind-Text="@Model.CreatedUserId" />*@
+            <DxFormLayoutItem Caption="Created User Name:" ColSpanMd="6">
+               <FormInputText @bind-Text="@Model.CreatedUserName" />
             </DxFormLayoutItem>
             <DxFormLayoutItem Caption="Created Date:" ColSpanMd="6">
                 <FormInputDate @bind-Date="@Model.CreatedDate" />
@@ -35,7 +37,15 @@
                 <FormInputText @bind-Text="@Model.Name" />
             </DxFormLayoutItem>
             <DxFormLayoutItem Caption="Employee Id:" ColSpanMd="6">
-               @* <FormInputText @bind-Text="@Model.EmployeeId" />*@
+                <DxComboBox Data="@EmployeeListViewModels"
+                            TextFieldName="@(nameof(EmployeeDetailViewModel.Name))"
+                            @bind-Value="@EmployeeListViewModel"
+                            NullText="Empty"
+                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                    <ItemTemplate Context="detail">
+                        <div>@detail.Name</div>
+                    </ItemTemplate>
+                </DxComboBox>
             </DxFormLayoutItem>
             <DxFormLayoutItem Caption="Shipping Address:" ColSpanMd="12">
                 <FormInputText @bind-Text="@Model.ShippingAddress" />
@@ -48,6 +58,17 @@
             </DxFormLayoutItem>
             <DxFormLayoutItem Caption="Date Orders:" ColSpanMd="6">
                 <FormInputDate @bind-Date="@Model.DateOrders" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Vendor Customer:" ColSpanMd="6">
+                <DxComboBox Data="@VendorCustomerListViewModels"
+                            TextFieldName="@(nameof(VendorCustomerDetailViewModel.Name))"
+                            @bind-Value="@VendorCustomerListViewModel"
+                            NullText="Empty"
+                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                    <ItemTemplate Context="detail">
+                        <div>@detail.Name</div>
+                    </ItemTemplate>
+                </DxComboBox>
             </DxFormLayoutItem>
         </DxFormLayoutGroup>
         <DxFormLayoutTabPage Caption="Product and services">

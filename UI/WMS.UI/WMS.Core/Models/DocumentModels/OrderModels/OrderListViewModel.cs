@@ -3,6 +3,9 @@ public class OrderListViewModel
 {
     public Guid Id { get; set; }
     public Guid? CreatedUserId { get; set; }
+    public string? CreatedUserName { get; set; }
+    public Guid? VendorCustomerId { get; set; }
+    public string? VendorCustomerName { get; set; }
     public DateTime CreatedDate { get; set; } = default;
     public string? UniqueCode { get; set; }
     public string Name { get; set; } = string.Empty;

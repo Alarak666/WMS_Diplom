@@ -8,22 +8,45 @@ namespace WMS.UI.Pages.DocumentPages.AreaTypes
     public partial class AreaTypeDetailViewForm : BaseDetailViewPopupForm
     {
         [Inject] public IAreaTypeService AreaTypeService { get; set; }
+        [Inject] public IRegionService RegionService { get; set; }
 
         #region Form
 
         private AreaTypeDetailViewModel? Model { get; set; } = new AreaTypeDetailViewModel();
 
+        private RegionListViewModel? RegionListViewModel { get; set; } = new();
+        private AreaTypeListViewModel? AreaTypeListViewModel { get; set; } = new();
+        private IEnumerable<RegionListViewModel>? RegionListViewModels { get; set; } = new List<RegionListViewModel>();
+        private IEnumerable<AreaTypeListViewModel>? AreaTypeListViewModels { get; set; } = new List<AreaTypeListViewModel>();
+
+        private async Task LoadListViewModel()
+        {
+            AreaTypeListViewModels = await AreaTypeService.GetListViewItems("", CancellationToken);
+            RegionListViewModels = await RegionService.GetListViewItems("", CancellationToken);
+        }
+
+        private async Task UpdateModel()
+        {
+            if (RegionListViewModel?.Id != Guid.Empty)
+                Model.RegionId = RegionListViewModel?.Id;
+            if (AreaTypeListViewModel?.Id != Guid.Empty)
+                Model.IncludeAreaId = AreaTypeListViewModel?.Id;
+        }
+
         #endregion
         protected override async Task Load()
         {
             await base.Load();
-            ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await AreaTypeService.GetDetailViewData(SelectedItemId, CancellationToken);
+            await LoadListViewModel();
+            ToastService.ShowInfo("Load Good");
+
         }
 
         protected override async Task Save()
         {
+            await UpdateModel();
             if (SelectedItemId != null)
                 await AreaTypeService.UpdateDetailViewModel(Model, CancellationToken);
             else

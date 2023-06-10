@@ -19,9 +19,6 @@
 <BodyContentTemplate Context="BodyContentTemplateContext">
     <DxFormLayout CssClass="w-300 h-100">
     <DxFormLayoutGroup Caption="Vendor/Customer Information" ColSpanMd="12">
-        <DxFormLayoutItem Caption="Parent Name:" ColSpanMd="6">
-            <FormInputText @bind-Text="@Model.ParentName" />
-        </DxFormLayoutItem>
         <DxFormLayoutItem Caption="Description:" ColSpanMd="6">
             <FormInputText @bind-Text="@Model.Description" />
         </DxFormLayoutItem>
@@ -30,9 +27,6 @@
         </DxFormLayoutItem>
         <DxFormLayoutItem Caption="TIN:" ColSpanMd="6">
             <FormInputText @bind-Text="@Model.Tin" />
-        </DxFormLayoutItem>
-        <DxFormLayoutItem Caption="Main Bank Account Name:" ColSpanMd="6">
-            <FormInputText @bind-Text="@Model.MainBankAccountName" />
         </DxFormLayoutItem>
         <DxFormLayoutItem Caption="Legal Address:" ColSpanMd="6">
             <FormInputText @bind-Text="@Model.LegalAddress" />
