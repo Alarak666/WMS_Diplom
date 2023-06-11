@@ -10,27 +10,60 @@ namespace WMS.UI.Pages.DocumentPages.Employes
     {
         [Inject] public IEmployeeService _employeeService { get; set; }
         public string? selectedOption { get; set; }
-        bool isCheckedF;
-        bool isCheckedM;
-        bool isCheckedL;
-        private void HandleCheckboxChange(bool value)
+        private bool _isCheckedF;
+        private bool _isCheckedM;
+        private bool _isCheckedL;
+
+        private bool isCheckedF
         {
-            if (isCheckedF)
+            get => _isCheckedF;
+            set
             {
-                isCheckedM = false;
-                isCheckedL = false;
-            }
-            else if (isCheckedM)
-            {
-                isCheckedF = false;
-                isCheckedL = false;
-            }
-            else if (isCheckedL)
-            {
-                isCheckedF = false;
-                isCheckedM = false;
+                _isCheckedF = value;
+                if (value)
+                {
+                    selectedOption = "F";
+                    _isCheckedM = false;
+                    _isCheckedL = false;
+                }
+                StateHasChanged();
             }
         }
+
+        private bool isCheckedM
+        {
+            get => _isCheckedM;
+            set
+            {
+                _isCheckedM = value;
+                if (value)
+                {
+                    selectedOption = "M";
+                    _isCheckedF = false;
+                    _isCheckedL = false;
+                }
+                StateHasChanged();
+
+            }
+        }
+
+        private bool isCheckedL
+        {
+            get => _isCheckedL;
+            set
+            {
+                _isCheckedL = value;
+                if (value)
+                {
+                    selectedOption = "L";
+                    _isCheckedF = false;
+                    _isCheckedM = false;
+                }
+                StateHasChanged();
+
+            }
+        }
+    
         private IEnumerable<EmployeeListViewModel>? _items;
         private bool _detailViewPopupVisible = false;
 

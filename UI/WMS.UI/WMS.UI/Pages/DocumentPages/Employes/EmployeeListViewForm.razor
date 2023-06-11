@@ -24,9 +24,9 @@
                         SelectedItemId="_selectedItemId"
                         ShowDocumentActions="false">
         <DxToolbarItem Text="Search Mode">
-    @*        <DxCheckBox @bind-Checked ="" CheckType="CheckType.Switch"  />
-            <DxCheckBox CheckType="CheckType.Switch" />
-            <DxCheckBox CheckType="CheckType.Switch" />*@
+            <DxCheckBox @bind-Checked="@isCheckedF" CheckType="CheckType.Switch" >F</DxCheckBox>
+            <DxCheckBox @bind-Checked="@isCheckedM" CheckType="CheckType.Switch" >M</DxCheckBox>
+            <DxCheckBox @bind-Checked="@isCheckedL" CheckType="CheckType.Switch" >L</DxCheckBox>
         </DxToolbarItem>
     </DefaultListToolbar>
 
@@ -36,6 +36,10 @@
                 KeyFieldName="Id"
                 SelectedDataItemChanged="(o) => _selectedItemId = ((EmployeeListViewModel)o)?.Id">
             <Columns>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.FirstName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.MiddleName)" />
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.LastName)"/>
+                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.FullName)" />
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.PersonName)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DivisionName)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DivisionId)"/>
@@ -48,13 +52,9 @@
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.DateOfBirth)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Gender)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Tin)"/>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.LastName)"/>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.FirstName)"/>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Id)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.CreatedUserName)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.CreatedUserId)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.CreatedDate)"/>
-                <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.Name)"/>
                 <DxGridDataColumn FieldName="@nameof(EmployeeListViewModel.UniqueCode)"/>
             </Columns>
         </DxGrid>

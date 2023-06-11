@@ -1,4 +1,5 @@
-﻿using WMS.Core.Constants.Enum;
+﻿using System.Runtime.CompilerServices;
+using WMS.Core.Constants.Enum;
 using WMS.Core.Interface;
 
 namespace WMS.Core.Models.DocumentModels.Employes
@@ -7,6 +8,7 @@ namespace WMS.Core.Models.DocumentModels.Employes
     {
         public string? DivisionName { get; set; }
         public Guid? DivisionId { get; set; }
+        public string? MiddleName { get; set; }
         public string? PositionName { get; set; }
         public Guid? PositionId { get; set; }
         public string? PersonName { get; set; }
@@ -23,6 +25,7 @@ namespace WMS.Core.Models.DocumentModels.Employes
         public Guid? CreatedUserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Name { get; set; }
+        public string? FullName => $"{this.FirstName} {MiddleName} {LastName}";
         public string? UniqueCode { get; set; }
     }
 }
