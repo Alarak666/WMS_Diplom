@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity;
 using WMS.API.Services.Helpers;
 using WMS.Data.Context;
 using WMS.Data.DTO.IdentityDtos;
@@ -12,7 +13,7 @@ using WMS.Data.Middlewares.CustomExceptions;
 
 namespace WMS.API.Services.ApplicationUserServices;
 
-public class ApplicationUserService : IDocumentRepository<ApplicationUserDto>
+public class ApplicationUserService : IDocumentRepository<ApplicationUserDto>, IApplicationUserService
 {
     private readonly ApplicationDbContext _context;
     private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
@@ -102,5 +103,20 @@ public class ApplicationUserService : IDocumentRepository<ApplicationUserDto>
         if (orderClause is not null) dtos = dtos.OrderBy(orderClause);
 
         return await dtos.Skip((PaneNo - 1) * PageSize).Take(PageSize).ToListAsync(cancellationToken);
+    }
+
+    public async Task<bool> Login(string name, string password, CancellationToken cancellation)
+    {
+       var user = await _context.ApplicationUsers.Where(x => x.UserName == name).FirstOrDefaultAsync(cancellation);
+
+       if (user == null)
+       {
+           return false;
+       }
+
+       var passwordHasher = new PasswordHasher<ApplicationUser>();
+       var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+
+       return passwordVerificationResult == PasswordVerificationResult.Success;
     }
 }

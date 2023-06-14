@@ -9,5 +9,6 @@ namespace WMS.Core.Interface.DocumentInterface
         Task<bool> SaveDetailViewModel(ApplicationUserDetailViewModel? model, CancellationToken cancellation);
         Task<bool> UpdateDetailViewModel(ApplicationUserDetailViewModel model, CancellationToken cancellation);
         Task<bool> DeleteDetailViewModel(Guid? id, CancellationToken cancellation);
+        Task<bool> Login(string Name, string password, CancellationToken cancellation);
     }
 }

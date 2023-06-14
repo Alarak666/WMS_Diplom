@@ -1,0 +1,144 @@
+﻿@page "/login"
+
+@using System.Net.Http
+@using System.Text
+@using Microsoft.AspNetCore.Components
+@using Newtonsoft.Json
+@using WMS.Core.Interface.DocumentInterface
+@using WMS.Core.Models.DocumentModels.IdentityModels
+@inject IApplicationUserService ApplicationUserService;
+@inject IToastService ToastService;
+
+
+<link rel="stylesheet" href="css/Login.css" />
+
+<h3>Вход и регистрация</h3>
+
+
+
+@if (showLoginForm)
+{
+    <div class="container">
+        <div id="bubbles-container">
+            @for (int i = 0; i < new Random().Next(10, 16); i++)
+            {
+                <div class="bubble" style="left: @(new Random().Next(0, 100))%;"></div>
+            }
+            <h4>Вход</h4>
+            <form>
+                <div>
+                    <label for="username">Имя пользователя:</label>
+                    <input type="text" id="username" @bind="@loginModel.UserName" />
+                </div>
+                <div>
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" @bind="@loginModel.PasswordHash" />
+                </div>
+                <button type="submit" disabled="@isSubmitButtonDisabled" @onclick="Logins">Войти</button>
+            </form>
+            <p>Еще нет аккаунта? <button @onclick="ToggleForm">Зарегистрироваться</button></p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <h4>Регистрация</h4>
+        <form>
+            <div>
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" @bind="@registerModel.UserName" />
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" @bind="@registerModel.Email" />
+            </div>
+            <div>
+                <label for="password">Пароль:</label>
+                <input type="text" id="password" @bind="@registerModel.PasswordHash" />
+            </div>
+            <div>
+                <label for="confirmPassword">Подтвердите пароль:</label>
+                <input type="password" id="confirmPassword" @bind="@registerModel.PasswordHash" />
+            </div>
+            <button type="submit" @onclick="Register">Зарегистрироваться</button>
+        </form>
+        <p>Уже есть аккаунт? <button @onclick="ToggleForm">Войти</button></p>
+    </div>
+}
+
+  
+
+
+@code {
+    int loginAttempts = 0;
+
+    private bool showLoginForm = true;
+    private ApplicationUserDetailViewModel loginModel = new ApplicationUserDetailViewModel();
+    private ApplicationUserDetailViewModel registerModel = new ApplicationUserDetailViewModel();
+    private bool isSubmitButtonDisabled = false;
+    private bool IsSubmitDisabled()
+    {
+        return loginAttempts > 3;
+    }
+    private async Task Logins()
+    {
+        // Отправить запрос на проверку пользователя
+        var CancelTokken = CancellationToken.None;
+
+        var login = await ApplicationUserService.Login(loginModel.UserName, loginModel.PasswordHash, CancelTokken);
+
+        if (login)
+        {
+            ToastService.ShowSuccess("Login successful.");
+        }
+        else
+        {  
+            ToastService.ShowSuccess("Login failed.");
+            loginAttempts++;
+
+            if (loginAttempts > 3)
+            {
+                ToastService.ShowSuccess("It`s time, to sleep.");
+
+                DisableSubmitButton();
+
+            }
+        }
+
+    }
+    private void DisableSubmitButton()
+    {
+        isSubmitButtonDisabled = true;
+    }
+    private void ResetSubmitButton(object state)
+    {
+        loginAttempts = 0;
+        StateHasChanged();
+    }
+
+    private async Task Register()
+    {
+        // Отправить запрос на регистрацию пользователя
+        var httpClient = new HttpClient();
+        var json = JsonConvert.SerializeObject(registerModel);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync("/api/register", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Пользователь успешно зарегистрирован
+            // Выполните необходимые действия, например, перенаправление на другую страницу
+        }
+        else
+        {
+            // Не удалось зарегистрировать пользователя
+            // Обработайте ошибку, например, отобразив сообщение об ошибке
+        }
+    }
+
+    private void ToggleForm()
+    {
+        showLoginForm = !showLoginForm;
+    }
+}

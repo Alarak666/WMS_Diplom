@@ -73,9 +73,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDocumentRepository<UnitDto>, UnitService>();
         services.AddScoped<IUserActivityService, UserActivityService>();
         services.AddScoped<IDocumentRepository<UnitDto>, UnitService>();
-
-
-
+        services.AddScoped<IApplicationUserService, ApplicationUserService>();
 
         services.AddScoped(typeof(IDocumentNumeratorService<>), typeof(DocumentNumeratorService<>));
         services.AddScoped<IdentityHelperService>();

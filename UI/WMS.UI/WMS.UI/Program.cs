@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Server;
 using Serilog;
 using Serilog.Events;
 using System.Diagnostics;
+using WMS.API.Middlewares;
 using WMS.UI.Data;
 using WMS.UI.Extensions;
 
@@ -52,9 +53,9 @@ try
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
         }
     });
+    app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
     app.UseStaticFiles();
     app.UseDevExpressBlazorWasmMasksStaticFiles();
     app.UseHttpsRedirection();

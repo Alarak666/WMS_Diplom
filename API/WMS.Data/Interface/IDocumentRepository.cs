@@ -16,4 +16,5 @@ public interface IDocumentRepository<T> where T : class
         int PageSize,
         Expression<Func<T, bool>>? whereClause = null,
         Expression<Func<T, string>>? orderClause = null);
+
 }

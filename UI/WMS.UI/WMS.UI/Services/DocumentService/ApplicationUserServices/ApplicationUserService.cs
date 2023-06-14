@@ -29,6 +29,17 @@ namespace WMS.UI.Services.DocumentService.ApplicationUserServices
             var item = JsonConvert.DeserializeObject<ApplicationUserDetailViewModel>(responseContent);
             return item;
         }
+        public async Task<bool> Login(string Name, string password, CancellationToken cancellation)
+        {
+
+            var url = $"api/ApplicationUser/login?Name={Name}&password={password}";
+            var response = await _httpClientHelper.Get(url, cancellation);
+            var responseContent = await response.Content.ReadAsStringAsync(cancellation);
+            var item = JsonConvert.DeserializeObject<bool>(responseContent);
+
+            return item;
+
+        }
 
         public async Task<bool> SaveDetailViewModel(ApplicationUserDetailViewModel? model, CancellationToken cancellation)
         {

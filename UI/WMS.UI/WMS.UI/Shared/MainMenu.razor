@@ -3,100 +3,147 @@
 @inject NavigationManager NavigationManager
 @inject TabPageService TabPageService
 
-<div class="card w-100">
+@{
+    bool showLogin = true; // Установите значение в true, чтобы отображать форму логина
+    bool showOtherElements = false; // Установите значение в true, чтобы отображать другие элементы на странице
+}
+
+@if (showLogin)
+{
+    <div class="card w-100">
     <div class="card-body p-0">
-        <DxMenu Orientation="Orientation.Horizontal"
+            <DxMenu Orientation="Orientation.Horizontal"
                 DropDownActionMode="MenuDropDownActionMode.Click"
                 DisplayMode="MenuDisplayMode.Desktop"
                 Title="WMS"
                 CollapseItemsToHamburgerMenu="true"
                 CollapseItemToIconMode="MenuCollapseItemToIconMode.All">
-            <TitleTemplate>
-                <div class="">
-                    WMS
-                </div>
-            </TitleTemplate>
-            <Items>
-                @* Country
+                <TitleTemplate>
+                    <div class="">
+                        WMS
+                    </div>
+                </TitleTemplate>
+                <Items>
+                    <DxMenuItem Text="Login" IconCssClass="oi oi-person">
+                        <Items>
+                            <DxMenuItem Text="Login" Click="@(() => NavigationManager.NavigateTo("/login"))" />
+                        </Items>
+                    </DxMenuItem>
+                </Items>
+            </DxMenu>
+
+    </div>
+    </div>
+
+    //<DxMenuItem Text="Country" Click="@(() => NavigationManager.NavigateTo("/login"))" />
+    
+}
+
+@if (showOtherElements)
+{
+    <div class="card w-100">
+        <div class="card-body p-0">
+            <DxMenu Orientation="Orientation.Horizontal"
+                DropDownActionMode="MenuDropDownActionMode.Click"
+                DisplayMode="MenuDisplayMode.Desktop"
+                Title="WMS"
+                CollapseItemsToHamburgerMenu="true"
+                CollapseItemToIconMode="MenuCollapseItemToIconMode.All">
+                <TitleTemplate>
+                    <div class="">
+                        WMS
+                    </div>
+                </TitleTemplate>
+                <Items>
+                    @* Country
                 Currency
                 Order
                 Product
 
                 Unit
                 VendorCustomer*@
-                <DxMenuItem Text="Sales" IconCssClass="oi oi-person">
-                    <Items>
-                        <DxMenuItem Text="Country" Click="@(() => NavigationManager.NavigateTo("/countries"))" />
-                        <DxMenuItem Text="Currency" Click="@(() => NavigationManager.NavigateTo("/currencies"))" />
-                        <DxMenuItem Text="Order" Click="@(() => NavigationManager.NavigateTo("/orders"))" />
-                    </Items>
-                </DxMenuItem>
-                <DxMenuItem Text="Identity" IconCssClass="oi oi-person">
-                    <Items>
-                        <DxMenuItem Text="Application User" Click="@(() => NavigationManager.NavigateTo("/application-users"))" />
-                        <DxMenuItem Text="Application Role" Click="@(() => NavigationManager.NavigateTo("/application-roles"))" />
-                        <DxMenuItem Text="Application User Setting" Click="@(() => NavigationManager.NavigateTo("/application-user-settings"))" />
-                    </Items>
-                </DxMenuItem>
-                <DxMenuItem Text="HR" IconCssClass="oi oi-person">
-                    <Items >
-                        <DxMenuItem IconCssClass="icon-employee" Text="Employee" Click="@(() => NavigationManager.NavigateTo("/employees"))" CssClass="menu-separator menu-item" />
-                        <DxMenuItem IconCssClass="icon-person"  Text="Person" Click="@(() => NavigationManager.NavigateTo("/persons"))" CssClass="menu-separator menu-item" />
-                        <DxMenuItem Text="VendorCustomer" Click="@(() => NavigationManager.NavigateTo("/vendor-customers"))" CssClass="menu-separator menu-item" />
-                        <DxMenuItem Text="Division" Click="@(() => NavigationManager.NavigateTo("/divisions"))" CssClass="menu-separator menu-item" />
-                        <DxMenuItem Text="Position" Click="@(() => NavigationManager.NavigateTo("/positions"))" CssClass="menu-separator menu-item" />
-                    </Items>
-                </DxMenuItem>
-                <DxMenuItem Text="Warehouse" IconCssClass="oi oi-layers">
-                    <Items>
-                        <DxMenuItem Text="Acceptance Of Good" Click="@(() => NavigationManager.NavigateTo("/acceptance-of-goods"))" />
-                        <DxMenuItem Text="Area Type" Click="@(() => NavigationManager.NavigateTo("/area-types"))" />
-                        <DxMenuItem Text="Region" Click="@(() => NavigationManager.NavigateTo("/regions"))" />
-                        <DxMenuItem Text="Pallet" Click="@(() => NavigationManager.NavigateTo("/pallets"))" />
-                        <DxMenuItem Text="Place Parameter" Click="@(() => NavigationManager.NavigateTo("/place-parameters"))" />
-                    </Items>
-                </DxMenuItem>
-                <DxMenuItem CssClass="search-menu-item" BeginGroup="true" Position="ItemPosition.End">
-                    <Template>
-                        <SearchItem />
-                    </Template>
-                </DxMenuItem>
-                <DxMenuItem CssClass="notoggle" Position="ItemPosition.End">
-                    <TextTemplate>
-                        @*<div class="menu-icon-user-profile menu-icon" />*@
-                        <i class="fa-solid fa-user"></i>
-                    </TextTemplate>
-                    <SubMenuTemplate>
-                        <div class="w-100 user-profile">
-                            <div class="flex-column align-items-center justify-content-center">
-                                <div class="logo-container d-flex align-items-center justify-content-center">
-                                    @* <div class="menu-icon-user-profile menu-icon menu-icon-large"/> *@
-                                    <div class="border d-flex justify-content-center align-items-center"
-                                         alt="Avatar">
-                                        <img src="images/empty_avatar.png" style="width:70px; height: 70px" />
+                    <DxMenuItem Text="Sales" IconCssClass="oi oi-person">
+                        <Items>
+                            <DxMenuItem Text="Country" Click="@(() => NavigationManager.NavigateTo("/countries"))" />
+                            <DxMenuItem Text="Currency" Click="@(() => NavigationManager.NavigateTo("/currencies"))" />
+                            <DxMenuItem Text="Order" Click="@(() => NavigationManager.NavigateTo("/orders"))" />
+                        </Items>
+                    </DxMenuItem>
+                    <DxMenuItem Text="Identity" IconCssClass="oi oi-person">
+                        <Items>
+                            <DxMenuItem Text="Application User" Click="@(() => NavigationManager.NavigateTo("/application-users"))" />
+                            <DxMenuItem Text="Application Role" Click="@(() => NavigationManager.NavigateTo("/application-roles"))" />
+                            <DxMenuItem Text="Application User Setting" Click="@(() => NavigationManager.NavigateTo("/application-user-settings"))" />
+                        </Items>
+                    </DxMenuItem>
+                    <DxMenuItem Text="HR" IconCssClass="oi oi-person">
+                        <Items>
+                            <DxMenuItem IconCssClass="icon-employee" Text="Employee" Click="@(() => NavigationManager.NavigateTo("/employees"))" CssClass="menu-separator menu-item" />
+                            <DxMenuItem IconCssClass="icon-person" Text="Person" Click="@(() => NavigationManager.NavigateTo("/persons"))" CssClass="menu-separator menu-item" />
+                            <DxMenuItem Text="VendorCustomer" Click="@(() => NavigationManager.NavigateTo("/vendor-customers"))" CssClass="menu-separator menu-item" />
+                            <DxMenuItem Text="Division" Click="@(() => NavigationManager.NavigateTo("/divisions"))" CssClass="menu-separator menu-item" />
+                            <DxMenuItem Text="Position" Click="@(() => NavigationManager.NavigateTo("/positions"))" CssClass="menu-separator menu-item" />
+                        </Items>
+                    </DxMenuItem>
+                    <DxMenuItem Text="Warehouse" IconCssClass="oi oi-layers">
+                        <Items>
+                            <DxMenuItem Text="Acceptance Of Good" Click="@(() => NavigationManager.NavigateTo("/acceptance-of-goods"))" />
+                            <DxMenuItem Text="Area Type" Click="@(() => NavigationManager.NavigateTo("/area-types"))" />
+                            <DxMenuItem Text="Region" Click="@(() => NavigationManager.NavigateTo("/regions"))" />
+                            <DxMenuItem Text="Pallet" Click="@(() => NavigationManager.NavigateTo("/pallets"))" />
+                            <DxMenuItem Text="Place Parameter" Click="@(() => NavigationManager.NavigateTo("/place-parameters"))" />
+                        </Items>
+                    </DxMenuItem>
+                    <DxMenuItem CssClass="search-menu-item" BeginGroup="true" Position="ItemPosition.End">
+                        <Template>
+                            <SearchItem />
+                        </Template>
+                    </DxMenuItem>
+                    <DxMenuItem CssClass="notoggle" Position="ItemPosition.End">
+                        <TextTemplate>
+                            @*<div class="menu-icon-user-profile menu-icon" />*@
+                            <i class="fa-solid fa-user"></i>
+                        </TextTemplate>
+                        <SubMenuTemplate>
+                            <div class="w-100 user-profile">
+                                <div class="flex-column align-items-center justify-content-center">
+                                    <div class="logo-container d-flex align-items-center justify-content-center">
+                                        @* <div class="menu-icon-user-profile menu-icon menu-icon-large"/> *@
+                                        <div class="border d-flex justify-content-center align-items-center" alt="Avatar">
+                                            <img src="images/empty_avatar.png" style="width:70px; height: 70px" />
+                                        </div>
+                                    </div>
+                                    <div class="user-name-container bm-3 mb-2">
+                                        <div class="tm-8 text-center">User Name</div>
+                                        <div class="text-center">@_userName</div>
+                                    </div>
+                                    <div class="text-center py-3">
+                                        <a href="/user-settings" class="link-info">My settings</a>
+                                    </div>
+                                    <div class="d-flex justify-content-center log-off-btn">
+                                        <form method="post" action="/login">
+                                            <button class="btn btn-secondary" type="submit">Log Off</button>
+                                        </form>
+                                        @*<DxButton Text="Log Off" RenderStyle="@ButtonRenderStyle.Secondary" Click="@(() => NavigationManager.NavigateTo("/identity/account/logout"))"></DxButton>*@
+                                        <button class="btn btn-secondary" @onclick="Logout">Log Off</button>
                                     </div>
                                 </div>
-                                <div class="user-name-container bm-3 mb-2">
-                                    <div class="tm-8 text-center">User Name</div>
-                                    <div class="text-center">@_userName</div>
-                                </div>
-                                <div class="text-center py-3">
-                                    <a href="/user-settings" class="link-info">My settings</a>
-                                </div>
-                                <div class="d-flex justify-content-center log-off-btn">
-                                    <form method="post" action="/identity/account/logout">
-                                        <button class="btn btn-secondary" type="submit">Log Off</button>
-                                    </form>
-                                    @*<DxButton Text="Log Off" RenderStyle="@ButtonRenderStyle.Secondary" Click="@(() => NavigationManager.NavigateTo("/identity/account/logout"))"></DxButton>*@
-                                </div>
                             </div>
-                        </div>
                     </SubMenuTemplate>
                 </DxMenuItem>
             </Items>
         </DxMenu>
     </div>
 </div>
+}
+
+@code {
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+}
+
 
 @code {
 

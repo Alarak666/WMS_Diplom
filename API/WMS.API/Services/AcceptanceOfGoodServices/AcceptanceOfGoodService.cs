@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Text;
 using WMS.API.Services.Helpers;
 using WMS.Data.Context;
 using WMS.Data.DTO.StockDtos;
@@ -33,12 +34,53 @@ public class AcceptanceOfGoodService : IDocumentRepository<AcceptanceOfGoodDto>
         _documentNumeratorService = documentNumeratorService;
         _dbContextFactory = dbContextFactory;
     }
+    public string GenerateUniqueNumber(AreaType areaType, string region)
+    {
+        StringBuilder uniqueNumberBuilder = new StringBuilder();
 
+        uniqueNumberBuilder.Append($"R:{region}_");
+        AppendAreaType(areaType, uniqueNumberBuilder);
 
+        DateTime date = DateTime.Now;
+        uniqueNumberBuilder.Append($"A:{date.Date}_{date.Month}_{date.Year}_{date.Hour}_{date.Minute}_{date.Second}");
+
+        string uniqueNumber = uniqueNumberBuilder.ToString();
+        return uniqueNumber;
+    }
+
+    private void AppendAreaType(AreaType areaType, StringBuilder builder)
+    {
+        if (areaType.IncludeArea != null)
+        {
+            AppendAreaType(areaType.IncludeArea, builder);
+        }
+
+        builder.Append($"{areaType.Name}_");
+    }
+    private async Task<double> CalculateVolume(Pallet pallet, AcceptanceOfGood acceptance)
+    {
+        double palletVolume = pallet.Width * pallet.Height * pallet.Length;
+        double productVolume = acceptance.Width * acceptance.Height * acceptance.Length;
+
+        double maxProductVolume = palletVolume * 0.9; // 90% от объема палеты
+
+        if (productVolume > maxProductVolume)
+        {
+            return maxProductVolume;
+        }
+
+        return productVolume;
+    }
     public async Task<AcceptanceOfGoodDto> Create(AcceptanceOfGoodDto itemDto, CancellationToken cancellationToken)
     {
         var item = _mapper.Map<AcceptanceOfGood>(itemDto);
+        var pallet = await _context.Pallets
+            .Include(x => x.AreaType)
+            .Include(x => x.AreaType.Region)
+            .FirstOrDefaultAsync(x => x.Id == item.TypePalletId);
         item.UniqueCode = await _documentNumeratorService.SetCatalogNumber(item.UniqueCode);
+        item.NPallet = GenerateUniqueNumber(pallet.AreaType, pallet.AreaType.Region.Name);
+        await CalculateVolume(item.TypePallet, item);
         _context.Set<AcceptanceOfGood>().Add(item);
         await _context.SaveChangesAsync();
         var request = _mapper.Map<AcceptanceOfGoodDto>(item);

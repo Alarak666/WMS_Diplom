@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using WMS.API.Services.ApplicationUserServices;
 using WMS.Data.DTO.IdentityDtos;
-using WMS.Data.Entity.Identity;
 using WMS.Data.Helpers;
 using WMS.Data.Interface;
 
@@ -14,12 +15,15 @@ namespace WMS.API.Controllers.ApplicationUserControllers;
 public class ApplicationUserController : ControllerBase
 {
     private readonly IDocumentRepository<ApplicationUserDto> _documentService;
+    private readonly IApplicationUserService _applicationUserService;
+
     private readonly IMapper _mapper;
 
-    public ApplicationUserController(IDocumentRepository<ApplicationUserDto> documentService, IMapper mapper)
+    public ApplicationUserController(IDocumentRepository<ApplicationUserDto> documentService, IMapper mapper, IApplicationUserService applicationUserService)
     {
         _documentService = documentService;
         _mapper = mapper;
+        _applicationUserService = applicationUserService;
     }
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetAll(
@@ -28,7 +32,17 @@ public class ApplicationUserController : ControllerBase
         var items = await _documentService.GetAll(cancellationToken);
         return Ok(items);
     }
+    [HttpGet("login")]
+    public async Task<ActionResult<bool>> Login([FromQuery] string Name, [FromQuery] string password, CancellationToken cancellation)
+    {
+        bool result = await _applicationUserService.Login(Name, password, cancellation);
 
+        if (result)
+        {
+            return true;
+        }
+        return false;
+    }
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ApplicationUserDto>> GetById(Guid id,
         CancellationToken cancellationToken)
