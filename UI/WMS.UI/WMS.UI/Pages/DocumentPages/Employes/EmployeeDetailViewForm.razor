@@ -69,9 +69,12 @@
                         </ItemTemplate>
                     </DxComboBox>
                 </DxFormLayoutItem>
-                <DxFormLayoutItem Caption="Hire Date:" ColSpanMd="6">
-                    <FormInputDate @bind-Date="@Model.HireDate" />
-                </DxFormLayoutItem>
+                @if (Model.Id != Guid.Empty)
+                {
+                    <DxFormLayoutItem Caption="Hire Date:" ColSpanMd="6">
+                        <FormInputDate @bind-Date="@Model.HireDate" />
+                    </DxFormLayoutItem>
+                }
                 <DxFormLayoutItem Caption="Departure Date:" ColSpanMd="6">
                     <FormInputDate @bind-Date="@Model.DepartureDate" />
                 </DxFormLayoutItem>

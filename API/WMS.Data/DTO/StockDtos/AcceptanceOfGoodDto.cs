@@ -14,7 +14,7 @@ namespace WMS.Data.DTO.StockDtos
         public double Weight { get; set; }
         public int Qty { get; set; }
         public DateTime DateAccepts { get; set; }
-        public DateTime DataExpiration { get; set; }
+        public DateTime? DataExpiration { get; set; }
         public string? NPallet { get; set; }
     }
 }

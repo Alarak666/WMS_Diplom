@@ -60,13 +60,13 @@ public class AcceptanceOfGoodService : IDocumentRepository<AcceptanceOfGoodDto>
     private async Task<double> CalculateVolume(Pallet pallet, AcceptanceOfGood acceptance)
     {
         double palletVolume = pallet.Width * pallet.Height * pallet.Length;
-        double productVolume = acceptance.Width * acceptance.Height * acceptance.Length;
+        double productVolume = acceptance.Width * acceptance.Height * acceptance.Length * acceptance.Qty;
 
         double maxProductVolume = palletVolume * 0.9; // 90% от объема палеты
 
         if (productVolume > maxProductVolume)
         {
-            return maxProductVolume;
+            throw new Exception("The maximum allowable volume of goods on a pallet has been exceeded.");
         }
 
         return productVolume;
@@ -80,7 +80,7 @@ public class AcceptanceOfGoodService : IDocumentRepository<AcceptanceOfGoodDto>
             .FirstOrDefaultAsync(x => x.Id == item.TypePalletId);
         item.UniqueCode = await _documentNumeratorService.SetCatalogNumber(item.UniqueCode);
         item.NPallet = GenerateUniqueNumber(pallet.AreaType, pallet.AreaType.Region.Name);
-        await CalculateVolume(pallet, item);
+         await CalculateVolume(pallet, item);
         _context.Set<AcceptanceOfGood>().Add(item);
         await _context.SaveChangesAsync();
         var request = _mapper.Map<AcceptanceOfGoodDto>(item);

@@ -18,7 +18,8 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
 
 
         #region Form
-        
+
+        private double Total = 0;
         private AcceptanceOfGoodDetailViewModel? Model { get; set; } = new AcceptanceOfGoodDetailViewModel();
         private IEnumerable<EmployeeListViewModel>? EmployeeListViewModels { get; set; } =
             new List<EmployeeListViewModel>();
@@ -34,6 +35,7 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
         protected override async Task Load()
         {
             await base.Load();
+            CalculateWeight();
             await LoadCombobox(string.Empty);
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
@@ -43,10 +45,23 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
             PalletListViewModel = PalletListViewModels?.FirstOrDefault(x => x.Id == Model?.TypePalletId);
             ProductListViewModel = ProductListViewModels?.FirstOrDefault(x => x.Id == Model?.ProductId);
         }
-
+        private void HandleInputChange(ChangeEventArgs e)
+        {
+            CalculateWeight();
+        }
+        private void CalculateWeight()
+        {
+            if (Model.Width <= 0 || Model.Height <= 0 || Model.Length <= 0 || Model.Qty <= 0)
+            {
+                Total= 0;
+            }
+            StateHasChanged();
+            Total = Model.Width * Model.Height * Model.Length;
+        }
         protected override async Task Save()
         {
             await UpdateModel();
+            CalculateWeight();
             var validationResult = await ValidateSave();
             if (validationResult)
             {
@@ -77,7 +92,7 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
 
         private async Task LoadCombobox(string? search)
         {
-            EmployeeListViewModels = await EmployeeService.GetListViewItems(search, CancellationToken);
+            EmployeeListViewModels = await EmployeeService.GetListViewItems("Staff", CancellationToken, "P");
             ProductListViewModels = await ProductService.GetListViewItems(search, CancellationToken);
             PalletListViewModels = await PalletService.GetListViewItems(search, CancellationToken);
 

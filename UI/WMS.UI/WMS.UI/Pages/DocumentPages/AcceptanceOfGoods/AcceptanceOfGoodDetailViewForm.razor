@@ -59,19 +59,22 @@
                    </DxComboBox>
                </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Width:" ColSpanMd="6">
-                    <FormInputDouble @bind-Value="@Model.Width" />
+                    <FormInputDouble Enabled="(Model.Id == Guid.Empty)" @bind-Value="@Model.Width" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Height:" ColSpanMd="6">
-                    <FormInputDouble @bind-Value="@Model.Height" />
+                    <FormInputDouble Enabled="(Model.Id == Guid.Empty)" @bind-Value="@Model.Height" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Length:" ColSpanMd="6">
-                    <FormInputDouble @bind-Value="@Model.Length" />
+                    <FormInputDouble Enabled="(Model.Id == Guid.Empty)" @bind-Value="@Model.Length" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Weight:" ColSpanMd="6">
-                    <FormInputDouble @bind-Value="@Model.Weight" />
+                    <FormInputDouble Enabled="(Model.Id == Guid.Empty)" @bind-Value="@Model.Weight" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Quantity:" ColSpanMd="6">
-                    <FormInputInt @bind-Value="@Model.Qty" />
+                    <FormInputInt Enabled="(Model.Id == Guid.Empty)" @bind-Value="@Model.Qty" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Total volume:" ColSpanMd="6">
+                    <DxSpinEdit T="double" @bind-Value="Total" ReadOnly="true" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Date Accepts:" ColSpanMd="6">
                     <FormInputDate @bind-Date="@Model.DateAccepts" />

@@ -1,21 +1,20 @@
-﻿using System.Net;
-using System.Text;
+﻿using System.Text;
+using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using WMS.Core.Constants.Enum;
 using WMS.Core.DTO.Middlewares;
 using WMS.Core.Interface.ControllerInterface;
 
-namespace WMS.API.Middlewares;
+namespace WMS.UI.Middlewares;
 
 public class GlobalExceptionHandlingMiddleware
 {
     private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;
     private readonly RequestDelegate _next;
     private readonly IServiceProvider _serviceProvider;
-
     public GlobalExceptionHandlingMiddleware(ILogger<GlobalExceptionHandlingMiddleware> logger,
-        RequestDelegate next, IServiceProvider serviceProvider
-    )
+        RequestDelegate next, IServiceProvider serviceProvider)
     {
         _logger = logger;
         _next = next;
@@ -41,6 +40,7 @@ public class GlobalExceptionHandlingMiddleware
                     errorResponseDto.ErrorCode = GlobalExceptionErrorCode.Exception;
                     errorResponseDto.ErrorMessage = "Exception";
                     errorResponseDto.DetailException = ex.Message;
+                    userNotificationService.AddErrorMessage(ex.Message);
                     break;
                 default:
                     errorResponseDto.ErrorMessage = "Unknown error";
@@ -69,6 +69,12 @@ public class GlobalExceptionHandlingMiddleware
         catch (Exception ex)
         {
             await WriteDtoInResponse(context, GetErrorResponseDto(ex));
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var toastService = scopedServices.GetRequiredService<IToastService>();
+                toastService.ShowError("Critical error, see details in the footer");
+            }
         }
     }
 }

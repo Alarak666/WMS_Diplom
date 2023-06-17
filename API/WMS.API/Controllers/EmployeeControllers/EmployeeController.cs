@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using WMS.Data.Constant;
 using WMS.Data.DTO.EmployeeDtos;
 using WMS.Data.Helpers;
 using WMS.Data.Interface;
@@ -41,6 +42,10 @@ public class EmployeeController : ControllerBase
             return x => x.LastName.ToLower().Contains(searchText.ToLower());
         }
 
+        if (searchOption == "P")
+        {
+            return x => x.PositionName == searchText;
+        }
         return null;
     }
 

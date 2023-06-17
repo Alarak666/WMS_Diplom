@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components.Server;
 using Serilog;
 using Serilog.Events;
 using System.Diagnostics;
-using WMS.API.Middlewares;
 using WMS.UI.Data;
 using WMS.UI.Extensions;
+using WMS.UI.Middlewares;
 
 try
 {
