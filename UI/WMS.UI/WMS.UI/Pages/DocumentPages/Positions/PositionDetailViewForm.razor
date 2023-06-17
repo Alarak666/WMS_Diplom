@@ -32,9 +32,6 @@
                 <DxFormLayoutItem Caption="Main Salary:" ColSpanMd="6">
                     <DxSpinEdit T="decimal" @bind-Value="@Model.MainSalary" />
                 </DxFormLayoutItem>
-                <DxFormLayoutItem Caption="Division Name:" ColSpanMd="6">
-                    <FormInputText @bind-Text="@Model.DivisionName" />
-                </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Division Id:" ColSpanMd="6">
                     <DxComboBox Data="@DivisionListViewModels"
                                 TextFieldName="@(nameof(DivisionDetailViewModel.Name))"

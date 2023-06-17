@@ -16,7 +16,7 @@ namespace WMS.UI.Services.DocumentService.ProductServices
 
         public async Task<IEnumerable<ProductListViewModel>?> GetListViewItems(string? searchText, CancellationToken cancellation)
         {
-            var response = await _httpClientHelper.Get($"api/Product", cancellation);
+            var response = await _httpClientHelper.Get($"api/Product?searchText={searchText}", cancellation);
             var responseContent = await response.Content.ReadAsStringAsync(cancellation);
             var items = JsonConvert.DeserializeObject<List<ProductListViewModel>>(responseContent);
             return items;

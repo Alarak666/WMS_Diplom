@@ -1,6 +1,4 @@
 using WMS.Data.DTO.BaseClassDtos;
-using WMS.Data.DTO.CountryDtos;
-using WMS.Data.Entity.BaseClass;
 
 namespace WMS.Data.DTO.VendorCustomerDtos;
 

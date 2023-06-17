@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using WMS.Core.FluentValidations.Documents;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
 using WMS.Core.Models.DocumentModels.Products;
@@ -37,15 +38,40 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await AcceptanceOfGoodService.GetDetailViewData(SelectedItemId, CancellationToken);
+
+            EmployeDetailModel = EmployeeListViewModels?.FirstOrDefault(x => x.Id == Model?.EmployerId);
+            PalletListViewModel = PalletListViewModels?.FirstOrDefault(x => x.Id == Model?.TypePalletId);
+            ProductListViewModel = ProductListViewModels?.FirstOrDefault(x => x.Id == Model?.ProductId);
         }
 
         protected override async Task Save()
         {
-            await UpdateModel();
-            if (SelectedItemId != null)
-                await AcceptanceOfGoodService.UpdateDetailViewModel(Model, CancellationToken);
+            var validationResult = await ValidateSave();
+            if (validationResult)
+            {
+                await UpdateModel();
+                if (SelectedItemId != null)
+                    await AcceptanceOfGoodService.UpdateDetailViewModel(Model, CancellationToken);
+                else
+                    await AcceptanceOfGoodService.SaveDetailViewModel(Model, CancellationToken);
+                await Load();
+            }
             else
-                await AcceptanceOfGoodService.SaveDetailViewModel(Model, CancellationToken);
+            {
+                throw new Exception("Bad");
+            }
+        }
+
+        protected override async Task<bool> ValidateSave()
+        {
+            var validator = new AcceptanceOfGoodValidation();
+            if (Model != null)
+            {
+                ValidationResult = await validator.ValidateAsync(Model);
+                await ValidateObjectFailed();
+                return ValidationResult.IsValid;
+            }
+            return false;
         }
 
         private async Task LoadCombobox(string? search)
@@ -59,6 +85,7 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
 
         private async Task SaveAndClose(MouseEventArgs arg)
         {
+
             if (SelectedItemId != null)
                 await AcceptanceOfGoodService.UpdateDetailViewModel(Model, CancellationToken);
             else
@@ -68,12 +95,12 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
 
         private async Task UpdateModel()
         {
-            if (EmployeDetailModel.Id != Guid.Empty)
-                Model.EmployerId = EmployeDetailModel.Id;
-            if (ProductListViewModel.Id != Guid.Empty)
-                Model.ProductId = ProductListViewModel.Id;
-            if (PalletListViewModel.Id != Guid.Empty)
-                Model.TypePalletId = PalletListViewModel.Id;
+            if (EmployeDetailModel?.Id != Guid.Empty)
+                Model.EmployerId = EmployeDetailModel?.Id;
+            if (ProductListViewModel?.Id != Guid.Empty)
+                Model.ProductId = ProductListViewModel?.Id;
+            if (PalletListViewModel?.Id != Guid.Empty)
+                Model.TypePalletId = PalletListViewModel?.Id;
 
         }
     }

@@ -2,6 +2,7 @@
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.IdentityModels;
 using WMS.Core.Models.DocumentModels.Positions;
+using WMS.Core.Models.DocumentModels.StockModels;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.ApplicationUserSetting
@@ -31,6 +32,10 @@ namespace WMS.UI.Pages.DocumentPages.ApplicationUserSetting
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await ApplicationUserSettingService.GetDetailViewData(SelectedItemId, CancellationToken);
+            ApplicationUserListViewModel = ApplicationUserListViewModels?.FirstOrDefault(x => x.Id == Model?.ApplicationUserId);
+            PositionListViewModel = PositionListViewModels?.FirstOrDefault(x => x.Id == Model?.PositionId);
+
+
         }
 
         private async Task LoadListViewModel()

@@ -1,10 +1,10 @@
 // See https://aka.ms/new-console-template for more information
 
 
-using ERP.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WMS.Data.Context;
+using WMS.Seed;
 
 Console.WriteLine("Seed data applying...");
 

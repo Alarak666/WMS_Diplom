@@ -24,11 +24,11 @@
                     <FormInputText @bind-Text="@Model.UniqueCode" IsValid="@(IsFieldValid(nameof(Model.UniqueCode)))" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Name:" ColSpanMd="6">
-                    <FormInputText @bind-Text="@Model.Name" />
+                    <FormInputText @bind-Text="@Model.Name" IsValid="@(IsFieldValid(nameof(Model.Name)))" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Type Pallet ID:" ColSpanMd="6">
                     <DxComboBox Data="@PalletListViewModels"
-                                TextFieldName ="@nameof(EmployeeListViewModel.Name)"
+                                TextFieldName ="@nameof(Core.Models.DocumentModels.StockModels.PalletListViewModel.Name)"
                                 @bind-Value="@PalletListViewModel"
                                 NullText="Empty"
                                 ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
@@ -39,7 +39,7 @@
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Product ID:" ColSpanMd="6">
                     <DxComboBox Data="@ProductListViewModels"
-                                TextFieldName ="@nameof(EmployeeListViewModel.Name)"
+                                TextFieldName="@nameof(Core.Models.DocumentModels.Products.ProductListViewModel.Name)"
                                 @bind-Value="@ProductListViewModel"
                                 NullText="Empty"
                                 ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
@@ -50,9 +50,9 @@
                 </DxFormLayoutItem>
                <DxFormLayoutItem Caption="Employer ID:" ColSpanMd="6">
                    <DxComboBox Data="@EmployeeListViewModels"
-                               TextFieldName ="@nameof(EmployeeListViewModel.Name)"
+                               TextFieldName="@nameof(EmployeeListViewModel.Name)"
+
                                @bind-Value="@EmployeDetailModel"
-                                DisplayFormat="@(EmployeDetailModel.Name + EmployeDetailModel.Tin)"
                                NullText="Empty"
                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
                        <ItemTemplate Context="employee">

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Currencies;
+using WMS.Core.Models.DocumentModels.Divisions;
 using WMS.Core.Models.DocumentModels.Employes;
 using WMS.Core.Models.DocumentModels.StockModels;
+using WMS.UI.Services.DocumentService.PositionServices;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.PlaceParameters
@@ -24,7 +26,13 @@ namespace WMS.UI.Pages.DocumentPages.PlaceParameters
         #endregion
         private async Task LoadListViewModel()
         {
+            await base.Load();
+            ToastService.ShowInfo("Load Good");
             PalletListViewModels = await PalletService.GetListViewItems("", CancellationToken);
+            if (SelectedItemId != null)
+                Model = await PlaceParameterService.GetDetailViewData(SelectedItemId, CancellationToken);
+            PalletListViewModel = PalletListViewModels?.FirstOrDefault(x => x.Id == Model?.PalletId);
+
         }
 
         private async Task UpdateModel()

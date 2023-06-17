@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DevExpress.XtraSpellChecker.Parser;
+using Microsoft.AspNetCore.Components;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
 using WMS.Core.Models.DocumentModels.OrderModels;
@@ -46,9 +47,12 @@ namespace WMS.UI.Pages.DocumentPages.Orders
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await OrderService.GetDetailViewData(SelectedItemId, CancellationToken);
+            EmployeeListViewModel = EmployeeListViewModels?.FirstOrDefault(x => x.Id == Model?.EmployeeId);
+            VendorCustomerListViewModel = VendorCustomerListViewModels?.FirstOrDefault(x => x.Id == Model?.VendorCustomerId);
+
         }
 
-        
+
         protected override async Task Save()
         {
             await UpdateModel();

@@ -3,6 +3,7 @@
 @using WMS.Core.DTO.PositionDtos
 @using WMS.UI.Shared.FormComponents
 @using Blazored.Toast.Services
+@using WMS.Core.Models.DocumentModels.Persons
 @using WMS.Core.Models.DocumentModels.Positions
 @inherits BaseDetailViewPopupForm
 <DxPopup Width="@(string.IsNullOrWhiteSpace(Width) ? "auto" : Width)"
@@ -59,7 +60,7 @@
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Position:" ColSpanMd="6">
                     <DxComboBox Data="@Positions"
-                                TextFieldName="@(nameof(PositionDetailViewModel.Name))"
+                                    TextFieldName="@(nameof(PersonListViewModel.Name))"
                                 @bind-Value="@Position"
                                 NullText="Empty"
                                 ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">

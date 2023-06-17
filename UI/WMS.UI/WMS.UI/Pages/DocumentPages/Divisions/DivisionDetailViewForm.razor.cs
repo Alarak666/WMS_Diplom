@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Divisions;
+using WMS.Core.Models.DocumentModels.VendorCustomers;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.Divisions
@@ -34,6 +35,8 @@ namespace WMS.UI.Pages.DocumentPages.Divisions
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await DivisionService.GetDetailViewData(SelectedItemId, CancellationToken);
+            DivisionListViewModel = DivisionListViewModels?.FirstOrDefault(x => x.Id == Model?.ParentDivisionId);
+
         }
 
         protected override async Task Save()

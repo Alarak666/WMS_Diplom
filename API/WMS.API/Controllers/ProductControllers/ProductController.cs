@@ -1,9 +1,5 @@
-﻿using System.Globalization;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using WMS.Data.Constant;
-using WMS.Data.DTO.StockDtos;
-using WMS.Data.Entity.Stocks;
+﻿using Microsoft.AspNetCore.Mvc;
+using WMS.Data.DTO.ProductDtos;
 using WMS.Data.Helpers;
 using WMS.Data.Interface;
 
@@ -15,14 +11,14 @@ namespace WMS.API.Controllers.ProductControllers;
 
 public class ProductController : ControllerBase
 {
-    private readonly IDocumentRepository<AcceptanceOfGoodDto> _documentService;
+    private readonly IDocumentRepository<ProductDto> _documentService;
 
-    public ProductController(IDocumentRepository<AcceptanceOfGoodDto> documentService)
+    public ProductController(IDocumentRepository<ProductDto> documentService)
     {
         _documentService = documentService;
     }
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AcceptanceOfGoodDto>>> GetAll(
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll(
         CancellationToken cancellationToken, [FromQuery] string? searchText = null)
     {
         var items = await _documentService.GetAll(cancellationToken,
@@ -34,7 +30,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<AcceptanceOfGoodDto>> GetById(Guid id,
+    public async Task<ActionResult<ProductDto>> GetById(Guid id,
         CancellationToken cancellationToken)
     {
         var item = await _documentService.Get(id, cancellationToken);
@@ -42,16 +38,16 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<AcceptanceOfGoodDto>> Create(
-        [FromBody] AcceptanceOfGoodDto itemDto, CancellationToken cancellationToken)
+    public async Task<ActionResult<ProductDto>> Create(
+        [FromBody] ProductDto itemDto, CancellationToken cancellationToken)
     {
         var request = await _documentService.Create(itemDto, cancellationToken);
         return Ok(request);
     }
 
     [HttpPut]
-    public async Task<ActionResult<AcceptanceOfGoodDto>> Update(
-        [FromBody] AcceptanceOfGoodDto itemDto, CancellationToken cancellationToken)
+    public async Task<ActionResult<ProductDto>> Update(
+        [FromBody] ProductDto itemDto, CancellationToken cancellationToken)
     {
         await _documentService.Update(itemDto, cancellationToken);
         return Ok(itemDto);
@@ -65,7 +61,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost("Page")]
-    public async Task<ActionResult<IEnumerable<AcceptanceOfGoodDto>>> GetPage(
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetPage(
         [FromBody] BasePagingRequestDto pageRequestDto, CancellationToken cancellationToken)
     {
         var items = await _documentService.GetPage(cancellationToken,

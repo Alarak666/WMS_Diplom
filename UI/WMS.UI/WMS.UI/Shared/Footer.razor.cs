@@ -62,7 +62,7 @@ namespace WMS.UI.Shared
             }
             else
             {
-                _height = 50;
+                _height = 0;
             }
 
             StateHasChanged();

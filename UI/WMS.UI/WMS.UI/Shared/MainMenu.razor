@@ -4,8 +4,8 @@
 @inject TabPageService TabPageService
 
 @{
-    bool showLogin = true; // Установите значение в true, чтобы отображать форму логина
-    bool showOtherElements = false; // Установите значение в true, чтобы отображать другие элементы на странице
+    bool showLogin = false; // Установите значение в true, чтобы отображать форму логина
+    bool showOtherElements = true; // Установите значение в true, чтобы отображать другие элементы на странице
 }
 
 @if (showLogin)
@@ -67,6 +67,7 @@
                             <DxMenuItem Text="Country" Click="@(() => NavigationManager.NavigateTo("/countries"))" />
                             <DxMenuItem Text="Currency" Click="@(() => NavigationManager.NavigateTo("/currencies"))" />
                             <DxMenuItem Text="Order" Click="@(() => NavigationManager.NavigateTo("/orders"))" />
+                            <DxMenuItem Text="VendorCustomer" Click="@(() => NavigationManager.NavigateTo("/vendor-customers"))" CssClass="menu-separator menu-item" />
                         </Items>
                     </DxMenuItem>
                     <DxMenuItem Text="Identity" IconCssClass="oi oi-person">
@@ -80,7 +81,6 @@
                         <Items>
                             <DxMenuItem IconCssClass="icon-employee" Text="Employee" Click="@(() => NavigationManager.NavigateTo("/employees"))" CssClass="menu-separator menu-item" />
                             <DxMenuItem IconCssClass="icon-person" Text="Person" Click="@(() => NavigationManager.NavigateTo("/persons"))" CssClass="menu-separator menu-item" />
-                            <DxMenuItem Text="VendorCustomer" Click="@(() => NavigationManager.NavigateTo("/vendor-customers"))" CssClass="menu-separator menu-item" />
                             <DxMenuItem Text="Division" Click="@(() => NavigationManager.NavigateTo("/divisions"))" CssClass="menu-separator menu-item" />
                             <DxMenuItem Text="Position" Click="@(() => NavigationManager.NavigateTo("/positions"))" CssClass="menu-separator menu-item" />
                         </Items>
@@ -92,6 +92,9 @@
                             <DxMenuItem Text="Region" Click="@(() => NavigationManager.NavigateTo("/regions"))" />
                             <DxMenuItem Text="Pallet" Click="@(() => NavigationManager.NavigateTo("/pallets"))" />
                             <DxMenuItem Text="Place Parameter" Click="@(() => NavigationManager.NavigateTo("/place-parameters"))" />
+                            <DxMenuItem Text="Products" Click="@(() => NavigationManager.NavigateTo("/products"))" />
+                            <DxMenuItem Text="Unit" Click="@(() => NavigationManager.NavigateTo("/units"))" />
+
                         </Items>
                     </DxMenuItem>
                     <DxMenuItem CssClass="search-menu-item" BeginGroup="true" Position="ItemPosition.End">

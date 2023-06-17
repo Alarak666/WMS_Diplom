@@ -6,7 +6,7 @@
     TextChanged="HandleTextChanged"
     Enabled="@Enabled" 
     ReadOnly="@ReadOnly"
-    CssClass= "form-field"/>
+    CssClass= "@(IsValid == null ? "" : IsValid == true ? "form-field-valid" : "form-field-invalid")" />
 
 
 @code {
@@ -28,5 +28,26 @@
         await TextChanged.InvokeAsync(newValue);
     }
    
-  
+    private string? ContainerClass
+    {
+        get
+        {
+            var containerClass = "form-lookup-catalog-input-container";
+            if (IsValid.HasValue)
+            {
+                containerClass = IsValid.Value
+                    ? " form-lookup-catalog-input-container-valid"
+                    : "form-lookup-catalog-input-container-invalid";
+            }
+            else
+            {
+                //if (IsOpen)
+                //{
+                //    containerClass = "form-lookup-catalog-input-container-focused";
+                //}
+            }
+
+            return containerClass;
+        }
+    }
 }

@@ -1,4 +1,6 @@
-﻿namespace WMS.Core.Models.DocumentModels.StockModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WMS.Core.Models.DocumentModels.StockModels
 {
     public class AcceptanceOfGoodDetailViewModel
     {
@@ -6,6 +8,7 @@
         public Guid? CreatedUserId { get; set; }
         public DateTime CreatedDate { get; set; } = default;
         public string? UniqueCode { get; set; }
+        [Required(ErrorMessage = "The Name should be specified.")]
         public string Name { get; set; } = string.Empty;
         public Guid? TypePalletId { get; set; }
         public Guid? ProductId { get; set; }

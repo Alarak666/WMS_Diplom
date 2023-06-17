@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DevExpress.XtraSpellChecker.Parser;
+using Microsoft.AspNetCore.Components;
+using System;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Currencies;
 using WMS.Core.Models.DocumentModels.Products;
@@ -27,6 +29,8 @@ namespace WMS.UI.Pages.DocumentPages.Products
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await ProductService.GetDetailViewData(SelectedItemId, CancellationToken);
+            UnitListViewModel = UnitListViewModels?.FirstOrDefault(x => x.Id == Model?.MainUnitId);
+
         }
 
         private async Task LoadListViewModel()

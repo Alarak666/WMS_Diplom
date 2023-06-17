@@ -2,6 +2,7 @@
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Divisions;
 using WMS.Core.Models.DocumentModels.Positions;
+using WMS.Core.Models.DocumentModels.Units;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.Positions
@@ -21,9 +22,11 @@ namespace WMS.UI.Pages.DocumentPages.Positions
         protected override async Task Load()
         {
             await base.Load();
+            await LoadListViewModel();
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await PositionService.GetDetailViewData(SelectedItemId, CancellationToken);
+            DivisionListViewModel = DivisionListViewModels?.FirstOrDefault(x => x.Id == Model?.DivisionId);
         }
         private async Task LoadListViewModel()
         {

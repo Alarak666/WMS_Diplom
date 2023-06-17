@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using WMS.Core.Interface.DocumentInterface;
+using WMS.Core.Models.DocumentModels.Currencies;
 using WMS.Core.Models.DocumentModels.StockModels;
 using WMS.UI.Shared;
 
@@ -41,6 +42,7 @@ namespace WMS.UI.Pages.DocumentPages.AreaTypes
                 Model = await AreaTypeService.GetDetailViewData(SelectedItemId, CancellationToken);
             await LoadListViewModel();
             ToastService.ShowInfo("Load Good");
+            RegionListViewModel = RegionListViewModels?.FirstOrDefault(x => x.Id == Model?.RegionId);
 
         }
 

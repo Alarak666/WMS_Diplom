@@ -1,11 +1,13 @@
 ﻿using Blazored.Toast.Services;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
+using System.Reflection.Metadata;
 using WMS.Core.Constants;
 using WMS.Core.Constants.Enum;
 using WMS.Core.Interface.ControllerInterface;
 using WMS.Core.Models;
 using WMS.Core.Services;
+using WMS.UI.Services.UserMessages;
 
 namespace WMS.UI.Shared;
 
@@ -53,16 +55,8 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
     {
         return true;
     }
-    private async Task<bool> ValidateObject()
+    protected async Task ValidateObjectFailed()
     {
-        var result = await ValidateSave();
-        if (result) return result;
-
-        UserNotificationService.AddMessage(new UserMessage()
-        {
-            Message = "Validation error!",
-            Type = UserMessageType.Error
-        });
         foreach (var error in ValidationResult.Errors)
         {
             UserNotificationService.AddMessage(new UserMessage()
@@ -73,13 +67,10 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
         }
 
         ToastService.ShowError("Validation error!");
-
-        return result;
     }
     protected bool? IsFieldValid(string propertyName)
     {
         if (ValidationResult == null) return null;
-        // if (!ValidationResult.IsValid) return null;
 
         var propertyFailure = ValidationResult?.Errors?.FirstOrDefault(x => x.PropertyName == propertyName);
         return propertyFailure == null;

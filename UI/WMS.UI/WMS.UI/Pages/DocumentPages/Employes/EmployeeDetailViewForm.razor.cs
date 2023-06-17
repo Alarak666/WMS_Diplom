@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
+using System.Reflection.Metadata;
+using WMS.Core.Interface.ControllerInterface;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
 using WMS.Core.Models.DocumentModels.Persons;
@@ -10,22 +13,30 @@ namespace WMS.UI.Pages.DocumentPages.Employes
     public partial class EmployeeDetailViewForm : BaseDetailViewPopupForm
     {
         [Inject] public IEmployeeService employeeService { get; set; }
+        [Inject] public IPersonService PersonService { get; set; }
+
+        [Inject] public IUserNotificationService userNotificationService { get; set; }
 
         #region Form
 
         private EmployeeDetailViewModel? Model { get; set; } = new EmployeeDetailViewModel();
 
-        private PersonDetailViewModel? Person { get; set; } = new PersonDetailViewModel();
-        private List<PersonDetailViewModel>? Persons { get; set; } = new List<PersonDetailViewModel>();
-        private PositionDetailViewModel? Position { get; set; } = new PositionDetailViewModel();
-        private List<PositionDetailViewModel>? Positions { get; set; } = new List<PositionDetailViewModel>();
+        private PersonListViewModel? Person { get; set; } = new PersonListViewModel();
+        private IEnumerable<PersonListViewModel>? Persons { get; set; } = new List<PersonListViewModel>();
+        private PositionListViewModel? Position { get; set; } = new PositionListViewModel();
+        private List<PositionListViewModel>? Positions { get; set; } = new List<PositionListViewModel>();
         #endregion
         protected override async Task Load()
         {
             await base.Load();
+            Persons = await PersonService.GetListViewItems("", CancellationToken);
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await employeeService.GetDetailViewData(SelectedItemId, CancellationToken);
+            Person = Persons?.FirstOrDefault(x => x.Id == Model?.PersonId);
+            Position = Positions?.FirstOrDefault(x => x.Id == Model?.PositionId);
+            StateHasChanged();
+
         }
 
         private async Task UpdateModel()
@@ -34,6 +45,7 @@ namespace WMS.UI.Pages.DocumentPages.Employes
                 Model.PersonId = Person.Id;
             if (Position?.Id != Guid.Empty)
                 Model.PositionId = Position.Id;
+            StateHasChanged();
         }
         protected override async Task Save()
         {
@@ -43,6 +55,9 @@ namespace WMS.UI.Pages.DocumentPages.Employes
                 await employeeService.UpdateDetailViewModel(Model, CancellationToken);
             else
                 await employeeService.SaveDetailViewModel(Model, CancellationToken);
+            userNotificationService.AddDocumentCreateSuccessMessage("Create Document");
+            StateHasChanged();
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DevExpress.XtraSpellChecker.Parser;
+using Microsoft.AspNetCore.Components;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.StockModels;
 using WMS.UI.Shared;
@@ -26,6 +27,8 @@ namespace WMS.UI.Pages.DocumentPages.Pallets
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await PalletService.GetDetailViewData(SelectedItemId, CancellationToken);
+            AreaTypeListViewModel = AreaTypeListViewModels?.FirstOrDefault(x => x.Id == Model?.AreaTypeId);
+
         }
         private async Task LoadListViewModel()
         {

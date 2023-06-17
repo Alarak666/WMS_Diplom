@@ -17,7 +17,7 @@
         public bool IsCustomer { get; set; }
         public bool IsVendor { get; set; }
         public bool IsOther { get; set; }
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public string? CreatedUserUserName { get; set; }
         public Guid? CreatedUserId { get; set; }
         public DateTime CreatedDate { get; set; }

@@ -34,6 +34,7 @@ namespace WMS.UI.Services.DocumentService.VendorCustomerServices
         {
             var response = await _httpClientHelper.Post("api/VendorCustomer",
                 new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"), cancellation);
+            var responseContent = await response.Content.ReadAsStringAsync();
             return response.EnsureSuccessStatusCode().IsSuccessStatusCode;
         }
 

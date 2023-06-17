@@ -2,6 +2,7 @@
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.CountryModels;
 using WMS.Core.Models.DocumentModels.Currencies;
+using WMS.Core.Models.DocumentModels.Divisions;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.Countries
@@ -26,6 +27,8 @@ namespace WMS.UI.Pages.DocumentPages.Countries
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await CountryService.GetDetailViewData(SelectedItemId, CancellationToken);
+            CurrencyListViewModel = CurrencyListViewModels?.FirstOrDefault(x => x.Id == Model?.CurrencyId);
+
         }
         private async Task LoadListViewModel()
         {

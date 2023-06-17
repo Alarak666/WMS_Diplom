@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.IdentityModels;
+using WMS.Core.Models.DocumentModels.Positions;
 using WMS.UI.Shared;
 
 namespace WMS.UI.Pages.DocumentPages.ApplicationUser
@@ -26,6 +27,8 @@ namespace WMS.UI.Pages.DocumentPages.ApplicationUser
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await ApplicationUserService.GetDetailViewData(SelectedItemId, CancellationToken);
+            ListViewModel = ListViewModels?.FirstOrDefault(x => x.Id == Model?.UserSettingsId);
+
         }
 
         private async Task LoadListViewModel()
