@@ -57,6 +57,7 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
     }
     protected async Task ValidateObjectFailed()
     {
+        string field = "";
         foreach (var error in ValidationResult.Errors)
         {
             UserNotificationService.AddMessage(new UserMessage()
@@ -64,9 +65,10 @@ public class BaseDetailViewPopupForm : ComponentBase, IDisposable
                 Message = error.ErrorMessage,
                 Type = UserMessageType.Error
             });
+            field += error.PropertyName + " ";
         }
-
-        ToastService.ShowError("Validation error!");
+        if(ValidationResult.Errors.Any()) 
+            ToastService.ShowError($"Validation error in field {field}");
     }
     protected bool? IsFieldValid(string propertyName)
     {

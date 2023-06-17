@@ -16,7 +16,7 @@ public class Employee : BaseCatalog
     public Person? Person { get; set; }
     public Guid? PersonId { get; set; }
     public DateTime HireDate { get; set; }
-    public DateTime DepartureDate { get; set; }
+    public DateTime? DepartureDate { get; set; }
     public DateTime DateOfBirth { get; set; }
     public Gender Gender { get; set; }
     public string? Tin { get; set; }

@@ -6,7 +6,10 @@ public class AcceptanceOfGoodValidation : AbstractValidator<AcceptanceOfGoodDeta
 {
     public AcceptanceOfGoodValidation()
     {
-        RuleFor(x => x.Name).NotNull().NotEmpty().WithMessage("Name is required");
-        RuleFor(x => x.UniqueCode).NotNull().NotEmpty().WithMessage("UniqueCode is required");
+        RuleFor(x => x.EmployerId).NotNull().NotEmpty().WithMessage("Employee is required");
+        RuleFor(x => x.ProductId).NotNull().NotEmpty().WithMessage("Product is required");
+        RuleFor(x => x.DateAccepts).NotNull().NotEmpty().WithMessage("Data Accept is required");
+
+
     }
 }

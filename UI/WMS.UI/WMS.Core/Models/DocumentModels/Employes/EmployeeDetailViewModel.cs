@@ -8,6 +8,8 @@ namespace WMS.Core.Models.DocumentModels.Employes
         public EmployeeDetailViewModel()
         {
             CreatedDate = DateTime.Now;
+            HireDate = DateTime.Now;
+            DepartureDate = DateTime.Now;
         }
         public Guid Id { get; set; }
         public Guid? CreatedUserId { get; set; }

@@ -23,9 +23,6 @@
                 <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="6">
                     <FormInputText @bind-Text="@Model.UniqueCode" IsValid="@(IsFieldValid(nameof(Model.UniqueCode)))" />
                 </DxFormLayoutItem>
-                <DxFormLayoutItem Caption="Name:" ColSpanMd="6">
-                    <FormInputText @bind-Text="@Model.Name" IsValid="@(IsFieldValid(nameof(Model.Name)))" />
-                </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Type Pallet ID:" ColSpanMd="6">
                     <DxComboBox Data="@PalletListViewModels"
                                 TextFieldName ="@nameof(Core.Models.DocumentModels.StockModels.PalletListViewModel.Name)"
@@ -40,6 +37,7 @@
                 <DxFormLayoutItem Caption="Product ID:" ColSpanMd="6">
                     <DxComboBox Data="@ProductListViewModels"
                                 TextFieldName="@nameof(Core.Models.DocumentModels.Products.ProductListViewModel.Name)"
+                                FilteringMode="DataGridFilteringMode.Contains"
                                 @bind-Value="@ProductListViewModel"
                                 NullText="Empty"
                                 ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
@@ -50,13 +48,13 @@
                 </DxFormLayoutItem>
                <DxFormLayoutItem Caption="Employer ID:" ColSpanMd="6">
                    <DxComboBox Data="@EmployeeListViewModels"
-                               TextFieldName="@nameof(EmployeeListViewModel.Name)"
+                               TextFieldName="@nameof(EmployeeListViewModel.FullName)"
 
                                @bind-Value="@EmployeDetailModel"
                                NullText="Empty"
                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
                        <ItemTemplate Context="employee">
-                               <div>@employee.Name - @employee.Tin</div>
+                               <div>@employee.FullName</div>
                        </ItemTemplate>
                    </DxComboBox>
                </DxFormLayoutItem>
@@ -79,7 +77,7 @@
                     <FormInputDate @bind-Date="@Model.DateAccepts" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Data Expiration:" ColSpanMd="6">
-                    <FormInputDate @bind-Date="@Model.DataExpiration" />
+                    <DxDateEdit @bind-Date="@Model.DataExpiration" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="N Pallet:" ColSpanMd="6">
                     <FormInputText @bind-Text="@Model.NPallet" />

@@ -18,7 +18,7 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
 
 
         #region Form
-
+        
         private AcceptanceOfGoodDetailViewModel? Model { get; set; } = new AcceptanceOfGoodDetailViewModel();
         private IEnumerable<EmployeeListViewModel>? EmployeeListViewModels { get; set; } =
             new List<EmployeeListViewModel>();
@@ -46,15 +46,16 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
 
         protected override async Task Save()
         {
+            await UpdateModel();
             var validationResult = await ValidateSave();
             if (validationResult)
             {
-                await UpdateModel();
                 if (SelectedItemId != null)
                     await AcceptanceOfGoodService.UpdateDetailViewModel(Model, CancellationToken);
                 else
                     await AcceptanceOfGoodService.SaveDetailViewModel(Model, CancellationToken);
                 await Load();
+                StateHasChanged();
             }
             else
             {

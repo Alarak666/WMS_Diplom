@@ -197,7 +197,6 @@ namespace WMS.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedUserName = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UniqueCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -532,7 +531,7 @@ namespace WMS.Data.Migrations
                     PositionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Tin = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -611,7 +610,7 @@ namespace WMS.Data.Migrations
                     Weight = table.Column<double>(type: "float", nullable: false),
                     Qty = table.Column<int>(type: "int", nullable: false),
                     DateAccepts = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataExpiration = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataExpiration = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NPallet = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>

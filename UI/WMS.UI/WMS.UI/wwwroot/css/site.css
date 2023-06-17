@@ -70,7 +70,9 @@ a, .btn-link {
     width: 100%;
     height: 100%;
 }
-
+.blazored-toast-container {
+    z-index: 9999;
+}
 .toast-item {
     width: 200px;
     height: 200px;

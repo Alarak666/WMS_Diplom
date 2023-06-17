@@ -8,8 +8,8 @@ public class EmployeeDto : BaseCatalogDto
     public Guid? DivisionId { get; set; }
     public Guid? PositionId { get; set; }
     public Guid? PersonId { get; set; }
-    public DateTime HireDate { get; set; }
-    public DateTime DepartureDate { get; set; }
+    public DateTime? HireDate { get; set; }
+    public DateTime? DepartureDate { get; set; }
     public DateTime DateOfBirth { get; set; }
     public Gender Gender { get; set; }
     public string? Tin { get; set; }

@@ -14,6 +14,7 @@ namespace WMS.UI.Pages.DocumentPages.Employes
     {
         [Inject] public IEmployeeService employeeService { get; set; }
         [Inject] public IPersonService PersonService { get; set; }
+        [Inject] public IPositionService PositionService { get; set; }
 
         [Inject] public IUserNotificationService userNotificationService { get; set; }
 
@@ -24,12 +25,14 @@ namespace WMS.UI.Pages.DocumentPages.Employes
         private PersonListViewModel? Person { get; set; } = new PersonListViewModel();
         private IEnumerable<PersonListViewModel>? Persons { get; set; } = new List<PersonListViewModel>();
         private PositionListViewModel? Position { get; set; } = new PositionListViewModel();
-        private List<PositionListViewModel>? Positions { get; set; } = new List<PositionListViewModel>();
+        private IEnumerable<PositionListViewModel>? Positions { get; set; } = new List<PositionListViewModel>();
         #endregion
         protected override async Task Load()
         {
             await base.Load();
             Persons = await PersonService.GetListViewItems("", CancellationToken);
+            Positions = await PositionService.GetListViewItems("", CancellationToken);
+
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await employeeService.GetDetailViewData(SelectedItemId, CancellationToken);
@@ -41,7 +44,7 @@ namespace WMS.UI.Pages.DocumentPages.Employes
 
         private async Task UpdateModel()
         {
-            if (Person?.Id != Guid.Empty)
+            if (Person?.Id != Guid.Empty && Person?.Id != null)
                 Model.PersonId = Person.Id;
             if (Position?.Id != Guid.Empty)
                 Model.PositionId = Position.Id;

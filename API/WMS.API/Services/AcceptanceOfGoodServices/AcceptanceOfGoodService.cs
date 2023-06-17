@@ -80,7 +80,7 @@ public class AcceptanceOfGoodService : IDocumentRepository<AcceptanceOfGoodDto>
             .FirstOrDefaultAsync(x => x.Id == item.TypePalletId);
         item.UniqueCode = await _documentNumeratorService.SetCatalogNumber(item.UniqueCode);
         item.NPallet = GenerateUniqueNumber(pallet.AreaType, pallet.AreaType.Region.Name);
-        await CalculateVolume(item.TypePallet, item);
+        await CalculateVolume(pallet, item);
         _context.Set<AcceptanceOfGood>().Add(item);
         await _context.SaveChangesAsync();
         var request = _mapper.Map<AcceptanceOfGoodDto>(item);

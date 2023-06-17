@@ -12,7 +12,7 @@ using WMS.Data.Context;
 namespace WMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230610143815_InitialCreate")]
+    [Migration("20230617121251_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,9 +137,6 @@ namespace WMS.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("CreatedUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedUserName")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -376,7 +373,7 @@ namespace WMS.Data.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DepartureDate")
+                    b.Property<DateTime?>("DepartureDate")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DivisionId")
@@ -607,7 +604,7 @@ namespace WMS.Data.Migrations
                 {
                     b.HasBaseType("WMS.Data.Entity.BaseClass.BaseCatalog");
 
-                    b.Property<DateTime>("DataExpiration")
+                    b.Property<DateTime?>("DataExpiration")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateAccepts")
