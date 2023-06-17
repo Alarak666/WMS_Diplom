@@ -1,0 +1,90 @@
+﻿@using WMS.Core.Interface
+
+<div class="input-group input-group-sm" id="@($"flyout-overview-target-container_{_componentId}")">
+    <input type="text" 
+           class="form-control @(IsValid == null ? "" : IsValid == true ? "form-field-valid" : "form-field-invalid")"
+           style="padding-left: 6px"
+           placeholder="@Placeholder"
+           autocomplete="off" value="@_searchText"
+           @oninput="HandleSearchTextChange"
+           readonly=@ReadOnly
+           disabled=@(!Enabled)>
+    <button class="btn btn-outline-dark btn-sm" type="button" @onclick="HandleClickOpenFlyout">
+        <i class="fa-solid fa-caret-down form-lookup-catalog-input-icon mx-1"></i>
+    </button>
+    @if (ShowClearButton)
+    {
+        <button class="btn outline-dark btn-sm" type="button" @onclick="HandleClearSearchText">
+            <i class="fa-solid fa-xmark form-lookup-catalog-input-icon mx-1"></i>
+        </button>
+    }
+</div>
+
+<DxFlyout CssClass="popup"
+          @bind-IsOpen=IsOpen
+          RenderStyle="@ButtonRenderStyle.Secondary"
+          PositionTarget="@($"#flyout-overview-target-container_{_componentId}")"
+          RestrictionTarget="#Navigation-Flyout-Overview"
+          FitToRestriction="false"
+          CloseMode="FlyoutCloseMode.Close"
+          HeaderVisible="false"
+          FooterVisible="true"
+          Closed="HandlePopupClosed"
+          Width="max(25vw, 250px)"
+          MaxHeight="max(25vh, 450px)"
+          PreventCloseOnPositionTargetClick="true">
+    <BodyTemplate>
+        <div style="height:100%; width:99%; overflow:auto;">
+            <table class="table table-sm table-hover">
+                <thead style="position: sticky; top:  0; background-color: #fff !important;">
+                <tr>
+                    @if (Columns == null)
+                    {
+                        <th style="width: 100%">Name</th>
+                    }
+                    else
+                    {
+                        @Columns(null)
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @if (_items != null)
+                {
+                    @foreach (var item in _items)
+                    {
+                        <tr style="cursor: pointer" @onclick="@(() => HandleSelectItem(item))">
+                            @if (Columns == null)
+                            {
+                                <td style="width: 100%">
+                                    @((item as ISearchable )?.Name)
+                                </td>
+                            }
+                            else
+                            {
+                                @Columns(item)
+                            }
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+            @if (_items == null || !_items.Any())
+            {
+                <div class="w-100 text-center">
+                    <span>No data...</span>
+                </div>
+            }
+        </div>
+    </BodyTemplate>
+    <FooterTemplate>
+        <div class="d-flex align-items-center justify-content-center">
+            We show up to 20 records, please use search to see more results...
+        </div>
+    </FooterTemplate>
+</DxFlyout>
+
+@if (DetailViewType != null && _isDetailViewOpen)
+{
+    <DynamicComponent @ref="@_detailViewRef" Type="@DetailViewType" Parameters="@_parameters"/>
+}

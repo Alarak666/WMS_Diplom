@@ -448,7 +448,7 @@ namespace WMS.Data.Migrations
                 {
                     b.HasBaseType("WMS.Data.Entity.BaseClass.BaseCatalog");
 
-                    b.Property<Guid?>("OrderId")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ProductId")
@@ -980,7 +980,9 @@ namespace WMS.Data.Migrations
 
                     b.HasOne("WMS.Data.Entity.Orders.Order", null)
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WMS.Data.Entity.Products.Product", "Product")
                         .WithMany()

@@ -79,9 +79,12 @@
                 <DxFormLayoutItem Caption="Date Accepts:" ColSpanMd="6">
                     <FormInputDate @bind-Date="@Model.DateAccepts" />
                 </DxFormLayoutItem>
-                <DxFormLayoutItem Caption="Data Expiration:" ColSpanMd="6">
-                    <DxDateEdit @bind-Date="@Model.DataExpiration" />
-                </DxFormLayoutItem>
+                @if (Model.Id != Guid.Empty)
+                {
+                    <DxFormLayoutItem Caption="Data Expiration:" ColSpanMd="6">
+                        <DxDateEdit @bind-Date="@Model.DataExpiration" />
+                    </DxFormLayoutItem>
+                }
                 <DxFormLayoutItem Caption="N Pallet:" ColSpanMd="6">
                     <FormInputText @bind-Text="@Model.NPallet" />
                 </DxFormLayoutItem>

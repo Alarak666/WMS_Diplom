@@ -18,5 +18,6 @@ namespace WMS.Core.Models.DocumentModels.Products
         public string? VendorCode { get; set; }
         public string? MainUnitName { get; set; }
         public Guid? MainUnitId { get; set; }
+        public decimal Price { get; set; }
     }
 }

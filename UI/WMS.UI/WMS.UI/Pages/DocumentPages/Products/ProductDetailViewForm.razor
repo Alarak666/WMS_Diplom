@@ -56,7 +56,9 @@
                             </ItemTemplate>
                         </DxComboBox>
                     </DxFormLayoutItem>
-                   
+                    <DxFormLayoutItem Caption="Price:" ColSpanMd="6">
+                        <DxSpinEdit T="decimal" @bind-Text="@Model.Price" />
+                    </DxFormLayoutItem>
                 </DxFormLayoutGroup>
             </DxFormLayout>
 

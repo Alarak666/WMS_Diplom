@@ -37,10 +37,22 @@ public class OrderService : IDocumentRepository<OrderDto>
 
     public async Task<OrderDto> Create(OrderDto itemDto, CancellationToken cancellationToken)
     {
+        var newGuid = Guid.NewGuid();
         var item = _mapper.Map<Order>(itemDto);
         item.UniqueCode = await _documentNumeratorService.SetCatalogNumber(item.UniqueCode);
-        _context.Set<Order>().Add(item);
-        await _context.SaveChangesAsync();
+        item.Id = newGuid;
+        foreach (var order in item.OrderDetails)
+        {
+            order.Id = Guid.NewGuid();
+            order.OrderId = newGuid;
+            var acceptanceOfGood = await _context.AcceptanceOfGoods.FirstOrDefaultAsync(x => x.ProductId == order.ProductId, cancellationToken);
+            if (acceptanceOfGood == null)
+                throw new Exception("Product quantity empty");
+            acceptanceOfGood.Qty -= (int)order.Quantity;
+            _context.AcceptanceOfGoods.Update(acceptanceOfGood);
+        }
+        _context.Add(item);
+        await _context.SaveChangesAsync(cancellationToken);
         var request = _mapper.Map<OrderDto>(item);
         return request;
     }
