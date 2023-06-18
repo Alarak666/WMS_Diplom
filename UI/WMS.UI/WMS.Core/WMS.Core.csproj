@@ -23,7 +23,6 @@
   <ItemGroup>
     <Folder Include="DTO\NewFolder\" />
     <Folder Include="DTO\UserMessage\" />
-    <Folder Include="Models\Dashboards\" />
     <Folder Include="Services\Catalogs\" />
   </ItemGroup>
 

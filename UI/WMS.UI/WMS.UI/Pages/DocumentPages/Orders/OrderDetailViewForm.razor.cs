@@ -1,6 +1,7 @@
 ﻿using DevExpress.Utils.About;
 using DevExpress.XtraSpellChecker.Parser;
 using Microsoft.AspNetCore.Components;
+using WMS.Core.Interface.ControllerInterface;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
 using WMS.Core.Models.DocumentModels.OrderModels;
@@ -72,8 +73,11 @@ namespace WMS.UI.Pages.DocumentPages.Orders
             ToastService.ShowInfo("Load Good");
             if (SelectedItemId != null)
                 Model = await OrderService.GetDetailViewData(SelectedItemId, CancellationToken);
+            OrderDetailModels.AddRange(Model.OrderDetails);
             EmployeeListViewModel = EmployeeListViewModels?.FirstOrDefault(x => x.Id == Model?.EmployeeId);
             VendorCustomerListViewModel = VendorCustomerListViewModels?.FirstOrDefault(x => x.Id == Model?.VendorCustomerId);
+            if(Model.OrderDetails.Any())
+                HandleChange();
 
         }
 
@@ -84,7 +88,14 @@ namespace WMS.UI.Pages.DocumentPages.Orders
             if (SelectedItemId != null)
                 await OrderService.UpdateDetailViewModel(Model, CancellationToken);
             else
-                await OrderService.SaveDetailViewModel(Model, CancellationToken);
+            {
+                var responses = await OrderService.SaveDetailViewModel(Model, CancellationToken);
+                if (responses != "Success")
+                {
+                    ToastService.ShowError(responses);
+                    UserNotificationService.AddErrorMessage(responses);
+                }
+            }
         }
 
         private async void HandleChangeProduct(OrderDetailModel productLine, Guid? newItemId)
@@ -105,9 +116,8 @@ namespace WMS.UI.Pages.DocumentPages.Orders
 
         }
 
-        private void HandleChangeProductPrice(OrderDetailModel productLine, decimal newValue)
+        private void HandleChange()
         {
-            productLine.UnitPrice = newValue;
             TotalAmount = OrderDetailModels.Sum(x => x.UnitPrice * x.Quantity);
             TotalPrice = OrderDetailModels.Sum(x => x.UnitPrice);
             TotalQuantity = OrderDetailModels.Sum(x => x.Quantity);

@@ -1,7 +1,7 @@
 ﻿@page "/"
-@using WMS.Core.DemoTemplate
-@inject ISalesInfoDataProvider Sales
-@*@layout DataProviderAccessArea*@
+@using WMS.Core.Interface
+@using WMS.Core.Models.Dashboards
+@inject IDashboardProvider Sales
 <div class="w-100">
     <div>
         <DxChart Data="@(PivotGridDataProvider.ChartDataSource)" Width="100%">
@@ -16,23 +16,25 @@
     </div>
     <div class="mt-4">
         <DxPivotGrid Data="@(PivotGridDataProvider.PivotGridDataSource)" CssClass="m-100">
-            <DxPivotGridField Field="@nameof(SaleInfo.Region)" SortOrder="PivotGridSortOrder.Ascending" Area="PivotGridFieldArea.Row" />
-            <DxPivotGridField Field="@nameof(SaleInfo.Country)" Area="PivotGridFieldArea.Row" />
-            <DxPivotGridField Field="@nameof(SaleInfo.City)" Area="PivotGridFieldArea.Row" />
-            <DxPivotGridField Field="@nameof(SaleInfo.Date)" GroupInterval="PivotGridGroupInterval.Year" Area="PivotGridFieldArea.Column" Caption="Year" />
-            <DxPivotGridField Field="@nameof(SaleInfo.Date)" GroupInterval="PivotGridGroupInterval.Quarter" Area="PivotGridFieldArea.Column" Caption="Quarter">
-                <HeaderTemplate>@string.Format("Q{0}", context)</HeaderTemplate>
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.PalletName)" SortOrder="PivotGridSortOrder.Ascending" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.PalletName)" GroupInterval="PivotGridGroupInterval.NotSet" Area="PivotGridFieldArea.Column" Caption="PalletName">
+                <HeaderTemplate>@string.Format("{0}", context)</HeaderTemplate>
             </DxPivotGridField>
-            <DxPivotGridField Field="@nameof(SaleInfo.Amount)" Area="PivotGridFieldArea.Data" SummaryType="PivotGridSummaryType.Sum" />
-            <DxPivotGridField Field="@nameof(SaleInfo.OrderId)" Caption="Count" Area="PivotGridFieldArea.Data" SummaryType="PivotGridSummaryType.Count" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Quantity)" Area="PivotGridFieldArea.Data" SummaryType="PivotGridSummaryType.Sum" />
+            <DxPivotGridField Caption="Volume (m³)" Field="@nameof(DashBoardPalletDto.M3)" Area="PivotGridFieldArea.Data" SummaryType="PivotGridSummaryType.Sum" />
+
         </DxPivotGrid>
     </div>
 </div>
 
 @code {
-    DxPivotGridDataProvider<SaleInfo> PivotGridDataProvider;
-    protected override void OnInitialized() {
+    DxPivotGridDataProvider<DashBoardPalletDto> PivotGridDataProvider;
+    protected override void OnInitialized()
+    {
         base.OnInitialized();
-        PivotGridDataProvider = DxPivotGridDataProvider<SaleInfo>.Create(Sales.GetSalesAsync());
+        var task = Task.Run(() => Sales.GetSalesAsync());
+        var data = task.Result;
+
+        PivotGridDataProvider = DxPivotGridDataProvider<DashBoardPalletDto>.Create(Sales.GetSalesAsync());
     }
 }

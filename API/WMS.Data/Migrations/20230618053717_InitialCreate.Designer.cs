@@ -12,7 +12,7 @@ using WMS.Data.Context;
 namespace WMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230617184613_InitialCreate")]
+    [Migration("20230618053717_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -326,6 +326,35 @@ namespace WMS.Data.Migrations
                     b.ToTable("UserMessages", (string)null);
                 });
 
+            modelBuilder.Entity("WMS.Data.Entity.Orders.OrderDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Quantity")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails", (string)null);
+                });
+
             modelBuilder.Entity("WMS.Data.Entity.Countries.Country", b =>
                 {
                     b.HasBaseType("WMS.Data.Entity.BaseClass.BaseCatalog");
@@ -444,31 +473,6 @@ namespace WMS.Data.Migrations
                     b.HasIndex("VendorCustomerId");
 
                     b.ToTable("Orders", (string)null);
-                });
-
-            modelBuilder.Entity("WMS.Data.Entity.Orders.OrderDetail", b =>
-                {
-                    b.HasBaseType("WMS.Data.Entity.BaseClass.BaseCatalog");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Quantity")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Data.Entity.Persons.Person", b =>
@@ -879,6 +883,21 @@ namespace WMS.Data.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("WMS.Data.Entity.Orders.OrderDetail", b =>
+                {
+                    b.HasOne("WMS.Data.Entity.Orders.Order", null)
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WMS.Data.Entity.Products.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("WMS.Data.Entity.Countries.Country", b =>
                 {
                     b.HasOne("WMS.Data.Entity.Currencies.Currency", "Currency")
@@ -970,27 +989,6 @@ namespace WMS.Data.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("VendorCustomer");
-                });
-
-            modelBuilder.Entity("WMS.Data.Entity.Orders.OrderDetail", b =>
-                {
-                    b.HasOne("WMS.Data.Entity.BaseClass.BaseCatalog", null)
-                        .WithOne()
-                        .HasForeignKey("WMS.Data.Entity.Orders.OrderDetail", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("WMS.Data.Entity.Orders.Order", null)
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WMS.Data.Entity.Products.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("WMS.Data.Entity.Persons.Person", b =>

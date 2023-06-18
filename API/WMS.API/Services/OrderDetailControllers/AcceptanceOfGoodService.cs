@@ -38,7 +38,6 @@ public class OrderDetailService : IDocumentRepository<OrderDetailDto>
     public async Task<OrderDetailDto> Create(OrderDetailDto itemDto, CancellationToken cancellationToken)
     {
         var item = _mapper.Map<OrderDetail>(itemDto);
-        item.UniqueCode = await _documentNumeratorService.SetCatalogNumber(item.UniqueCode);
         _context.Set<OrderDetail>().Add(item);
         await _context.SaveChangesAsync();
         var request = _mapper.Map<OrderDetailDto>(item);
@@ -87,7 +86,7 @@ public class OrderDetailService : IDocumentRepository<OrderDetailDto>
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         var entity = await _context.Set<OrderDetail>()
-            .FirstOrDefaultAsync(x => ((BaseCatalog)x).Id == id, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         if (entity != null)
             _context.Set<OrderDetail>().Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);

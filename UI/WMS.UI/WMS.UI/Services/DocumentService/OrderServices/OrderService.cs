@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System.Net;
 using System.Text;
+using WMS.Core.DTO.Middlewares;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.OrderModels;
 using WMS.UI.Services.HttpClients;
@@ -30,11 +32,20 @@ namespace WMS.UI.Services.DocumentService.OrderServices
             return item;
         }
 
-        public async Task<bool> SaveDetailViewModel(OrderDetailViewModel? model, CancellationToken cancellation)
+        public async Task<string> SaveDetailViewModel(OrderDetailViewModel? model, CancellationToken cancellation)
         {
+
             var response = await _httpClientHelper.Post("api/Order",
                 new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"), cancellation);
-            return response.EnsureSuccessStatusCode().IsSuccessStatusCode;
+            var responseContent = await response.Content.ReadAsStringAsync(cancellation);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                var error = JsonConvert.DeserializeObject<ErrorResponseDto>(responseContent);
+                return error.DetailException;
+            }
+            var item = JsonConvert.DeserializeObject<OrderDetailViewModel>(responseContent);
+
+            return "Success";
         }
 
         public async Task<bool> UpdateDetailViewModel(OrderDetailViewModel model, CancellationToken cancellation)

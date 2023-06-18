@@ -7,6 +7,7 @@ using WMS.Data.Context;
 using WMS.Data.DTO.OrderDtos;
 using WMS.Data.Entity.BaseClass;
 using WMS.Data.Entity.Orders;
+using WMS.Data.Entity.Stocks;
 using WMS.Data.Interface;
 using WMS.Data.Interface.ControllerInterface;
 using WMS.Data.Middlewares.CustomExceptions;
@@ -40,21 +41,62 @@ public class OrderService : IDocumentRepository<OrderDto>
         var newGuid = Guid.NewGuid();
         var item = _mapper.Map<Order>(itemDto);
         item.UniqueCode = await _documentNumeratorService.SetCatalogNumber(item.UniqueCode);
+        await _context.Database.BeginTransactionAsync(cancellationToken);
+
         item.Id = newGuid;
+        var itemOrder = new Order
+        {
+            Id = newGuid,
+            CreatedUserId = itemDto.CreatedUserId,
+            CreatedDate = itemDto.CreatedDate,
+            UniqueCode = itemDto.UniqueCode,
+            Name = itemDto.Name,
+            EmployeeId = itemDto.EmployeeId,
+            VendorCustomerId = itemDto.VendorCustomerId,
+            ShippingAddress = itemDto.ShippingAddress,
+            PaymentMethod = itemDto.PaymentMethod,
+            OrderStatus = itemDto.OrderStatus,
+            DateOrders = itemDto.DateOrders,
+        };
+        _context.Add(itemOrder);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        var orderDetails = new List<OrderDetail>();
         foreach (var order in item.OrderDetails)
         {
             order.Id = Guid.NewGuid();
             order.OrderId = newGuid;
-            var acceptanceOfGood = await _context.AcceptanceOfGoods.FirstOrDefaultAsync(x => x.ProductId == order.ProductId, cancellationToken);
+            var acceptanceOfGood = await _context.AcceptanceOfGoods.Where(x => x.ProductId == order.ProductId).ToListAsync(cancellationToken);
             if (acceptanceOfGood == null)
                 throw new Exception("Product quantity empty");
-            acceptanceOfGood.Qty -= (int)order.Quantity;
-            _context.AcceptanceOfGoods.Update(acceptanceOfGood);
+            var sum = acceptanceOfGood.Sum(x => x.Qty);
+            sum -= (int)order.Quantity;
+            if (sum < 0)
+                throw new Exception("product quantity is less than 0");
+            foreach (var x in acceptanceOfGood)
+            {
+                var a = x.Qty;
+                sum = Math.Abs(sum-a);
+                if (sum <= a)
+                {
+                    x.Qty -= sum;
+                    sum = 0;
+                    break;
+                }
+
+                x.Qty = 0;
+                x.DataExpiration = new DateTime(1111, 11, 11);
+            }
+            _context.AcceptanceOfGoods.UpdateRange(acceptanceOfGood);
+            await _context.SaveChangesAsync(cancellationToken);
+            orderDetails.Add(order);
         }
-        _context.Add(item);
+        await _context.AddRangeAsync(orderDetails);
         await _context.SaveChangesAsync(cancellationToken);
+        await _context.Database.CommitTransactionAsync(cancellationToken);
         var request = _mapper.Map<OrderDto>(item);
         return request;
+
     }
     public async Task<IEnumerable<OrderDto>> GetAll(
         CancellationToken cancellationToken,
@@ -81,18 +123,85 @@ public class OrderService : IDocumentRepository<OrderDto>
     }
     public async Task<OrderDto> Update(OrderDto dto, CancellationToken cancellationToken)
     {
+        var newGuid = Guid.NewGuid();
+        var item = _mapper.Map<Order>(dto);
+        await _context.Database.BeginTransactionAsync(cancellationToken);
+
+        item.Id = newGuid;
         var context = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var item = await context.Orders
-            .FirstOrDefaultAsync(x => x.Id == dto.Id, cancellationToken);
 
-        if (item == null) throw new DocumentNotFoundException(dto.Id);
+        var order = await _context.Orders.FindAsync(dto.Id);
+        if (order == null) throw new Exception($"Not found document{order.Id}");
+        var itemOrder = new Order
+        {
+            Id = dto.Id,
+            CreatedUserId = dto.CreatedUserId,
+            CreatedDate = dto.CreatedDate,
+            UniqueCode = dto.UniqueCode,
+            Name = dto.Name,
+            EmployeeId = dto.EmployeeId,
+            VendorCustomerId = dto.VendorCustomerId,
+            ShippingAddress = dto.ShippingAddress,
+            PaymentMethod = dto.PaymentMethod,
+            OrderStatus = dto.OrderStatus,
+            DateOrders = dto.DateOrders,
+        };
+        _context.Update(itemOrder);
 
-        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
-        _mapper.Map(dto, item);
-        context.Entry(item).State = EntityState.Modified;
+        var productItemsToUpdate = await _context.OrderDetails
+            .Where(x => x.OrderId == item.Id).ToListAsync(cancellationToken);
+        _context.RemoveRange(productItemsToUpdate);
+
+        if (dto.OrderDetails != null)
+        {
+            foreach (var orderUpdate in dto.OrderDetails)
+            {
+                var newOrderDetail = new OrderDetail
+                {
+                    Id = orderUpdate.Id,
+                    OrderId = orderUpdate.OrderId,
+                    ProductId = orderUpdate.ProductId,
+                    Quantity = orderUpdate.Quantity,
+                    UnitPrice = orderUpdate.UnitPrice
+                };
+                if (productItemsToUpdate.Any(x => x.Id == orderUpdate.Id))
+                {
+                    _context.Add(newOrderDetail);
+                }
+                else
+                {
+                    newOrderDetail.OrderId = item.Id;
+                    newOrderDetail.Id = Guid.NewGuid();
+                    var acceptanceOfGood = await _context.AcceptanceOfGoods.Where(x => x.ProductId == orderUpdate.ProductId).ToListAsync(cancellationToken);
+                    if (acceptanceOfGood == null)
+                        throw new Exception("Product quantity empty");
+                    var sum = acceptanceOfGood.Sum(x => x.Qty);
+                    sum -= (int)orderUpdate.Quantity;
+                    if (sum < 0)
+                        throw new Exception("product quantity is less than 0");
+                    for (int i = 0; i < acceptanceOfGood.Count; i++)
+                    {
+                        var x = acceptanceOfGood[i];
+                        var a = x.Qty;
+                        sum -= a;
+                        if (sum <= a)
+                        {
+                            x.Qty -= sum;
+                            sum = 0;
+                            break;
+                        }
+
+                        x.Qty = 0;
+                        x.DataExpiration = new DateTime(1111, 11, 11);
+                    }
+                    _context.AcceptanceOfGoods.UpdateRange(acceptanceOfGood);
+                    _context.Add(newOrderDetail);
+                }
+            }
+        }
+
         await context.SaveChangesAsync(cancellationToken);
-
-        await transaction.CommitAsync(cancellationToken);
+        await _context.Database.CommitTransactionAsync(cancellationToken);
         var result = _mapper.Map<OrderDto>(item);
         return result;
     }

@@ -3,11 +3,12 @@ using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using WMS.Core.DemoTemplate;
+using WMS.Core.Interface;
 using WMS.Core.Interface.ControllerInterface;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Services;
 using WMS.Core.Services.BaseServices;
+using WMS.UI.Services.DashBoardService;
 using WMS.UI.Services.DocumentService.AcceptanceOfGoodServices;
 using WMS.UI.Services.DocumentService.ApplicationRoleServices;
 using WMS.UI.Services.DocumentService.ApplicationUserServices;
@@ -80,7 +81,7 @@ public static class ServiceCollectionExtensions
         #endregion
 
         services.AddScoped<IViewEventListener, ViewEventListener>();
-        services.AddSingleton<ISalesInfoDataProvider, DataProviderAccessArea>();
+        services.AddScoped<IDashboardProvider, DataProviderAccessArea>();
         services.AddSingleton<IUserNotificationService, UserNotificationService>();
         services.AddScoped(typeof(IBaseDataService<>), typeof(BaseDataService<>));
         services.AddScoped<HttpClientHelper>();

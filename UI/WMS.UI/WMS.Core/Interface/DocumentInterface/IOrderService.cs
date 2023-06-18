@@ -6,7 +6,7 @@ namespace WMS.Core.Interface.DocumentInterface
     {
         Task<IEnumerable<OrderListViewModel>?> GetListViewItems(string? searchText, CancellationToken cancellation);
         Task<OrderDetailViewModel?> GetDetailViewData(Guid? id, CancellationToken cancellation);
-        Task<bool> SaveDetailViewModel(OrderDetailViewModel? model, CancellationToken cancellation);
+        Task<string> SaveDetailViewModel(OrderDetailViewModel? model, CancellationToken cancellation);
         Task<bool> UpdateDetailViewModel(OrderDetailViewModel model, CancellationToken cancellation);
         Task<bool> DeleteDetailViewModel(Guid? id, CancellationToken cancellation);
     }

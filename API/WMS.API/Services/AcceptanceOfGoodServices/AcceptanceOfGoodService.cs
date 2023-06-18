@@ -78,11 +78,17 @@ public class AcceptanceOfGoodService : IDocumentRepository<AcceptanceOfGoodDto>
             .Include(x => x.AreaType)
             .Include(x => x.AreaType.Region)
             .FirstOrDefaultAsync(x => x.Id == item.TypePalletId);
+        pallet.Quantity -= 1;
+        if (pallet?.Quantity <= 0)
+            throw new Exception("All places are occupied choose a new planet");
         item.UniqueCode = await _documentNumeratorService.SetCatalogNumber(item.UniqueCode);
         item.NPallet = GenerateUniqueNumber(pallet.AreaType, pallet.AreaType.Region.Name);
          await CalculateVolume(pallet, item);
         _context.Set<AcceptanceOfGood>().Add(item);
         await _context.SaveChangesAsync();
+        _context.Update(pallet);
+        await _context.SaveChangesAsync();
+
         var request = _mapper.Map<AcceptanceOfGoodDto>(item);
         return request;
     }

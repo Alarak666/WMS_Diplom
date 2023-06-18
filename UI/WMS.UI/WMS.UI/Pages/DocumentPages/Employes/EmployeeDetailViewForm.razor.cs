@@ -46,7 +46,7 @@ namespace WMS.UI.Pages.DocumentPages.Employes
         {
             if (Person?.Id != Guid.Empty && Person?.Id != null)
                 Model.PersonId = Person.Id;
-            if (Position?.Id != Guid.Empty)
+            if (Position?.Id != Guid.Empty && Position?.Id != null)
                 Model.PositionId = Position.Id;
             StateHasChanged();
         }

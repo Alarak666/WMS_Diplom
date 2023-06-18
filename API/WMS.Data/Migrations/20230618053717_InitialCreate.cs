@@ -684,11 +684,6 @@ namespace WMS.Data.Migrations
                 {
                     table.PrimaryKey("PK_OrderDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_BaseCatalogs_Id",
-                        column: x => x.Id,
-                        principalTable: "BaseCatalogs",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_OrderDetails_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",

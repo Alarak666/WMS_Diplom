@@ -4,7 +4,6 @@ using WMS.Core.Interface;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models;
 using WMS.Core.Models.DocumentModels.Products;
-using WMS.Core.Services.BaseServices;
 
 namespace WMS.UI.Shared.FormComponents;
 
@@ -31,6 +30,8 @@ public partial class FormLookupCatalogProduct
     }
 
     [Inject] public IProductService DataService { get; set; }
+    [Inject] public IAcceptanceOfGoodService AcceptanceOfGoodService { get; set; }
+
     [Parameter] public string? Placeholder { get; set; } = "select product";
     [Parameter] public bool ShowClearButton { get; set; } = true;
     [Parameter] public bool ShowEditButton { get; set; } = true;
@@ -47,7 +48,7 @@ public partial class FormLookupCatalogProduct
     private Guid? _selectedItemId;
     private DynamicComponent? _detailViewRef;
     private IDictionary<string, object?> _parameters = new Dictionary<string, object?>();
-    private bool _isDetailViewOpen; 
+    private bool _isDetailViewOpen;
 
     [Parameter]
     public Guid? SelectedItemId
@@ -56,7 +57,7 @@ public partial class FormLookupCatalogProduct
         set
         {
             _selectedItemId = value;
-             UpdateCurrentSelectedItemData();
+            UpdateCurrentSelectedItemData();
         }
     }
     private async Task UpdateCurrentSelectedItemData()
@@ -118,7 +119,7 @@ public partial class FormLookupCatalogProduct
         {
             return;
         }
-        
+
         IsOpen = !IsOpen;
         if (IsOpen)
         {
@@ -141,8 +142,12 @@ public partial class FormLookupCatalogProduct
             //     _items = await DataService.GetTop(searchText, typeof(BaseCatalog), 20);
             // }
             // else
-            // {
-                _items = await DataService.GetListViewItems(searchText, CancellationToken.None);
+            var aceptance = await AcceptanceOfGoodService.GetListViewItems("", CancellationToken.None);
+            var products = await DataService.GetListViewItems("", CancellationToken.None);
+
+            _items = products
+                .Where(product => aceptance.Any(list => list.ProductId == product.Id))
+                .ToList();
             // }
         }
     }
@@ -157,7 +162,7 @@ public partial class FormLookupCatalogProduct
     {
         if (ReadOnly) return;
         IsOpen = false;
-         await SelectedItemIdChanged.InvokeAsync((selectedItem as IBaseField)?.Id);
+        await SelectedItemIdChanged.InvokeAsync((selectedItem as IBaseField)?.Id);
     }
 
     private async Task HandleSearchTextChange(ChangeEventArgs arg)
@@ -228,12 +233,12 @@ public partial class FormLookupCatalogProduct
     private async Task HandleClickOpenObject()
     {
         if (SelectedItemId == null) return;
-        
+
         _parameters.Clear();
         _parameters.Add("IsVisible", true);
         _parameters.Add("SelectedItemId", SelectedItemId);
         _parameters.Add("ViewClosed", EventCallback.Factory.Create<ViewClosedEventArgs>(this, HandlePopupClosedNew));
-        
+
         _isDetailViewOpen = true;
     }
 }

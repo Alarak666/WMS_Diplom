@@ -1,0 +1,44 @@
+﻿@using WMS.Core.Interface
+@using WMS.Core.Models.Dashboards
+@inject IDashboardProvider Sales
+<div class="w-100">
+    <div>
+        <DxChart Data="@(PivotGridDataProvider.ChartDataSource)" Width="100%">
+            <DxChartLegend Position="RelativePosition.Outside" VerticalAlignment="VerticalEdge.Bottom"
+                           CssClass="shadow border justify-content-around" />
+            <DxChartCommonSeries NameField="@((IChartDataItem s) => s.SeriesName)"
+                                 ArgumentField="@(s => s.Argument)"
+                                 ValueField="@(s => s.Value)"
+                                 PaneField="@(s => s.ValueFieldName)"
+                                 SeriesType="ChartSeriesType.Bar" />
+        </DxChart>
+    </div>
+    <div class="mt-4">
+        <DxPivotGrid Data="@(PivotGridDataProvider.PivotGridDataSource)" CssClass="m-100">
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.AreaTypeId)" SortOrder="PivotGridSortOrder.Ascending" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.AreaName)" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Type)" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Quantity)" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Width)" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Height)" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Length)" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Weight)" Area="PivotGridFieldArea.Row" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.PalletName)" GroupInterval="PivotGridGroupInterval.Year" Area="PivotGridFieldArea.Column" Caption="Year" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.PalletName)" GroupInterval="PivotGridGroupInterval.Quarter" Area="PivotGridFieldArea.Column" Caption="Quarter">
+                <HeaderTemplate>@string.Format("Q{0}", context)</HeaderTemplate>
+            </DxPivotGridField>
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Quantity)" Area="PivotGridFieldArea.Data" SummaryType="PivotGridSummaryType.Sum" />
+            <DxPivotGridField Field="@nameof(DashBoardPalletDto.Type)" Caption="Count" Area="PivotGridFieldArea.Data" SummaryType="PivotGridSummaryType.Count" />
+        </DxPivotGrid>
+    </div>
+</div>
+
+@code {
+    DxPivotGridDataProvider<DashBoardPalletDto> PivotGridDataProvider;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        PivotGridDataProvider = DxPivotGridDataProvider<DashBoardPalletDto>.Create(Sales.GetSalesAsync());
+    }
+}
