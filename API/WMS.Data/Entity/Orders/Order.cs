@@ -1,4 +1,5 @@
-﻿using WMS.Data.Entity.BaseClass;
+﻿using WMS.Data.Constant.Enum;
+using WMS.Data.Entity.BaseClass;
 using WMS.Data.Entity.Employees;
 using WMS.Data.Entity.VendorCustomers;
 
@@ -11,7 +12,7 @@ public class Order : BaseCatalog
     public VendorCustomer? VendorCustomer { get; set; }
     public string? ShippingAddress { get; set; }
     public string? PaymentMethod { get; set; }
-    public string? OrderStatus { get; set; }
+    public OrderStatus OrderStatus { get; set; }
     public DateTime DateOrders { get; set; }
-    public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

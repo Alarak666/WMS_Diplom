@@ -55,13 +55,6 @@
                     </div>
                 </TitleTemplate>
                 <Items>
-                    @* Country
-                Currency
-                Order
-                Product
-
-                Unit
-                VendorCustomer*@
                     <DxMenuItem Text="Sales" IconCssClass="oi oi-person">
                         <Items>
                             <DxMenuItem Text="Country" Click="@(() => NavigationManager.NavigateTo("/countries"))" />
@@ -94,6 +87,15 @@
                             <DxMenuItem Text="Place Parameter" Click="@(() => NavigationManager.NavigateTo("/place-parameters"))" />
                             <DxMenuItem Text="Products" Click="@(() => NavigationManager.NavigateTo("/products"))" />
                             <DxMenuItem Text="Unit" Click="@(() => NavigationManager.NavigateTo("/units"))" />
+                        </Items>
+                    </DxMenuItem>
+                    <DxMenuItem Text="Report" IconCssClass="oi oi-layers">
+                        <Items>
+                            <DxMenuItem Text="Employee report" Click="@(() => NavigationManager.NavigateTo("/employee-report"))" />
+                            <DxMenuItem Text="AcceptanceOfGood report" Click="@(() => NavigationManager.NavigateTo("/acceptance-of-good-report"))" />
+                            <DxMenuItem Text="Person report" Click="@(() => NavigationManager.NavigateTo("/person-report"))" />
+                            <DxMenuItem Text="Product report" Click="@(() => NavigationManager.NavigateTo("/product-report"))" />
+                            <DxMenuItem Text="Sales report" Click="@(() => NavigationManager.NavigateTo("/sales-report"))" />
 
                         </Items>
                     </DxMenuItem>
@@ -102,6 +104,7 @@
                             <SearchItem />
                         </Template>
                     </DxMenuItem>
+                    
                     <DxMenuItem CssClass="notoggle" Position="ItemPosition.End">
                         <TextTemplate>
                             @*<div class="menu-icon-user-profile menu-icon" />*@

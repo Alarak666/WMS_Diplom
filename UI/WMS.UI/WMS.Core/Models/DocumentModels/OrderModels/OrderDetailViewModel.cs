@@ -1,4 +1,6 @@
-﻿namespace WMS.Core.Models.DocumentModels.OrderModels;
+﻿using WMS.Core.Constants.Enum;
+
+namespace WMS.Core.Models.DocumentModels.OrderModels;
 public class OrderDetailViewModel
 {
     public Guid Id { get; set; }
@@ -11,7 +13,7 @@ public class OrderDetailViewModel
     public Guid? EmployeeId { get; set; }
     public string? ShippingAddress { get; set; }
     public string? PaymentMethod { get; set; }
-    public string? OrderStatus { get; set; }
+    public OrderStatus OrderStatus { get; set; }
     public DateTime DateOrders { get; set; }
-    public virtual ICollection<OrderDetailModel>? OrderDetails { get; set; }
+    public virtual ICollection<OrderDetailModel> OrderDetails { get; set; } = new List<OrderDetailModel>();
 }

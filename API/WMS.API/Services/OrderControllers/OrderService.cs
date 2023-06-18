@@ -123,11 +123,8 @@ public class OrderService : IDocumentRepository<OrderDto>
     }
     public async Task<OrderDto> Update(OrderDto dto, CancellationToken cancellationToken)
     {
-        var newGuid = Guid.NewGuid();
         var item = _mapper.Map<Order>(dto);
-        await _context.Database.BeginTransactionAsync(cancellationToken);
 
-        item.Id = newGuid;
         var context = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         var order = await _context.Orders.FindAsync(dto.Id);
@@ -146,7 +143,8 @@ public class OrderService : IDocumentRepository<OrderDto>
             OrderStatus = dto.OrderStatus,
             DateOrders = dto.DateOrders,
         };
-        _context.Update(itemOrder);
+        _context.Entry<Order>(itemOrder).State = EntityState.Modified;
+        await context.SaveChangesAsync(cancellationToken);
 
         var productItemsToUpdate = await _context.OrderDetails
             .Where(x => x.OrderId == item.Id).ToListAsync(cancellationToken);
@@ -159,7 +157,7 @@ public class OrderService : IDocumentRepository<OrderDto>
                 var newOrderDetail = new OrderDetail
                 {
                     Id = orderUpdate.Id,
-                    OrderId = orderUpdate.OrderId,
+                    OrderId = order.Id,
                     ProductId = orderUpdate.ProductId,
                     Quantity = orderUpdate.Quantity,
                     UnitPrice = orderUpdate.UnitPrice
@@ -201,7 +199,6 @@ public class OrderService : IDocumentRepository<OrderDto>
         }
 
         await context.SaveChangesAsync(cancellationToken);
-        await _context.Database.CommitTransactionAsync(cancellationToken);
         var result = _mapper.Map<OrderDto>(item);
         return result;
     }

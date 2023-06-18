@@ -454,8 +454,8 @@ namespace WMS.Data.Migrations
                     b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("PaymentMethod")
                         .HasColumnType("nvarchar(max)");

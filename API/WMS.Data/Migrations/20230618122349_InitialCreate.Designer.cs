@@ -12,7 +12,7 @@ using WMS.Data.Context;
 namespace WMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230618053717_InitialCreate")]
+    [Migration("20230618122349_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -456,8 +456,8 @@ namespace WMS.Data.Migrations
                     b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("PaymentMethod")
                         .HasColumnType("nvarchar(max)");

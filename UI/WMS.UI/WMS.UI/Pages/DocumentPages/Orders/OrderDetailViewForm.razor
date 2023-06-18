@@ -56,7 +56,7 @@
                             <FormInputText @bind-Text="@Model.PaymentMethod" />
                         </DxFormLayoutItem>
                         <DxFormLayoutItem Caption="Order Status:" ColSpanMd="12">
-                            <FormInputText @bind-Text="@Model.OrderStatus" />
+                            <FormLookupEnum TItem="OrderStatus" @bind-Value="@Model.OrderStatus" />
                         </DxFormLayoutItem>
                         <DxFormLayoutItem Caption="Date Orders:" ColSpanMd="6">
                             <FormInputDate @bind-Date="@Model.DateOrders" />

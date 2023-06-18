@@ -647,7 +647,7 @@ namespace WMS.Data.Migrations
                     VendorCustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ShippingAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderStatus = table.Column<int>(type: "int", nullable: false),
                     DateOrders = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

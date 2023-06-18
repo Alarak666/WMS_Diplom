@@ -1,5 +1,6 @@
 ﻿using Blazored.Toast;
 using Blazored.Toast.Services;
+using DevExpress.Blazor.Reporting.EditingFields;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -28,6 +29,7 @@ using WMS.UI.Services.DocumentService.RegionServices;
 using WMS.UI.Services.DocumentService.UnitServices;
 using WMS.UI.Services.DocumentService.VendorCustomerServices;
 using WMS.UI.Services.HttpClients;
+using WMS.UI.Services.ReportService;
 using WMS.UI.Services.Support;
 using WMS.UI.Services.UserMessages;
 using WMS.UI.Shared;
@@ -82,10 +84,21 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IViewEventListener, ViewEventListener>();
         services.AddScoped<IDashboardProvider, DataProviderAccessArea>();
+        services.AddScoped<EditingFieldModelFactory>();
+
+        
         services.AddSingleton<IUserNotificationService, UserNotificationService>();
         services.AddScoped(typeof(IBaseDataService<>), typeof(BaseDataService<>));
         services.AddScoped<HttpClientHelper>();
         services.AddSingleton<TabPageService>();
+
+        services.AddScoped<EmploeeReportService>();
+        services.AddScoped<ProductReportService>();
+        services.AddScoped<PersonReportService>();
+        services.AddScoped<SalesReportService>();
+        services.AddScoped<AcceptanceofGoodReportService>();
+
+
         return services;
     }
 

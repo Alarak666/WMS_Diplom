@@ -1,9 +1,9 @@
 ﻿namespace WMS.Data.Constant.Enum;
-enum OrderStatus
+
+public enum OrderStatus
 {
-    Create,
-    OnTheRoad,
-    Delivery,
-    Received,
-    Delete
+    Pending,        // Ожидание
+    Processing,     // Обработка
+    Shipped,        // Отправлен
+    Delivered       // Доставлен
 }
