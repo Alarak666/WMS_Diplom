@@ -10,8 +10,12 @@ namespace WMS.UI.ReportEditor
         {
             InitializeComponent();
             BeforePrint += StockTurnoverReport_BeforePrint;
+            PrintOnPage += ProductReport_PrintOnPage;
         }
 
+        private void ProductReport_PrintOnPage(object sender, DevExpress.XtraReports.UI.PrintOnPageEventArgs e)
+        {
+        }
 
         private void StockTurnoverReport_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {

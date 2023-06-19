@@ -68,7 +68,14 @@ namespace WMS.UI.Pages.DocumentPages.AcceptanceOfGoods
                 if (SelectedItemId != null)
                     await AcceptanceOfGoodService.UpdateDetailViewModel(Model, CancellationToken);
                 else
-                    await AcceptanceOfGoodService.SaveDetailViewModel(Model, CancellationToken);
+                {
+                    var returns = await AcceptanceOfGoodService.SaveDetailViewModel(Model, CancellationToken);
+                    if (returns != null && returns.DetailException != "")
+                    {
+                        ToastService.ShowError(returns.DetailException);
+                        throw new Exception();
+                    }
+                }
                 await Load();
                 StateHasChanged();
             }

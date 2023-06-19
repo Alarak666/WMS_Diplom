@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Reflection.Metadata;
 using WMS.Core.Interface.ControllerInterface;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.Employes;
@@ -21,11 +19,22 @@ namespace WMS.UI.Pages.DocumentPages.Employes
         #region Form
 
         private EmployeeDetailViewModel? Model { get; set; } = new EmployeeDetailViewModel();
-
-        private PersonListViewModel? Person { get; set; } = new PersonListViewModel();
+        private PersonListViewModel _person;
+        private PersonListViewModel? Person
+        {
+            get { return _person; }
+            set
+            {
+                _person = value;
+                Model.FirstName = value?.FirstName ?? "";
+                Model.LastName = value?.LastName ?? "";
+                Model.MiddleName = value?.Name ?? "";
+            }
+        } 
         private IEnumerable<PersonListViewModel>? Persons { get; set; } = new List<PersonListViewModel>();
         private PositionListViewModel? Position { get; set; } = new PositionListViewModel();
         private IEnumerable<PositionListViewModel>? Positions { get; set; } = new List<PositionListViewModel>();
+
         #endregion
         protected override async Task Load()
         {

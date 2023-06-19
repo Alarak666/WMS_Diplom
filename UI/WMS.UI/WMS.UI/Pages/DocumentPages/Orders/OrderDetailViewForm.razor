@@ -26,9 +26,6 @@
             <DxFormLayoutTabPages>
                 <DxFormLayoutTabPage Caption="Main">
                     <DxFormLayoutGroup Caption="Order Information" ColSpanMd="12">
-                        <DxFormLayoutItem Caption="Created User Name:" ColSpanMd="6">
-                            <FormInputText @bind-Text="@Model.CreatedUserName" />
-                        </DxFormLayoutItem>
                         <DxFormLayoutItem Caption="Created Date:" ColSpanMd="6">
                             <FormInputDate @bind-Date="@Model.CreatedDate" />
                         </DxFormLayoutItem>
@@ -40,12 +37,12 @@
                         </DxFormLayoutItem>
                         <DxFormLayoutItem Caption="Employee Id:" ColSpanMd="6">
                             <DxComboBox Data="@EmployeeListViewModels"
-                                        TextFieldName="@(nameof(EmployeeDetailViewModel.Name))"
+                                        TextFieldName="@(nameof(EmployeeDetailViewModel.FullName))"
                                         @bind-Value="@EmployeeListViewModel"
                                         NullText="Empty"
                                         ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
                                 <ItemTemplate Context="detail">
-                                    <div>@detail.Name</div>
+                                    <div>@detail.FullName</div>
                                 </ItemTemplate>
                             </DxComboBox>
                         </DxFormLayoutItem>

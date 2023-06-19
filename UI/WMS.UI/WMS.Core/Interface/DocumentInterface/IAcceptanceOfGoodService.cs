@@ -1,4 +1,5 @@
-﻿using WMS.Core.Models.DocumentModels.StockModels;
+﻿using WMS.Core.DTO.Middlewares;
+using WMS.Core.Models.DocumentModels.StockModels;
 
 namespace WMS.Core.Interface.DocumentInterface
 {
@@ -6,7 +7,7 @@ namespace WMS.Core.Interface.DocumentInterface
     {
         Task<IEnumerable<AcceptanceOfGoodListViewModel>?> GetListViewItems(string? searchText, CancellationToken cancellation);
         Task<AcceptanceOfGoodDetailViewModel?> GetDetailViewData(Guid? id, CancellationToken cancellation);
-        Task<bool> SaveDetailViewModel(AcceptanceOfGoodDetailViewModel? model, CancellationToken cancellation);
+        Task<ErrorResponseDto> SaveDetailViewModel(AcceptanceOfGoodDetailViewModel? model, CancellationToken cancellation);
         Task<bool> UpdateDetailViewModel(AcceptanceOfGoodDetailViewModel model, CancellationToken cancellation);
         Task<bool> DeleteDetailViewModel(Guid? id, CancellationToken cancellation);
     }

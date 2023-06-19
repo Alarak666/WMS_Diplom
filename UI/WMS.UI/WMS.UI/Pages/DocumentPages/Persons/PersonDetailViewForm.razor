@@ -70,16 +70,13 @@
         <DxFormLayoutItem Caption="First Name:" ColSpanMd="6">
             <FormInputText @bind-Text="@Model.FirstName" />
         </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="Middle Nmae:" ColSpanMd="12">
+            <FormInputText @bind-Text="@Model.Name" />
+        </DxFormLayoutItem>
     </DxFormLayoutGroup>
     <DxFormLayoutGroup Caption="Additional Information" ColSpanMd="12">
-        <DxFormLayoutItem Caption="Created User Name:" ColSpanMd="6">
-            <FormInputText @bind-Text="@Model.CreatedUserName" />
-        </DxFormLayoutItem>
         <DxFormLayoutItem Caption="Created Date:" ColSpanMd="6">
             <FormInputDate @bind-Date="@Model.CreatedDate" />
-        </DxFormLayoutItem>
-        <DxFormLayoutItem Caption="Name:" ColSpanMd="12">
-            <FormInputText @bind-Text="@Model.Name" />
         </DxFormLayoutItem>
         <DxFormLayoutItem Caption="Unique Code:" ColSpanMd="12">
             <FormInputText @bind-Text="@Model.UniqueCode" />

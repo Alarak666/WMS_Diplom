@@ -49,7 +49,7 @@ public class PositionService : IDocumentRepository<PositionDto>
         Expression<Func<PositionDto, bool>>? whereClause = null,
         Expression<Func<PositionDto, string>>? orderClause = null)
     {
-        var queryable = _context.Set<Position>().AsQueryable();
+        var queryable = _context.Set<Position>().Include(x=> x.Division).AsQueryable();
         var dtos = queryable.ProjectTo<PositionDto>(_mapper.ConfigurationProvider);
 
         if (whereClause is not null) dtos = dtos.Where(whereClause);

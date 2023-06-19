@@ -7,7 +7,7 @@ public class OrderDetailViewModel
     public Guid? CreatedUserId { get; set; }
     public Guid? VendorCustomerId { get; set; }
     public string? CreatedUserName { get; set; }
-    public DateTime CreatedDate { get; set; } = default;
+    public DateTime CreatedDate { get; set; } =DateTime.UtcNow;
     public string? UniqueCode { get; set; }
     public string Name { get; set; } = string.Empty;
     public Guid? EmployeeId { get; set; }

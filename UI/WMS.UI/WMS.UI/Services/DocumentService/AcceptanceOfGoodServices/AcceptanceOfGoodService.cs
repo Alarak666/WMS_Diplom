@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
+using WMS.Core.DTO.Middlewares;
 using WMS.Core.Interface.DocumentInterface;
 using WMS.Core.Models.DocumentModels.StockModels;
 using WMS.UI.Services.HttpClients;
@@ -30,14 +31,16 @@ namespace WMS.UI.Services.DocumentService.AcceptanceOfGoodServices
             return item;
         }
 
-        public async Task<bool> SaveDetailViewModel(AcceptanceOfGoodDetailViewModel? model, CancellationToken cancellation)
+        public async Task<ErrorResponseDto> SaveDetailViewModel(AcceptanceOfGoodDetailViewModel? model, CancellationToken cancellation)
         {
      
             var response = await _httpClientHelper.Post("api/AcceptanceOfGood",
                 new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"), cancellation);
             string jsonString = await response.Content.ReadAsStringAsync();
-            var modelss = JsonConvert.DeserializeObject<AcceptanceOfGoodDetailViewModel>(jsonString);
-            return response.EnsureSuccessStatusCode().IsSuccessStatusCode;
+
+            var modelss = JsonConvert.DeserializeObject<ErrorResponseDto>(jsonString);
+
+            return modelss;
         }
 
         public async Task<bool> UpdateDetailViewModel(AcceptanceOfGoodDetailViewModel model, CancellationToken cancellation)

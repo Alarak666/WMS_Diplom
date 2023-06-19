@@ -12,10 +12,10 @@
          CloseOnEscape="false"
          CloseOnOutsideClick="false"
          ShowCloseButton="true"
-         HeaderText="Employee"
+         HeaderText="Position"
          CloseButtonClick="@(Close)">
     <HeaderContentTemplate>
-        Employee @(IsModified ? "*" : "")
+        Position @(IsModified ? "*" : "")
     </HeaderContentTemplate>
     <BodyContentTemplate Context="BodyContentTemplateContext">
         <DxFormLayout CssClass="w-300 h-100">
@@ -42,9 +42,6 @@
                             <div>@detail.Name</div>
                         </ItemTemplate>
                     </DxComboBox>
-                </DxFormLayoutItem>
-                <DxFormLayoutItem Caption="Created User Name:" ColSpanMd="6">
-                    <FormInputText @bind-Text="@Model.CreatedUserName" />
                 </DxFormLayoutItem>
                 <DxFormLayoutItem Caption="Created Date:" ColSpanMd="6">
                     <FormInputDate @bind-Date="@Model.CreatedDate" />
